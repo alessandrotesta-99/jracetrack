@@ -10,7 +10,7 @@ package it.unicam.cs.pa.jraceTrack;
  * @param <S> stato del giocatore.
  * @param <L> locazione della macchina.
  */
-public interface Player<T, S extends Stato, L extends Location> {
+public interface Player<T, S extends Stato, L> {
 	/**
 	 * Metodo che ritorna il nome del giocatore.
 	 * @return il nome del giocatore.

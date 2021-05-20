@@ -12,7 +12,7 @@ import java.util.function.Predicate;
  * @param <L> locazione della macchina.
  * @param <S> stato della macchina.
  */
-public interface Car<L extends Location, S extends Stato> {
+public interface Car<L, S extends Stato> {
 
 	/**
 	 * Metodo che restituisce il tracciato in cui gareggia la macchina.
@@ -69,7 +69,7 @@ public interface Car<L extends Location, S extends Stato> {
 	 * @param p predicato da rispettare.
 	 * @return il numero di movimenti che ha compiuto una macchina per raggiungere il traguardo.
 	 */
-	int countMovement(Predicate<?> p);
+	int countMovement(Predicate<? super L> p);
 
 	/**
 	 * aggiunto ma in teoria ci pensa lo stato a darmi questa informazione.

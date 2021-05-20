@@ -9,7 +9,7 @@ import java.util.Set;
  * fornire un implementazione per un certo tipo di circuito.
  * @param <L> tipo per la posizione delle macchine.
  */
-public interface Track<L extends Location> {
+public interface Track<L> {
 
 	/**
 	 * Metodo che restituisce la lista di macchine nel circuito.
@@ -55,7 +55,7 @@ public interface Track<L extends Location> {
 	 * @return la posizione dei muri nella pista.
 	 */
 	//da definire meglio
-	L getWalls();
+	List<L> getWalls();
 
 	/**
 	 * Metodo che aggiunge un muro alla pista.
