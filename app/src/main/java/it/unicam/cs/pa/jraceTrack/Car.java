@@ -12,7 +12,7 @@ import java.util.function.Predicate;
  * @param <L> locazione della macchina.
  * @param <S> stato della macchina.
  */
-public interface Car<L, S extends Stato> {
+public interface Car<L, S> {
 
 	/**
 	 * Metodo che restituisce il tracciato in cui gareggia la macchina.
