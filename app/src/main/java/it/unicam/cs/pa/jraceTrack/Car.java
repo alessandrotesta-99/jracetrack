@@ -31,6 +31,7 @@ public interface Car<L, S extends Stato> {
 	 * @param r regola da applicare nel momento in cui si vuole accellerare.
 	 * @return la nuova posizione della macchina.
 	 */
+	//6 quadretti è la massima velocità.
 	L accelerate(Rule r);
 
 	/**

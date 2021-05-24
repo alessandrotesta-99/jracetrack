@@ -6,20 +6,20 @@ import java.util.function.Predicate;
 
 /**
  * Implementazione di default di una macchina.
- * @param <L> locazione della macchina.
+ * @param <> locazione della macchina.
  * @param <S> stato della macchina.
  */
-public class DefaultCar<L,S extends Stato> implements Car<LineSegment,S>{
+public class DefaultCar<S extends Stato> implements Car<Point2D,S>{
 
     private final Track track;
     private final Player player;
-    private final LineSegment location;
+    private final Point2D location;
     private final Color color;
     private final S status;
     //percorso totale della macchina.
-    private final Set<LineSegment> path;
+    private final Set<Point2D> path;
 
-    public DefaultCar(Track track, Player player, Color color, LineSegment location, S status) {
+    public DefaultCar(Track track, Player player, Color color, Point2D location, S status) {
         this.track = track;
         this.player = player;
         this.color = color;
@@ -39,22 +39,22 @@ public class DefaultCar<L,S extends Stato> implements Car<LineSegment,S>{
     }
 
     @Override
-    public LineSegment accelerate(Rule r) {
+    public Point2D accelerate(Rule r) {
         return null;
     }
 
     @Override
-    public LineSegment brake(Rule r) {
+    public Point2D brake(Rule r) {
         return null;
     }
 
     @Override
-    public LineSegment getLocation() {
+    public Point2D getLocation() {
         return this.location;
     }
 
     @Override
-    public Set<LineSegment> getPath() {
+    public Set<Point2D> getPath() {
         return path;
     }
 
@@ -69,7 +69,7 @@ public class DefaultCar<L,S extends Stato> implements Car<LineSegment,S>{
     }
 
     @Override
-    public int countMovement(Predicate<? super LineSegment> p) {
+    public int countMovement(Predicate<? super Point2D> p) {
         return 0;
     }
 

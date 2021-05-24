@@ -1,11 +1,12 @@
 package it.unicam.cs.pa.jraceTrack;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 /**
  * Interfaccia che definisce un circuito composto da macchine.
- * Le classi che implementano questa interfaccia hanno la responsabilita di
+ * Le classi che implementano questa interfaccia hanno la responsabilit&agrave; di
  * fornire un implementazione per un certo tipo di circuito.
  * @param <L> tipo per la posizione delle macchine.
  */
@@ -43,6 +44,11 @@ public interface Track<L> {
 	 */
 	L getFinish();
 
+
+	void setStart(LineSegment finish);
+
+	void setFinish(LineSegment start);
+
 	/**
 	 * Metodo che restituisce le prossime posizioni disponibili nel circuito.
 	 * @param c macchina che richiede le prossime posizioni.
@@ -54,13 +60,13 @@ public interface Track<L> {
 	 * Metodo che restituisce la posizione di tutti i muri della pista.
 	 * @return la posizione dei muri nella pista.
 	 */
-	//da definire meglio
-	List<L> getWalls();
+	LinkedList<L> getWalls();
 
 	/**
 	 * Metodo che aggiunge un muro alla pista.
-	 * @param wall il muro da aggiungere.
+	 * @param position la posizione dove aggiungere il muro.
 	 */
-	void addWall(L wall);
+	void addWall(L position);
+
 
 }

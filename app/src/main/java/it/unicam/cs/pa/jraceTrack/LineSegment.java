@@ -1,34 +1,24 @@
 package it.unicam.cs.pa.jraceTrack;
 
-import java.util.List;
-
 /**
- * Classe che ha la responsabilit&agrave; di specificare, nel circuito 2D, le locazioni nel piano.
- * Un oggetto LineSegment può indicare: i bordi del circuito, la linea di arrivo e di inizio, e tutto il
- * cammino percorso dalla macchina in gara.
- * Questa classe non pu&ograve; essere estesa da altre classi. Nel caso si volesse implementare un diverso modo
- * di locazione, creare una nuova classe.
+ * Classe che rappresenta un oggetto che dovrebbe unire due punti. Da vedere perche potrebbe essere
+ * una cosa grafica e basta.
  */
 public final class LineSegment {
 
-    private final int x;
-    private final int y;
+    private final Point2D startSegment;
+    private final Point2D finishSegment;
 
-    public LineSegment(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public LineSegment(Point2D startSegment, Point2D finishSegment) {
+        this.startSegment = startSegment;
+        this.finishSegment = finishSegment;
     }
 
-    public int getX() {
-        return x;
+    public Point2D getStartSegment() {
+        return startSegment;
     }
 
-    public int getY() {
-        return y;
+    public Point2D getFinishSegment() {
+        return finishSegment;
     }
-
-    public List<LineSegment> getAdjacentLineSegmentAt(int x, int y){
-        return null;
-    }
-
 }
