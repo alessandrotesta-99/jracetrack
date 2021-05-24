@@ -11,7 +11,7 @@ import java.util.Set;
  * di una gara.
  * @param <S> stato della gara.
  */
-public interface Race<S extends Stato> {
+public interface Race<S extends State> {
 	/**
 	 * Metodo che restituisce tutti i giocatori che sono in gara.
 	 * @return giocatori che sono in gara.

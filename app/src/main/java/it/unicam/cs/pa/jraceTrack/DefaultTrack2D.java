@@ -2,7 +2,7 @@ package it.unicam.cs.pa.jraceTrack;
 
 import java.util.*;
 
-public class DefaultTrack2D<L extends Point2D, S extends Stato> implements Track<Point2D,S> {
+public class DefaultTrack2D<L extends Point2D, S extends State> implements Track<Point2D,S> {
 
     private static final int DEFAULT_WIDTH = 20;
     private static final int DEFAULT_LENGTH = 20;

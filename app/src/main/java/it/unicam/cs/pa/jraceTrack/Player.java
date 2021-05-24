@@ -7,10 +7,11 @@ package it.unicam.cs.pa.jraceTrack;
  * Le classi che implementano questa interfaccia devono fornire una implementazione per un tipo di giocatore
  * che potrebbe essere bot o interattivo.
  * @param <T> tipo del giocatore.
- * @param <S> stato del giocatore.
- * @param <L> locazione della macchina.
+ * @param <L> tipo per la locazione della macchina.
+ * @param <S> tipo per lo stato della macchina.
  */
-public interface Player<T, S extends Stato, L> {
+public interface Player<L, S extends State> {
+
 	/**
 	 * Metodo che ritorna il nome del giocatore.
 	 * @return il nome del giocatore.
@@ -20,13 +21,13 @@ public interface Player<T, S extends Stato, L> {
 	/**
 	 * da vedere. eliminare le dipendenze circolari, quindi o usare qui o nell'interfaccia Car.
 	 */
-	Car getCar();
+	Car<L, S> getCar();
 
 	/**
 	 * Metodo che ritorna il tipo del giocatore.
 	 * @return il tipo del giocatore.
 	 */
-	T getType();
+	TypePlayer getType();
 
 	/**
 	 * Metodo che ritorna lo stato di un giocatore in un certo momento.

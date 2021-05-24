@@ -1,35 +1,34 @@
 package it.unicam.cs.pa.jraceTrack;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedList;
 import java.util.function.Predicate;
 
 /**
  * Implementazione di default di una macchina.
- * @param <> locazione della macchina.
+ * @param <L> locazione della macchina.
  * @param <S> stato della macchina.
  */
-public class DefaultCar<S extends Stato> implements Car<Point2D,S>{
+public class DefaultCar<L extends Point2D, S extends State> implements Car<Point2D,State>{
 
-    private final Track track;
+    private final Track<Point2D,State> track;
     private final Player player;
     private final Point2D location;
     private final Color color;
-    private final S status;
+    private final State status;
     //percorso totale della macchina.
-    private final Set<Point2D> path;
+    private final LinkedList<Point2D> path;
 
-    public DefaultCar(Track track, Player player, Color color, Point2D location, S status) {
+    public DefaultCar(Track<Point2D,State> track, Player player, Color color, Point2D location, S status) {
         this.track = track;
         this.player = player;
         this.color = color;
         this.location = location;
         this.status = status;
-        this.path = new HashSet<>();
+        this.path = new LinkedList<>();
     }
 
     @Override
-    public Track getTrack() {
+    public Track<Point2D,State> getTrack() {
         return this.track;
     }
 
@@ -49,17 +48,27 @@ public class DefaultCar<S extends Stato> implements Car<Point2D,S>{
     }
 
     @Override
+    public Point2D moveUp() {
+        return null;
+    }
+
+    @Override
+    public Point2D getLastCheckPoint() {
+        return path.getLast();
+    }
+
+    @Override
     public Point2D getLocation() {
         return this.location;
     }
 
     @Override
-    public Set<Point2D> getPath() {
-        return path;
+    public LinkedList<Point2D> getPath() {
+        return this.path;
     }
 
     @Override
-    public S getStatus() {
+    public State getStatus() {
         return this.status;
     }
 
@@ -75,6 +84,6 @@ public class DefaultCar<S extends Stato> implements Car<Point2D,S>{
 
     @Override
     public boolean isCrashed() {
-        return false;
+        return this.getStatus().equals(State.CRASHED);
     }
 }

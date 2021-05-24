@@ -1,5 +1,6 @@
 package it.unicam.cs.pa.jraceTrack;
 
+import java.util.LinkedList;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -18,7 +19,7 @@ public interface Car<L, S> {
 	 * Metodo che restituisce il tracciato in cui gareggia la macchina.
 	 * @return restituisce il tracciato in cui gareggia la macchina.
 	 */
-	Track getTrack();
+	Track<L,S> getTrack();
 
 	/**
 	 * Metodo che restituisce il giocatore associato a questa macchina.
@@ -42,6 +43,18 @@ public interface Car<L, S> {
 	L brake(Rule r);
 
 	/**
+	 * Metodo che permette di muovere la macchina.
+	 * @return la nuova posizione della macchina.
+	 */
+	L moveUp();
+
+	/**
+	 * Metodo che ritorna l'ultimo punto percorso dalla macchina.
+	 * @return l'ultimo punto percorso dalla macchina.
+	 */
+	L getLastCheckPoint();
+
+	/**
 	 * Metodo che ritorna la posizione di una macchina.
 	 * @return posizione nel circuito di una macchina.
 	 */
@@ -51,7 +64,7 @@ public interface Car<L, S> {
 	 * Metodo che restituisce tutto il percorso che ha fatto la macchina.
 	 * @return il percorso che ha fatto la macchina.
 	 */
-	Set<L> getPath();
+	LinkedList<L> getPath();
 
 	/**
 	 * Metodo che ritorna lo stato di una macchina in un certo momento.
@@ -73,7 +86,8 @@ public interface Car<L, S> {
 	int countMovement(Predicate<? super L> p);
 
 	/**
-	 * aggiunto ma in teoria ci pensa lo stato a darmi questa informazione.
+	 * Metodo che verifica se la macchina ha avuto incidenti.
+	 * @return true se la macchina ha avuto un incidente, false altrimenti.
 	 */
 	boolean isCrashed();
 
