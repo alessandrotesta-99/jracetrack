@@ -1,6 +1,7 @@
 package it.unicam.cs.pa.jraceTrack;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.function.Predicate;
 
 /**
@@ -8,17 +9,19 @@ import java.util.function.Predicate;
  * @param <L> locazione della macchina.
  * @param <S> stato della macchina.
  */
-public class DefaultCar<L extends Point2D, S extends State> implements Car<Point2D,State>{
+public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements Car<Point2D, DefaultStateCar>{
 
-    private final Track<Point2D,State> track;
+    private final Track<Point2D, DefaultStateCar> track;
     private final Player player;
     private final Point2D location;
     private final Color color;
-    private final State status;
+    private final DefaultStateCar status;
+    //vettore composto da due numeri, uno che indica lo spostamento destra-sinistra e uno lo spostamento alto-basso.
+    private  List<Point2D> vector;
     //percorso totale della macchina.
     private final LinkedList<Point2D> path;
 
-    public DefaultCar(Track<Point2D,State> track, Player player, Color color, Point2D location, S status) {
+    public DefaultCar(Track<Point2D, DefaultStateCar> track, Player player, Color color, Point2D location, DefaultStateCar status) {
         this.track = track;
         this.player = player;
         this.color = color;
@@ -28,7 +31,7 @@ public class DefaultCar<L extends Point2D, S extends State> implements Car<Point
     }
 
     @Override
-    public Track<Point2D,State> getTrack() {
+    public Track<Point2D, DefaultStateCar> getTrack() {
         return this.track;
     }
 
@@ -48,13 +51,15 @@ public class DefaultCar<L extends Point2D, S extends State> implements Car<Point
     }
 
     @Override
-    public Point2D moveUp() {
+    public Point2D moveUp(Point2D l) {
+        //
+        //aggiungere il movimento al path
         return null;
     }
 
     @Override
     public Point2D getLastCheckPoint() {
-        return path.getLast();
+        return path.get(path.size() - 1);
     }
 
     @Override
@@ -68,7 +73,7 @@ public class DefaultCar<L extends Point2D, S extends State> implements Car<Point
     }
 
     @Override
-    public State getStatus() {
+    public DefaultStateCar getStatus() {
         return this.status;
     }
 
@@ -84,6 +89,6 @@ public class DefaultCar<L extends Point2D, S extends State> implements Car<Point
 
     @Override
     public boolean isCrashed() {
-        return this.getStatus().equals(State.CRASHED);
+        return this.getStatus().equals(DefaultStateCar.CRASHED);
     }
 }

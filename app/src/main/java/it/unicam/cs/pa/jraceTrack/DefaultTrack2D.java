@@ -2,12 +2,12 @@ package it.unicam.cs.pa.jraceTrack;
 
 import java.util.*;
 
-public class DefaultTrack2D<L extends Point2D, S extends State> implements Track<Point2D,S> {
+public class DefaultTrack2D<L extends Point2D, S extends DefaultStateCar> implements Track<Point2D, DefaultStateCar> {
 
     private static final int DEFAULT_WIDTH = 20;
     private static final int DEFAULT_LENGTH = 20;
-    private final Car<Point2D,S>[][] track;
-    private final List<Car<Point2D,S>> cars;
+    private final Car<Point2D, DefaultStateCar>[][] track;
+    private final List<Car<Point2D, DefaultStateCar>> cars;
     private final LinkedList<Point2D> walls;
     private final int width;
     private final int length;
@@ -51,18 +51,18 @@ public class DefaultTrack2D<L extends Point2D, S extends State> implements Track
     }
 
     @Override
-    public List<Car<Point2D,S>> getCars() {
+    public List<Car<Point2D, DefaultStateCar>> getCars() {
         //todo da togliere.
         return null;
     }
 
     @Override
-    public Car<Point2D,S> getCarAt(Point2D location) {
+    public Car<Point2D, DefaultStateCar> getCarAt(Point2D location) {
        return track[location.getX()][location.getY()];
     }
 
     @Override
-    public Track<Point2D,S> nextTrack(Rule r) {
+    public Track<Point2D, DefaultStateCar> nextTrack(Rule r) {
         //non ha molto senso. studiare una soluzione migliore o eliminare questo metodo.
         return new DefaultTrack2D<Point2D, S>(width,length, start, finish);
     }
@@ -78,13 +78,13 @@ public class DefaultTrack2D<L extends Point2D, S extends State> implements Track
     }
 
     @Override
-    public void addCar(Car<Point2D,S> c) {
+    public void addCar(Car<Point2D, DefaultStateCar> c) {
         track[c.getLocation().getX()][c.getLocation().getY()] = c;
     }
 
     @Override
-    public Set<Point2D> getNextLocs(Car<Point2D, S> c) {
-        return c.getLocation().getAdjacentPoint();
+    public Set<Point2D> getNextLocs(Car<Point2D, DefaultStateCar> c) {
+        return c.getLocation().getAdjacentPoint(width, length);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class DefaultTrack2D<L extends Point2D, S extends State> implements Track
     }
 
     @Override
-    public S getStatus(Car<Point2D, S> c) {
+    public DefaultStateCar getStatus(Car<Point2D, DefaultStateCar> c) {
         return c.getStatus();
     }
 
