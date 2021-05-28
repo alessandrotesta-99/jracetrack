@@ -1,6 +1,5 @@
 package it.unicam.cs.pa.jraceTrack;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -62,7 +61,7 @@ public interface Track<L,S> {
 	 * Metodo che restituisce la posizione di tutti i muri della pista.
 	 * @return la posizione dei muri nella pista.
 	 */
-	LinkedList<L> getWalls();
+	List<L> getWalls();
 
 	/**
 	 * Metodo che aggiunge un muro alla pista.

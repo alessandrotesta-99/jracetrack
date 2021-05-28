@@ -2,8 +2,10 @@ package it.unicam.cs.pa.jraceTrack;
 
 import java.util.HashSet;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * Classe che ha la responsabilit&agrave; di specificare, nel circuito 2D, un punto nel piano.
@@ -30,17 +32,15 @@ public final class Point2D {
         return y;
     }
 
-    public Set<Point2D> getAdjacentPoint(int width, int length){
-     /*   Set<Point2D> points = new HashSet<>(8);
-        for (int i = -1; i < 2; i++) {
-            for (int j = -1; j < 2; j++) {
-                points.add(new Point2D(this.x + i, this.y + j)) ;
-            }
+    public Set<Point2D> getNextPoint(int width, int length){
+        //TODO aggiungere controlli e i punti sono all'interno del circuito.
+        Set<Point2D> points = new HashSet<>(8);
+        for(int nx=1; nx<4; nx++){
+           for(int ny=-1; ny<2; ny++){
+               points.add(new Point2D(this.x + nx, this.y + ny));
+           }
         }
         return points;
-
-      */
-        Set<Point2D> points = new HashSet<>(8);
         //spostarsi sull asse x di un numero uguale a:
         // 1. freni, quindi: (lunghezza segmento tra punto corrente e punto corrente -1) - 1.
         //2. accelleri, quindi: (lunghezza segmento tra punto corrente e punto corrente -1) + 1.
@@ -51,27 +51,10 @@ public final class Point2D {
         //2. accelleri, quindi:  (lunghezza segmento tra punto corrente e punto corrente -1) +1 o +2 o +3.
         //3. rimani alla stessa velocita, quindi:  (lunghezza segmento tra punto corrente e punto corrente -1) +1 o +2 o +3.
 
-        return null;
-    }
-
-    private Optional<Point2D> above(int width, int height) {
-        return adjacent(width,height,+1,0);
-    }
-
-    private Optional<Point2D> adjacent(int width, int height, int nx, int ny) {
-        int newX = x+nx;
-        int newY = y+ny;
-        //TODO controllare se il nuovo punto è dentro al circuito. TESTARE!!!!
-        if ((0<= newX)&&((newX<height)||(newX<width))&&(0<=newY)&&(newY<width)) {
-            return Optional.of(new Point2D(newX, newY));
-        } else {
-            return Optional.empty();
-        }
     }
 
     @Override
     public boolean equals(Object o) {
-   //     if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Point2D point = (Point2D) o;
         return x == point.x && y == point.y;

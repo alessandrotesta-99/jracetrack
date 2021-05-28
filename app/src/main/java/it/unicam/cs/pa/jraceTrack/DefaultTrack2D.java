@@ -8,7 +8,7 @@ public class DefaultTrack2D<L extends Point2D, S extends DefaultStateCar> implem
     private static final int DEFAULT_LENGTH = 20;
     private final Car<Point2D, DefaultStateCar>[][] track;
     private final List<Car<Point2D, DefaultStateCar>> cars;
-    private final LinkedList<Point2D> walls;
+    private final List<Point2D> walls;
     private final int width;
     private final int length;
     //todo trovare una soluzione migliore
@@ -84,11 +84,11 @@ public class DefaultTrack2D<L extends Point2D, S extends DefaultStateCar> implem
 
     @Override
     public Set<Point2D> getNextLocs(Car<Point2D, DefaultStateCar> c) {
-        return c.getLocation().getAdjacentPoint(width, length);
+        return c.getLocation().getNextPoint(width, length);
     }
 
     @Override
-    public LinkedList<Point2D> getWalls() {
+    public List<Point2D> getWalls() {
         return walls;
     }
 

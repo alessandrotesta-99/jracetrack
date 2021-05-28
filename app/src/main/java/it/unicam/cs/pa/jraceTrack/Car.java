@@ -1,7 +1,6 @@
 package it.unicam.cs.pa.jraceTrack;
 
-import java.util.LinkedList;
-import java.util.Set;
+import java.util.List;
 import java.util.function.Predicate;
 
 /**
@@ -56,22 +55,38 @@ public interface Car<L, S> {
 	L getLastCheckPoint();
 
 	/**
+	 * Metodo che setta l'ultimo punto percorso dalla macchina.
+	 */
+	void setLastCheckPoint(L p);
+
+	/**
 	 * Metodo che ritorna la posizione di una macchina.
 	 * @return posizione nel circuito di una macchina.
 	 */
 	L getLocation();
 
 	/**
+	 * Metodo che setta la posizione della macchina.
+	 * @param l nuovo punto
+	 */
+	void setLocation(L l);
+
+	/**
 	 * Metodo che restituisce tutto il percorso che ha fatto la macchina.
 	 * @return il percorso che ha fatto la macchina.
 	 */
-	LinkedList<L> getPath();
+	List<L> getPath();
 
 	/**
 	 * Metodo che ritorna lo stato di una macchina in un certo momento.
 	 * @return stato della macchina.
 	 */
 	S getStatus();
+
+	/**
+	 * Metodo che setta lo stato della macchina.
+	 */
+	void setStatus(S status);
 
 	/**
 	 * Metodo che restituisce il colore della macchina.
@@ -87,9 +102,8 @@ public interface Car<L, S> {
 	int countMovement(Predicate<? super L> p);
 
 	/**
-	 * Metodo che verifica se la macchina ha avuto incidenti.
-	 * @return true se la macchina ha avuto un incidente, false altrimenti.
+	 * Metodo che controlla se la macchina ha colpito dei muri.
+	 * @return true se la macchina ha colpito muri, false altrimenti.
 	 */
-	boolean isCrashed();
-
+	boolean hitsWall();
 }

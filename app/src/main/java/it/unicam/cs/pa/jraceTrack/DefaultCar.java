@@ -1,7 +1,6 @@
 package it.unicam.cs.pa.jraceTrack;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.function.Predicate;
 
 /**
@@ -13,21 +12,26 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
 
     private final Track<Point2D, DefaultStateCar> track;
     private final Player player;
-    private final Point2D location;
+    private Point2D location;
     private final Color color;
-    private final DefaultStateCar status;
+    private DefaultStateCar status;
     //vettore composto da due numeri, uno che indica lo spostamento destra-sinistra e uno lo spostamento alto-basso.
-    private  List<Point2D> vector;
+    //1. distanza tra un punto e un altro nell asse x. (spostamento destra-sinistra)
+    //2. indica dove è ora nell asse y. (spostamento alto-basso).
+ //   private final HashMap<Integer,Integer> vector;
+    //1. distanza tra un punto e un altro nell asse x. (spostamento destra-sinistra)
+    private int lengthLineSegment;
     //percorso totale della macchina.
-    private final LinkedList<Point2D> path;
+    private final List<Point2D> path;
 
-    public DefaultCar(Track<Point2D, DefaultStateCar> track, Player player, Color color, Point2D location, DefaultStateCar status) {
+    public DefaultCar(Track<Point2D, DefaultStateCar> track, Player player, Color color, Point2D location) {
         this.track = track;
         this.player = player;
         this.color = color;
         this.location = location;
-        this.status = status;
+        this.status = DefaultStateCar.IN_RACE;
         this.path = new LinkedList<>();
+        this.lengthLineSegment = 0;
     }
 
     @Override
@@ -51,10 +55,25 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
     }
 
     @Override
-    public Point2D moveUp(Point2D l) {
-        //
-        //aggiungere il movimento al path
-        return null;
+    public Point2D moveUp(Point2D nextDestination) {
+        //gestire eccezioni
+        Objects.requireNonNull(nextDestination);
+        //mostrare i prossimi punti
+        Set<Point2D> s = track.getNextLocs(this);
+        //controllare se il punto inserito è nei prossimi punti disponibili
+        //se si selezionalo
+        if(s.contains(nextDestination) && this.track.getCarAt(nextDestination) == null)
+            this.setLocation(nextDestination);
+        else
+            //TODO da vedere meglio se lanciare un eccezione.
+            throw new IllegalArgumentException("ERROR: this point is invalid.");
+        //aggiungere il punto al path
+        path.add(nextDestination);
+        lengthLineSegment = this.getLastCheckPoint().getX() - this.getLocation().getX();
+        //controlla se la macchina è nel circuito.
+        if(this.hitsWall())
+            this.setStatus(DefaultStateCar.CRASHED);
+        return this.getLocation();
     }
 
     @Override
@@ -63,18 +82,33 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
     }
 
     @Override
+    public void setLastCheckPoint(Point2D p) {
+        this.path.set(path.size()-1,p);
+    }
+
+    @Override
     public Point2D getLocation() {
         return this.location;
     }
 
     @Override
-    public LinkedList<Point2D> getPath() {
+    public void setLocation(Point2D l) {
+        this.location = l;
+    }
+
+    @Override
+    public List<Point2D> getPath() {
         return this.path;
     }
 
     @Override
     public DefaultStateCar getStatus() {
         return this.status;
+    }
+
+    @Override
+    public void setStatus(DefaultStateCar status) {
+        this.status = status;
     }
 
     @Override
@@ -88,7 +122,8 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
     }
 
     @Override
-    public boolean isCrashed() {
-        return this.getStatus().equals(DefaultStateCar.CRASHED);
+    public boolean hitsWall() {
+        return false;
     }
+
 }

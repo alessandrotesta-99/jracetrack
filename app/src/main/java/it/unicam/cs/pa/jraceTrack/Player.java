@@ -59,9 +59,9 @@ public interface Player<L, S> {
 	int getTurn();
 
 	/**
-	 * Metodo che setta il turno al giocatore.
+	 * Metodo che controlla se è il proprio turno.
 	 * @return true se è il turno del giocatore, false altrimenti.
 	 */
-	boolean setTurn();
+	boolean isMyTurn();
 
 }
