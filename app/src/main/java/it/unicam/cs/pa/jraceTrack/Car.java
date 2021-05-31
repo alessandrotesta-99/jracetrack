@@ -44,9 +44,8 @@ public interface Car<L, S> {
 	/**
 	 * Metodo che permette di muovere la macchina.
 	 * @param l destinazione della macchina.
-	 * @return la nuova posizione della macchina.
 	 */
-	L moveUp(L l);
+	void moveUp(L l);
 
 	/**
 	 * Metodo che ritorna l'ultimo punto percorso dalla macchina.

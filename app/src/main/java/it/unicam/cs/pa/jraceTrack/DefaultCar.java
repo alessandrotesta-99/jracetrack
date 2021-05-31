@@ -56,7 +56,7 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
     }
 
     @Override
-    public Point2D moveUp(Point2D nextDestination) {
+    public void moveUp(Point2D nextDestination) {
         //gestire eccezioni
         Objects.requireNonNull(nextDestination);
         //mostrare i prossimi punti
@@ -74,7 +74,6 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
         //controlla se la macchina è nel circuito.
         if(this.hitsWall())
             this.setStatus(DefaultStateCar.CRASHED);
-        return this.getLocation();
     }
 
     @Override

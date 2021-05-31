@@ -6,7 +6,6 @@ package it.unicam.cs.pa.jraceTrack;
  * Parametrizzata in base al tipo di giocatore e allo stato in cui si trova.
  * Le classi che implementano questa interfaccia devono fornire una implementazione per un tipo di giocatore
  * che potrebbe essere bot o interattivo.
- * @param <T> tipo del giocatore.
  * @param <L> tipo per la locazione della macchina.
  * @param <S> tipo per lo stato della macchina.
  */
@@ -30,8 +29,8 @@ public interface Player<L, S> {
 	TypePlayer getType();
 
 	/**
-	 * Metodo che ritorna lo stato di un giocatore in un certo momento.
-	 * @return lo stato di un giocatore.
+	 * Metodo che ritorna lo stato della macchina del giocatore in un certo momento.
+	 * @return lo stato della macchina.
 	 */
 	S getStatus();
 
@@ -75,5 +74,17 @@ public interface Player<L, S> {
 	 * @return true se è il turno del giocatore, false altrimenti.
 	 */
 	boolean isMyTurn();
+
+	/**
+	 * Metodo che setta questo giocatore come vincitore della gara.
+	 * @param flag lo stato del giocatore.
+	 */
+	void setWinner(boolean flag);
+
+	/**
+	 * Metodo che restituisce true se il giocatore ha vinto la gara.
+	 * @return true se il giocatore ha vinto, false se ha perso.
+	 */
+	boolean isWinner();
 
 }

@@ -11,7 +11,6 @@ public class DefaultRace<L extends Point2D, S extends DefaultStateCar> implement
     private final Set<Car<Point2D, DefaultStateCar>> cars;
     private boolean state;
 
-
     public DefaultRace() {
         this.players = new ArrayList<>();
         this.track = null;
@@ -31,7 +30,7 @@ public class DefaultRace<L extends Point2D, S extends DefaultStateCar> implement
 
     @Override
     public void start() {
-        //fai partire il tempo
+        //fai partire il tempo (se voglio)
 
         //assegna il turno a uno dei giocatori in maniera randomica.
         Random r = new Random();

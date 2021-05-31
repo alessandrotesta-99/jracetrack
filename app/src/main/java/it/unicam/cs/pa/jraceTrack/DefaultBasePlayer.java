@@ -6,6 +6,7 @@ public abstract class DefaultBasePlayer<L extends Point2D, S extends DefaultStat
     private int turn;
     private final Car<Point2D, DefaultStateCar> car;
     private boolean yourTurn;
+    private boolean winner;
 
 
     public DefaultBasePlayer(String name, Car<Point2D, DefaultStateCar> car) {
@@ -13,6 +14,7 @@ public abstract class DefaultBasePlayer<L extends Point2D, S extends DefaultStat
         this.turn = 0;
         this.yourTurn = false;
         this.car = car;
+        this.winner = false;
     }
 
     @Override
@@ -63,5 +65,15 @@ public abstract class DefaultBasePlayer<L extends Point2D, S extends DefaultStat
     @Override
     public boolean isMyTurn() {
         return yourTurn;
+    }
+
+    @Override
+    public void setWinner(boolean flag){
+        this.winner = flag;
+    }
+
+    @Override
+    public boolean isWinner(){
+        return this.winner;
     }
 }
