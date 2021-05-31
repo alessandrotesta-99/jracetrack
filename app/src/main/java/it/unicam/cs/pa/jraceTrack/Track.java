@@ -27,10 +27,11 @@ public interface Track<L,S> {
 
 	/**
 	 * Metodo che restituisce un nuovo campo all'applicazione di una regola.
+	 * @param loc locazione nuova.
 	 * @param r regola applicata.
 	 * @return restituisce il nuovo campo.
 	 */
-	Track<L,S> nextTrack(Rule r);
+	Track<L,S> apply(L loc, Rule r);
 
 	/**
 	 * Metodo che restituisce il punto di partenza del circuito.

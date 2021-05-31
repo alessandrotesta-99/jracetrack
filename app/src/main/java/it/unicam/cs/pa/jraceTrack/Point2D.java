@@ -16,7 +16,7 @@ import java.util.stream.Stream;
  */
 public final class Point2D {
 
-    private final int x;
+    private  int x;
     private final int y;
 
     public Point2D(int x, int y) {
@@ -30,6 +30,10 @@ public final class Point2D {
 
     public int getY() {
         return y;
+    }
+
+    public void incrementa(int x){
+        this.x += x;
     }
 
     public Set<Point2D> getNextPoint(int width, int length){
@@ -63,5 +67,13 @@ public final class Point2D {
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
+    }
+
+    @Override
+    public String toString() {
+        return "Point2D{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
     }
 }

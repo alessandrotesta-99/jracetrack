@@ -1,13 +1,16 @@
 package it.unicam.cs.pa.jraceTrack;
 
+import org.checkerframework.checker.units.qual.C;
+
 import java.util.*;
+import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 
 public class DefaultTrack2D<L extends Point2D, S extends DefaultStateCar> implements Track<Point2D, DefaultStateCar> {
 
     private static final int DEFAULT_WIDTH = 20;
     private static final int DEFAULT_LENGTH = 20;
-    private final Car<Point2D, DefaultStateCar>[][] track;
-    private final List<Car<Point2D, DefaultStateCar>> cars;
+    private final Map<Car<Point2D, DefaultStateCar>,Point2D> track;
     private final List<Point2D> walls;
     private final int width;
     private final int length;
@@ -21,8 +24,8 @@ public class DefaultTrack2D<L extends Point2D, S extends DefaultStateCar> implem
      */
  /*   public DefaultTrack2D(){
         this(DEFAULT_WIDTH, DEFAULT_LENGTH);
-    }
-*/
+    }*/
+
     /**
      * Costruttore che crea un circuito con una certa lunghezza, una certa larghezza
      * e un insieme di muri.
@@ -30,14 +33,13 @@ public class DefaultTrack2D<L extends Point2D, S extends DefaultStateCar> implem
      * @param length lunghezza del circuito
      * @param walls muri del circuito
      */
-    public DefaultTrack2D(int width, int length, List<Point2D> start, List<Point2D> finish, Point2D... walls) {
+    public DefaultTrack2D(int width, int length, List<Point2D> start, List<Point2D> finish,
+                          Point2D... walls) {
         this.isValidTrack(width);
         this.width = width;
         this.length = length;
         this.walls = new LinkedList<>();
-        this.cars = new ArrayList<>();
-        //todo - un po di dubbi ma penso sia cosi
-        this.track = new Car[width][length];
+        this.track = new HashMap<>();
         //crea un nuovo punto per ogni muro. un muro è un punto quindi ha due coordinate: x, y.
         //ogni muro viene aggiunto alla lista di tutti i muri.
         Arrays.stream(walls).forEach(w -> new Point2D(w.getX(), w.getY()));
@@ -45,26 +47,24 @@ public class DefaultTrack2D<L extends Point2D, S extends DefaultStateCar> implem
         //todo studiare una soluzione migliore
         this.start = new ArrayList<>(start);
         this.finish = new ArrayList<>(finish);
-        this.isValidStartFinish();
-
-        //aggiungere il numero di macchine????
+       // this.isValidStartFinish();
     }
 
     @Override
     public List<Car<Point2D, DefaultStateCar>> getCars() {
-        //todo da togliere.
-        return null;
+        return new ArrayList<>(this.track.keySet());
+        //todo non so se servirà.
     }
 
     @Override
     public Car<Point2D, DefaultStateCar> getCarAt(Point2D location) {
-       return track[location.getX()][location.getY()];
+        return this.track.keySet().stream().filter(p -> p.getLocation().equals(location)).findFirst().orElse(null);
     }
 
     @Override
-    public Track<Point2D, DefaultStateCar> nextTrack(Rule r) {
-        //non ha molto senso. studiare una soluzione migliore o eliminare questo metodo.
-        return new DefaultTrack2D<Point2D, S>(width,length, start, finish);
+    public Track<Point2D, DefaultStateCar> apply(Point2D l, Rule r) {
+        this.track.replace(this.getCarAt(l), l);
+        return null;
     }
 
     @Override
@@ -79,7 +79,7 @@ public class DefaultTrack2D<L extends Point2D, S extends DefaultStateCar> implem
 
     @Override
     public void addCar(Car<Point2D, DefaultStateCar> c) {
-        track[c.getLocation().getX()][c.getLocation().getY()] = c;
+        this.track.putIfAbsent(c, c.getLocation());
     }
 
     @Override

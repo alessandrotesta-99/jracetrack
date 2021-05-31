@@ -11,7 +11,7 @@ import java.util.function.Predicate;
 public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements Car<Point2D, DefaultStateCar>{
 
     private final Track<Point2D, DefaultStateCar> track;
-    private final Player player;
+    //private final Player player;
     private Point2D location;
     private final Color color;
     private DefaultStateCar status;
@@ -24,9 +24,9 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
     //percorso totale della macchina.
     private final List<Point2D> path;
 
-    public DefaultCar(Track<Point2D, DefaultStateCar> track, Player player, Color color, Point2D location) {
+    public DefaultCar(Track<Point2D, DefaultStateCar> track, Color color, Point2D location) {
         this.track = track;
-        this.player = player;
+     //   this.player = player;
         this.color = color;
         this.location = location;
         this.status = DefaultStateCar.IN_RACE;
@@ -42,7 +42,7 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
 
     @Override
     public Player getPlayer() {
-        return this.player;
+        return null;
     }
 
     @Override
@@ -71,6 +71,7 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
         //aggiungere il punto al path
         path.add(nextDestination);
         lengthLineSegment = this.getLastCheckPoint().getX() - this.getLocation().getX();
+        this.getLocation().getNextPoint(0,0).forEach(point2D -> point2D.incrementa(lengthLineSegment));
         //controlla se la macchina è nel circuito.
         if(this.hitsWall())
             this.setStatus(DefaultStateCar.CRASHED);
@@ -124,6 +125,19 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
     @Override
     public boolean hitsWall() {
         return false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DefaultCar<?, ?> that = (DefaultCar<?, ?>) o;
+        return Objects.equals(track, that.track) && Objects.equals(location, that.location) && Objects.equals(color, that.color) && status == that.status && Objects.equals(path, that.path);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(track, location, color, status, lengthLineSegment, path);
     }
 
 }
