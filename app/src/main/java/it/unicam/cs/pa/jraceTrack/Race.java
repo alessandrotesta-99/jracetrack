@@ -11,12 +11,12 @@ import java.util.Set;
  * di una gara.
  * @param <S> stato della gara.
  */
-public interface Race<S extends DefaultStateCar> {
+public interface Race<L,S> {
 	/**
 	 * Metodo che restituisce tutti i giocatori che sono in gara.
 	 * @return giocatori che sono in gara.
 	 */
-	Set<Player> getPlayers();
+	List<Player<L, S>> getPlayers();
 
 	/**
 	 * Metodo che restituisce il circuito di gara.
@@ -35,28 +35,47 @@ public interface Race<S extends DefaultStateCar> {
 	void finish();
 
 	/**
-	 * Metodo che restituisce lo stato della gara.
-	 * @return restituisce lo stato della gara in un certo momento.
+	 * Metodo che verifica lo stato della gara.
+	 * @return true se la gara &egrave; in corso, false altrimenti.
 	 */
-	S getStatus();
+	boolean isStart();
+
+	/**
+	 * Metodo che restituisce lo stato di tutte le macchine in gara.
+	 * @return restituisce lo stato delle macchine in un certo momento.
+	 */
+	List<S> getStatus();
 
 	/**
 	 * Metodo che restituisce tutte le macchine in gara.
 	 * @return macchine in gara.
 	 */
-	Set<Car> getCars();
+	Set<Car<L,S>> getCars();
 
 	/**
+	 *
+	 /**
 	 * Metodo che crea il circuito di gara.
-	 * @param t il circuito creato.
+	 * @param width larghezza del circuito
+	 * @param length lunghezza del circuito
+	 * @param start inizio del circuito
+	 * @param finish fine del circuito
+	 * @param walls muri del circuito
+	 * @return il circuito creato.
 	 */
-	void createTrack(Track t);
+	Track<L,S> createTrack(int width, int length, List<L> start, List<L> finish, L... walls);
 
 	/**
 	 * Metodo che aggiunge una macchina al circuito.
 	 * @param c macchina da aggiungere.
 	 */
-	void addCar(Car c);
+	void addCar(Car<L,S> c);
+
+	/**
+	 * Metodo che aggiunge un giocatore alla gara.
+	 * @param p giocatore da aggiungere.
+	 */
+	void addPlayer(Player p);
 
 	/**
 	 * statistiche di gara: tempo impiegato, numero di turni impiegati, numero di movimenti, ecc.

@@ -1,15 +1,18 @@
 package it.unicam.cs.pa.jraceTrack;
 
-public class DefaultBasePlayer implements Player<Point2D, DefaultStateCar>{
+public abstract class DefaultBasePlayer<L extends Point2D, S extends DefaultStateCar> implements Player<Point2D, DefaultStateCar>{
 
     private final String name;
     private int turn;
+    private final Car<Point2D, DefaultStateCar> car;
+    private boolean yourTurn;
 
 
-
-    public DefaultBasePlayer(String name) {
+    public DefaultBasePlayer(String name, Car<Point2D, DefaultStateCar> car) {
         this.name = name;
         this.turn = 0;
+        this.yourTurn = false;
+        this.car = car;
     }
 
     @Override
@@ -19,17 +22,15 @@ public class DefaultBasePlayer implements Player<Point2D, DefaultStateCar>{
 
     @Override
     public Car<Point2D, DefaultStateCar> getCar() {
-        return null;
+        return this.car;
     }
 
     @Override
-    public TypePlayer getType() {
-        return null;
-    }
+    public abstract TypePlayer getType();
 
     @Override
     public DefaultStateCar getStatus() {
-        return null;
+        return this.getCar().getStatus();
     }
 
     @Override
@@ -43,6 +44,11 @@ public class DefaultBasePlayer implements Player<Point2D, DefaultStateCar>{
     }
 
     @Override
+    public void moveUp(Point2D p) {
+        this.getCar().moveUp(p);
+    }
+
+    @Override
     public int getTurn() {
         if(this.isMyTurn())
             turn++;
@@ -50,7 +56,12 @@ public class DefaultBasePlayer implements Player<Point2D, DefaultStateCar>{
     }
 
     @Override
+    public void setTurn(boolean turn){
+        this.yourTurn = turn;
+    }
+
+    @Override
     public boolean isMyTurn() {
-        return false;
+        return yourTurn;
     }
 }

@@ -6,6 +6,7 @@ package it.unicam.cs.pa.jraceTrack;
  * per poter applicare le regole del gioco.
  */
 public interface Rule {
+
 	/**
 	 * Metodo che applica una regola al gioco.
 	 * @return la regola applicata.

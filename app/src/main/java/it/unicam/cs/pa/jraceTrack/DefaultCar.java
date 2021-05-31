@@ -34,6 +34,7 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
         this.lengthLineSegment = 0;
     }
 
+
     @Override
     public Track<Point2D, DefaultStateCar> getTrack() {
         return this.track;

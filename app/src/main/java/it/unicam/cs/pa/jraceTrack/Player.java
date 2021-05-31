@@ -53,10 +53,22 @@ public interface Player<L, S> {
 	L brake(Rule r);
 
 	/**
+	 * Metodo che permette al giocatore di spostare la macchina.
+	 * @param p nuova posizione dove si trova la macchina.
+	 */
+	void moveUp(L p); //TODO dubbi
+
+	/**
 	 * Metodo che restituisce il turno corrente del giocatore.
 	 * @return il turno del giocatore.
 	 */
 	int getTurn();
+
+	/**
+	 * Metodo che setta il turno del giocatore.
+	 * @param turn turno da settare.
+	 */
+	void setTurn(boolean turn);
 
 	/**
 	 * Metodo che controlla se è il proprio turno.
