@@ -1,15 +1,10 @@
 package it.unicam.cs.pa.jraceTrack;
 
-import org.checkerframework.checker.units.qual.C;
-
 import java.util.*;
-import java.util.function.BiFunction;
-import java.util.stream.Collectors;
 
 public class DefaultTrack2D<L extends Point2D, S extends DefaultStateCar> implements Track<Point2D, DefaultStateCar> {
 
     private static final int DEFAULT_WIDTH = 20;
-    private static final int DEFAULT_LENGTH = 20;
     private final Map<Car<Point2D, DefaultStateCar>,Point2D> track;
     private final List<Point2D> walls;
     private final int width;
@@ -35,19 +30,18 @@ public class DefaultTrack2D<L extends Point2D, S extends DefaultStateCar> implem
      */
     public DefaultTrack2D(int width, int length, List<Point2D> start, List<Point2D> finish,
                           Point2D... walls) {
-        this.isValidTrack(width);
         this.width = width;
+        //TODO la lunghezza del circuito non serve.
         this.length = length;
         this.walls = new LinkedList<>();
         this.track = new HashMap<>();
-        //crea un nuovo punto per ogni muro. un muro è un punto quindi ha due coordinate: x, y.
-        //ogni muro viene aggiunto alla lista di tutti i muri.
         Arrays.stream(walls).forEach(w -> new Point2D(w.getX(), w.getY()));
         Arrays.stream(walls).forEach(this::addWall);
         //todo studiare una soluzione migliore
         this.start = new ArrayList<>(start);
         this.finish = new ArrayList<>(finish);
-       // this.isValidStartFinish();
+        this.isValidTrack(width);
+        this.isValidStartFinish();
     }
 
     @Override
@@ -84,7 +78,7 @@ public class DefaultTrack2D<L extends Point2D, S extends DefaultStateCar> implem
 
     @Override
     public Set<Point2D> getNextLocs(Car<Point2D, DefaultStateCar> c) {
-        return c.getLocation().getNextPoint(width, length);
+        return c.getLocation().getNextPoint(width);
     }
 
     @Override
@@ -107,23 +101,23 @@ public class DefaultTrack2D<L extends Point2D, S extends DefaultStateCar> implem
      * @param width larghezza del circuito.
      */
     private void isValidTrack(int width){
-        if(width < 2)
+        //TODO refactoring.
+        if(width >= 2){
+            int a = start.get(0).getY();
+            int b = start.get(1).getY();
+            int distance = b-a;
+            if(distance < width)
+                throw new IllegalArgumentException("ERROR: The track is invalid.");
+        }
+        else
             throw new IllegalArgumentException("ERROR: The track is invalid.");
-    }
-
-    /**
-     * Metodo che controlla se il circuito è circolare.
-     * @return true se il circuito è circolare, false altrimenti.
-     */
-    private boolean isCircle(){
-        return start.equals(finish);
     }
 
     /**
      * Metodo che controlla se il punto di partenza e di arrivo sono validi.
      */
     private void isValidStartFinish() {
-        if(!start.get(0).equals(start.get(2)) && finish.get(0).equals(finish.get(2)))
+        if(start.get(0).getX() != start.get(1).getX() || finish.get(0).getX() != finish.get(1).getX())
             throw new IllegalStateException("ERROR: the start or finish is invalid.");
     }
 }

@@ -3,10 +3,6 @@ package it.unicam.cs.pa.jraceTrack;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
-
 /**
  * Classe che ha la responsabilit&agrave; di specificare, nel circuito 2D, un punto nel piano.
  * Un oggetto Point2D pu&ograve; indicare: i bordi del circuito, i punti che rappresentano il punto di
@@ -36,8 +32,9 @@ public final class Point2D {
         this.x += x;
     }
 
-    public Set<Point2D> getNextPoint(int width, int length){
+    public Set<Point2D> getNextPoint(int width){
         //TODO aggiungere controlli e i punti sono all'interno del circuito.
+
         Set<Point2D> points = new HashSet<>(8);
         for(int nx=1; nx<4; nx++){
            for(int ny=-1; ny<2; ny++){

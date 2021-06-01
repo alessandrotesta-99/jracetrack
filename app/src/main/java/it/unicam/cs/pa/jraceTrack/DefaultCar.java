@@ -71,7 +71,7 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
         //aggiungere il punto al path
         path.add(nextDestination);
         lengthLineSegment = this.getLastCheckPoint().getX() - this.getLocation().getX();
-        this.getLocation().getNextPoint(0,0).forEach(point2D -> point2D.incrementa(lengthLineSegment));
+        this.getLocation().getNextPoint(0).forEach(point2D -> point2D.incrementa(lengthLineSegment));
         //controlla se la macchina è nel circuito.
         if(this.hitsWall())
             this.setStatus(DefaultStateCar.CRASHED);
