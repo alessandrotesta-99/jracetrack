@@ -18,20 +18,22 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
     //vettore composto da due numeri, uno che indica lo spostamento destra-sinistra e uno lo spostamento alto-basso.
     //1. distanza tra un punto e un altro nell asse x. (spostamento destra-sinistra)
     //2. indica dove è ora nell asse y. (spostamento alto-basso).
- //   private final HashMap<Integer,Integer> vector;
-    //1. distanza tra un punto e un altro nell asse x. (spostamento destra-sinistra)
-    private int lengthLineSegment;
+    private Point2D vector;
+    //1. distanza tra un punto e un altro nell asse x. (spostamento destra-sinistra). Lunghezza del segmento.
+    private int currentVelocity;
     //percorso totale della macchina.
     private final List<Point2D> path;
 
-    public DefaultCar(Track<Point2D, DefaultStateCar> track, Color color, Point2D location) {
+    public DefaultCar(Track<Point2D, DefaultStateCar> track, Color color) {
         this.track = track;
      //   this.player = player;
         this.color = color;
-        this.location = location;
+        this.location = track.getStart().get(0);
         this.status = DefaultStateCar.IN_RACE;
         this.path = new LinkedList<>();
-        this.lengthLineSegment = 0;
+        this.vector = new Point2D(0, currentVelocity);
+        this.currentVelocity = 0;
+        this.path.add(this.location);
     }
 
 
@@ -45,41 +47,62 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
         return null;
     }
 
-    @Override
-    public Point2D accelerate(Rule r) {
-        return null;
-    }
 
-    @Override
-    public Point2D brake(Rule r) {
-        return null;
-    }
 
     @Override
     public void moveUp(Point2D nextDestination) {
-        //gestire eccezioni
+        //gestire eccezioni --ok
         Objects.requireNonNull(nextDestination);
+        //calcola la velocita prima di fare il movimento.
+        int velocityBeforeMovement = 0;
+        if(this.getLastCheckPoint() != null && this.vector.getY() != 0)
+            velocityBeforeMovement = this.getLocation().getX() - this.getLastCheckPoint().getX();
         //mostrare i prossimi punti
         Set<Point2D> s = track.getNextLocs(this);
         //controllare se il punto inserito è nei prossimi punti disponibili
-        //se si selezionalo
+        //se si selezionalo --ok
         if(s.contains(nextDestination) && this.track.getCarAt(nextDestination) == null)
             this.setLocation(nextDestination);
         else
-            //TODO da vedere meglio se lanciare un eccezione.
             throw new IllegalArgumentException("ERROR: this point is invalid.");
         //aggiungere il punto al path
         path.add(nextDestination);
-        lengthLineSegment = this.getLastCheckPoint().getX() - this.getLocation().getX();
-        this.getLocation().getNextPoint(0).forEach(point2D -> point2D.incrementa(lengthLineSegment));
+        //velocita corrente
+        currentVelocity = this.getLocation().getX() - this.getLastCheckPoint().getX();
+        //switch:
+        //caso 0
+        if(velocityBeforeMovement == 0)
+            this.vector = new Point2D(1,currentVelocity);
+        //3 casi
+        //accellera
+        else if(currentVelocity > velocityBeforeMovement)
+            this.accelerate();
+        //frena
+        else if(currentVelocity < velocityBeforeMovement)
+            this.brake();
+        //rimane stabile
+        else
+            this.vector = new Point2D(2, currentVelocity);
         //controlla se la macchina è nel circuito.
         if(this.hitsWall())
             this.setStatus(DefaultStateCar.CRASHED);
     }
 
+    private void accelerate() {
+        //todo 6 quadretti è la massima velocità.
+        this.vector = new Point2D(3, currentVelocity);
+    }
+
+    private void brake() {
+        this.vector = new Point2D(1, currentVelocity);
+    }
+
     @Override
     public Point2D getLastCheckPoint() {
-        return path.get(path.size() - 1);
+        if(path.size() == 1)
+            return path.get(0);
+        else
+            return path.get((path.size()-1)-1);
     }
 
     @Override
@@ -95,6 +118,22 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
     @Override
     public void setLocation(Point2D l) {
         this.location = l;
+    }
+
+    @Override
+    public Point2D getVector() {
+        return vector;
+
+        //spostarsi sull asse x di un numero uguale a:
+        // 1. freni, quindi: (lunghezza segmento tra punto corrente e punto corrente -1) - 1.
+        //2. accelleri, quindi: (lunghezza segmento tra punto corrente e punto corrente -1) + 1.
+        //3. rimani alla stessa velocita, quindi:  (lunghezza segmento tra punto corrente e punto corrente -1) + 0.
+
+        //spostarsi sull asse y di un numero uguale a:
+        //1. freni, quindi:  (lunghezza segmento tra punto corrente e punto corrente -1) + 1 o +2 o +3.
+        //2. accelleri, quindi:  (lunghezza segmento tra punto corrente e punto corrente -1) +1 o +2 o +3.
+        //3. rimani alla stessa velocita, quindi:  (lunghezza segmento tra punto corrente e punto corrente -1) +1 o +2 o +3.
+
     }
 
     @Override
@@ -127,17 +166,21 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
         return false;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DefaultCar<?, ?> that = (DefaultCar<?, ?>) o;
-        return Objects.equals(track, that.track) && Objects.equals(location, that.location) && Objects.equals(color, that.color) && status == that.status && Objects.equals(path, that.path);
+        return Objects.equals(track, that.track)
+                && Objects.equals(location, that.location)
+                && Objects.equals(color, that.color)
+                && status == that.status && Objects.equals(path, that.path);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(track, location, color, status, lengthLineSegment, path);
+        return Objects.hash(track, location, color, status, currentVelocity, path);
     }
 
 }

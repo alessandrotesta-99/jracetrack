@@ -37,8 +37,8 @@ public class DefaultTrack2DTest{
         partenza.forEach(System.out::println);
         DefaultTrack2D<Point2D, DefaultStateCar> tr = new DefaultTrack2D<>(20,20, partenza, arrivo,
                 a1, a2, a3, a4, a5, a6, a7, a8);
-        Car<Point2D, DefaultStateCar> car1 = new DefaultCar<>(tr, null, l1);
-        Car<Point2D, DefaultStateCar> car2 = new DefaultCar<>(tr, null, l3);
+        Car<Point2D, DefaultStateCar> car1 = new DefaultCar<>(tr, null);
+        Car<Point2D, DefaultStateCar> car2 = new DefaultCar<>(tr, null);
         tr.addCar(car1);
         tr.addCar(car2);
         Point2D l2 = new Point2D(2,2);

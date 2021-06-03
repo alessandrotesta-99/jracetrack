@@ -27,21 +27,6 @@ public interface Car<L, S> {
 	Player getPlayer();
 
 	/**
-	 * Metodo che permette di accellerare secondo determinate regole ad ogni turno.
-	 * @param r regola da applicare nel momento in cui si vuole accellerare.
-	 * @return la nuova posizione della macchina.
-	 */
-	//6 quadretti è la massima velocità.
-	L accelerate(Rule r);
-
-	/**
-	 * Metodo che permette di frenare secondo determinate regole ad ogni turno.
-	 * @param r regola da applicare nel momento in cui si vuole frenare.
-	 * @return la nuova posizione della macchina.
-	 */
-	L brake(Rule r);
-
-	/**
 	 * Metodo che permette di muovere la macchina.
 	 * @param l destinazione della macchina.
 	 */
@@ -69,6 +54,12 @@ public interface Car<L, S> {
 	 * @param l nuovo punto
 	 */
 	void setLocation(L l);
+
+	/**
+	 * Metodo che restituisce il vettore che indica lo spostamento della macchina.
+	 * @return il vettore.
+	 */
+	L getVector();
 
 	/**
 	 * Metodo che restituisce tutto il percorso che ha fatto la macchina.

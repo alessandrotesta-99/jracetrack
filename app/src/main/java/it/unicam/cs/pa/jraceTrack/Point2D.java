@@ -28,31 +28,58 @@ public final class Point2D {
         return y;
     }
 
-    public void incrementa(int x){
-        this.x += x;
-    }
-
-    public Set<Point2D> getNextPoint(int width){
-        //TODO aggiungere controlli e i punti sono all'interno del circuito.
-
+    public Set<Point2D> getNextPoint(Car<Point2D, DefaultStateCar> c, int width){
+        //TODO aggiungere controlli se i punti sono all'interno del circuito.
         Set<Point2D> points = new HashSet<>(8);
+        //--ok
+        if(c.getVector().getY() == 0)
+           return this.getFirstNextPoint();
+        //--ok
+        if(c.getVector().getY() == 1)
+            return this.getAdjacentPoints();
+        //todo
+        //--no (ok il primo for, da controllare il secondo)
+        if(c.getVector().getX() == 3){
+            for(int nx=c.getVector().getY()-1; nx<c.getVector().getY()+2; nx++)
+                for(int ny=c.getVector().getY()-1; ny<c.getVector().getY()+2; ny++)
+                    points.add(new Point2D(this.x + nx, this.y + ny));
+            }
+        else if(c.getVector().getX() == 2){
+        }
+        else
+
+
         for(int nx=1; nx<4; nx++){
            for(int ny=-1; ny<2; ny++){
                points.add(new Point2D(this.x + nx, this.y + ny));
            }
         }
         return points;
-        //spostarsi sull asse x di un numero uguale a:
-        // 1. freni, quindi: (lunghezza segmento tra punto corrente e punto corrente -1) - 1.
-        //2. accelleri, quindi: (lunghezza segmento tra punto corrente e punto corrente -1) + 1.
-        //3. rimani alla stessa velocita, quindi:  (lunghezza segmento tra punto corrente e punto corrente -1) + 0.
-
-        //spostarsi sull asse y di un numero uguale a:
-        //1. freni, quindi:  (lunghezza segmento tra punto corrente e punto corrente -1) + 1 o +2 o +3.
-        //2. accelleri, quindi:  (lunghezza segmento tra punto corrente e punto corrente -1) +1 o +2 o +3.
-        //3. rimani alla stessa velocita, quindi:  (lunghezza segmento tra punto corrente e punto corrente -1) +1 o +2 o +3.
 
     }
+
+    private Set<Point2D> getFirstNextPoint() {
+        //todo refactoring
+        Set<Point2D> points = new HashSet<>(8);
+        for (int nx = 1; nx < 3; nx++) {
+            for (int ny = 1; ny < 3; ny++) {
+                points.add(new Point2D(this.x + nx, this.y + ny));
+            }
+        }
+        return points;
+    }
+
+    private Set<Point2D> getAdjacentPoints() {
+        //todo refactoring
+        Set<Point2D> points = new HashSet<>(8);
+        for (int nx = 0; nx < 3; nx++) {
+            for (int ny = 0; ny < 3; ny++) {
+                points.add(new Point2D(this.x + nx, this.y + ny));
+            }
+        }
+        return points;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -71,6 +98,6 @@ public final class Point2D {
         return "Point2D{" +
                 "x=" + x +
                 ", y=" + y +
-                '}';
+                "}";
     }
 }

@@ -78,7 +78,7 @@ public class DefaultTrack2D<L extends Point2D, S extends DefaultStateCar> implem
 
     @Override
     public Set<Point2D> getNextLocs(Car<Point2D, DefaultStateCar> c) {
-        return c.getLocation().getNextPoint(width);
+        return c.getLocation().getNextPoint(c,width);
     }
 
     @Override
@@ -105,7 +105,7 @@ public class DefaultTrack2D<L extends Point2D, S extends DefaultStateCar> implem
         if(width >= 2){
             int a = start.get(0).getY();
             int b = start.get(1).getY();
-            int distance = b-a;
+            int distance = Math.abs(b-a);
             if(distance < width)
                 throw new IllegalArgumentException("ERROR: The track is invalid.");
         }

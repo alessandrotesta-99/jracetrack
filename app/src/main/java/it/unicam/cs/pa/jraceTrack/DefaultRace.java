@@ -37,7 +37,7 @@ public class DefaultRace<L extends Point2D, S extends DefaultStateCar> implement
         Player<Point2D, DefaultStateCar> p1 = players.get(r.nextInt(players.size()));
         p1.setTurn(true);
         //se è il turno di un giocatore far vedere a lui i prossimi punti.
-        p1.getCar().getLocation().getNextPoint(0);
+     //   p1.getCar().getLocation().getNextPoint(0);
         this.state = true;
        //TODO dubbi se lasciare qui
     }
