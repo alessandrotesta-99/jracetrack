@@ -63,19 +63,21 @@ public interface Race<L,S> {
 	 * @param walls muri del circuito
 	 * @return il circuito creato.
 	 */
-	Track<L,S> createTrack(int width, int length, List<L> start, List<L> finish, L... walls);
+	//TODO refactoring. non mi piace che devo passare tutti i parametri.
+	Track<L,S> createTrack(int width, List<L> start, List<L> finish, L... walls);
 
 	/**
 	 * Metodo che aggiunge una macchina al circuito.
 	 * @param c macchina da aggiungere.
 	 */
+	//TODO via probabilmente. responsabilità del circuito.
 	void addCar(Car<L,S> c);
 
 	/**
 	 * Metodo che aggiunge un giocatore alla gara.
 	 * @param p giocatore da aggiungere.
 	 */
-	void addPlayer(Player p);
+	void addPlayer(Player<L,S> p);
 
 	/**
 	 * statistiche di gara: tempo impiegato, numero di turni impiegati, numero di movimenti, ecc.

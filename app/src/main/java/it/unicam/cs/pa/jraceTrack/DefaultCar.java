@@ -11,22 +11,18 @@ import java.util.function.Predicate;
 public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements Car<Point2D, DefaultStateCar>{
 
     private final Track<Point2D, DefaultStateCar> track;
-    //private final Player player;
     private Point2D location;
     private final Color color;
     private DefaultStateCar status;
     //vettore composto da due numeri, uno che indica lo spostamento destra-sinistra e uno lo spostamento alto-basso.
-    //1. distanza tra un punto e un altro nell asse x. (spostamento destra-sinistra)
-    //2. indica dove è ora nell asse y. (spostamento alto-basso).
     private Point2D vector;
-    //1. distanza tra un punto e un altro nell asse x. (spostamento destra-sinistra). Lunghezza del segmento.
+    //velocita della macchina (lunghezza del segmento).
     private int currentVelocity;
     //percorso totale della macchina.
     private final List<Point2D> path;
 
     public DefaultCar(Track<Point2D, DefaultStateCar> track, Color color) {
         this.track = track;
-     //   this.player = player;
         this.color = color;
         this.location = track.getStart().get(0);
         this.status = DefaultStateCar.IN_RACE;
@@ -43,13 +39,6 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
     }
 
     @Override
-    public Player getPlayer() {
-        return null;
-    }
-
-
-
-    @Override
     public void moveUp(Point2D nextDestination) {
         //gestire eccezioni --ok
         Objects.requireNonNull(nextDestination);
@@ -57,11 +46,9 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
         int velocityBeforeMovement = 0;
         if(this.getLastCheckPoint() != null && this.vector.getY() != 0)
             velocityBeforeMovement = this.getLocation().getX() - this.getLastCheckPoint().getX();
-        //mostrare i prossimi punti
-        Set<Point2D> s = track.getNextLocs(this);
         //controllare se il punto inserito è nei prossimi punti disponibili
         //se si selezionalo --ok
-        if(s.contains(nextDestination) && this.track.getCarAt(nextDestination) == null)
+        if(this.track.getNextLocs(this).contains(nextDestination) && this.track.getCarAt(nextDestination) == null)
             this.setLocation(nextDestination);
         else
             throw new IllegalArgumentException("ERROR: this point is invalid.");
@@ -103,11 +90,6 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
             return path.get(0);
         else
             return path.get((path.size()-1)-1);
-    }
-
-    @Override
-    public void setLastCheckPoint(Point2D p) {
-        this.path.set(path.size()-1,p);
     }
 
     @Override

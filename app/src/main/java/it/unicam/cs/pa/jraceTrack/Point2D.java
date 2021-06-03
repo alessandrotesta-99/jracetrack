@@ -12,7 +12,7 @@ import java.util.Set;
  */
 public final class Point2D {
 
-    private  int x;
+    private final int x;
     private final int y;
 
     public Point2D(int x, int y) {

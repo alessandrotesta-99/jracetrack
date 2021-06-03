@@ -4,35 +4,22 @@ import java.util.*;
 
 public class DefaultTrack2D<L extends Point2D, S extends DefaultStateCar> implements Track<Point2D, DefaultStateCar> {
 
-    private static final int DEFAULT_WIDTH = 20;
     private final Map<Car<Point2D, DefaultStateCar>,Point2D> track;
     private final List<Point2D> walls;
     private final int width;
-    private final int length;
     //todo trovare una soluzione migliore
     private final List<Point2D> start;
     private final List<Point2D> finish;
 
     /**
-     * Costruttore che crea un circuito con dimensioni di default.
-     * todo - aggiungere i muri di default.
-     */
- /*   public DefaultTrack2D(){
-        this(DEFAULT_WIDTH, DEFAULT_LENGTH);
-    }*/
-
-    /**
      * Costruttore che crea un circuito con una certa lunghezza, una certa larghezza
      * e un insieme di muri.
      * @param width larghezza del circuito
-     * @param length lunghezza del circuito
      * @param walls muri del circuito
      */
-    public DefaultTrack2D(int width, int length, List<Point2D> start, List<Point2D> finish,
+    public DefaultTrack2D(int width, List<Point2D> start, List<Point2D> finish,
                           Point2D... walls) {
         this.width = width;
-        //TODO la lunghezza del circuito non serve.
-        this.length = length;
         this.walls = new LinkedList<>();
         this.track = new HashMap<>();
         Arrays.stream(walls).forEach(w -> new Point2D(w.getX(), w.getY()));

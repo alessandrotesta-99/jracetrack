@@ -21,12 +21,6 @@ public interface Car<L, S> {
 	Track<L,S> getTrack();
 
 	/**
-	 * Metodo che restituisce il giocatore associato a questa macchina.
-	 * @return restituisce il giocatore associato a questa macchina.
-	 */
-	Player getPlayer();
-
-	/**
 	 * Metodo che permette di muovere la macchina.
 	 * @param l destinazione della macchina.
 	 */
@@ -37,11 +31,6 @@ public interface Car<L, S> {
 	 * @return l'ultimo punto percorso dalla macchina.
 	 */
 	L getLastCheckPoint();
-
-	/**
-	 * Metodo che setta l'ultimo punto percorso dalla macchina.
-	 */
-	void setLastCheckPoint(L p);
 
 	/**
 	 * Metodo che ritorna la posizione di una macchina.
@@ -56,7 +45,8 @@ public interface Car<L, S> {
 	void setLocation(L l);
 
 	/**
-	 * Metodo che restituisce il vettore che indica lo spostamento della macchina.
+	 * Metodo che restituisce il vettore che indica
+	 * lo spostamento destra-sinistra e lo spostamento alto-basso della macchina.
 	 * @return il vettore.
 	 */
 	L getVector();

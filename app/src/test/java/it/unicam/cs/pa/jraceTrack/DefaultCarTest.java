@@ -73,7 +73,7 @@ public class DefaultCarTest{
         arrivo.add(p4);
         //TODO aggiungere controllo: al punto di partenza la macchina deve stare in linea con i punti di partenza.
         Point2D l = new Point2D(4,3);
-        DefaultTrack2D<Point2D, DefaultStateCar> tr = new DefaultTrack2D<>(2,20, partenza, arrivo,
+        DefaultTrack2D<Point2D, DefaultStateCar> tr = new DefaultTrack2D<>(2, partenza, arrivo,
                 w1,w2,w3,w4,w5,w6,w7,w8,w9,w10,w11,w12,w13,w14,w15,w16,w17,w18,w19,w20,w21,w22,w23,w24,w25,w26,
                 w27,w28,w29,w30,w31,w32,w33,w34,w35,w36,w37,w38,w39,w40,w41,w42);
         Car<Point2D, DefaultStateCar> car1 = new DefaultCar<>(tr, null);

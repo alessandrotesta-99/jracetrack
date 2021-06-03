@@ -2,7 +2,6 @@ package it.unicam.cs.pa.jraceTrack;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class DefaultRace<L extends Point2D, S extends DefaultStateCar> implements Race<Point2D,DefaultStateCar>{
 
@@ -64,8 +63,8 @@ public class DefaultRace<L extends Point2D, S extends DefaultStateCar> implement
     }
 
     @Override
-    public Track<Point2D, DefaultStateCar> createTrack(int width, int length, List<Point2D> start, List<Point2D> finish, Point2D... walls) {
-        return this.track = new DefaultTrack2D<>(width,length,start,finish,walls);
+    public Track<Point2D, DefaultStateCar> createTrack(int width, List<Point2D> start, List<Point2D> finish, Point2D... walls) {
+        return this.track = new DefaultTrack2D<>(width,start,finish,walls);
     }
 
     @Override
@@ -74,7 +73,7 @@ public class DefaultRace<L extends Point2D, S extends DefaultStateCar> implement
     }
 
     @Override
-    public void addPlayer(Player p) {
+    public void addPlayer(Player<Point2D, DefaultStateCar> p) {
         //aggiungere eccezioni se inserisci un bot e un giocatore interattivo
         this.players.add(p);
     }
