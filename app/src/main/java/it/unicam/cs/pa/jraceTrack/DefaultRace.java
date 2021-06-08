@@ -64,7 +64,7 @@ public class DefaultRace<L extends Point2D, S extends DefaultStateCar> implement
 
     @Override
     public Track<Point2D, DefaultStateCar> createTrack(int width, List<Point2D> start, List<Point2D> finish, Point2D... walls) {
-        return this.track = new DefaultTrack2D<>(width,start,finish,walls);
+        return this.track = new DefaultTrack2D<>(start,finish,walls);
     }
 
     @Override

@@ -77,12 +77,16 @@ public interface Track<L,S> {
 	S getStatus(Car<L,S> c);
 
 	/**
-	 * Metodo di default che controlla se il circuito è circolare.
-	 * @return true se il circuito è circolare, false altrimenti.
+	 * Metodo che controlla se il circuito è valido.
+	 */
+	void isValidTrack();
+
+	/**
+	 * Metodo che verifica se il circuito è circolare.
+	 * @return true se il punto di inizio coincide con il punto di arrivo.
 	 */
 	default boolean isCircle(){
-		return getStart().equals(getFinish());
+		return this.getStart().containsAll(this.getFinish());
 	}
-
 
 }

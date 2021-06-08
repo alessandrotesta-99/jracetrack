@@ -57,15 +57,12 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
         //velocita corrente
         currentVelocity = this.getLocation().getX() - this.getLastCheckPoint().getX();
         //switch:
-        //caso 0
-        if(velocityBeforeMovement == 0)
-            this.vector = new Point2D(1,currentVelocity);
         //3 casi
         //accellera
-        else if(currentVelocity > velocityBeforeMovement)
+        if(currentVelocity > velocityBeforeMovement)
             this.accelerate();
         //frena
-        else if(currentVelocity < velocityBeforeMovement)
+        else if(currentVelocity < velocityBeforeMovement || velocityBeforeMovement == 0)
             this.brake();
         //rimane stabile
         else
