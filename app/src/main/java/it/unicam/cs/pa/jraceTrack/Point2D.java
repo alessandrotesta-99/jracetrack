@@ -58,48 +58,30 @@ public final class Point2D {
     }
 
     private Set<Point2D> getPoints(Car<Point2D, DefaultStateCar> c, Set<Point2D> points, int width) {
-        for (int nx = c.getVector().getY() - 1; nx < c.getVector().getY() + 2; nx++)
-            for (int ny = c.getVector().getY() - 1; ny < c.getVector().getY() + 2; ny++)
-                 addPoint(points, nx, ny);
+        getNextPoints(points,c.getVector().getY()-1, c.getVector().getY() + 2,
+                c.getVector().getY() - 1, c.getVector().getY() + 2 );
         isValidPoints(points, c.getTrack(), width);
         return points;
     }
 
     private Set<Point2D> getFirstNextPoint( Car<Point2D,DefaultStateCar> c, Set<Point2D> points, int width) {
         //todo refactoring ?
-        //testato e ok ma fare altri test con altre linee di partenza e arrivo.
+        //testato e ok ma fare altri test con altre linee di partenza e arrivo. --ok
         if(c.getLocation().getX() > c.getTrack().getStart().get(1).getX())
-           firstNext(points, -1,0,1,2);
+           getNextPoints(points, -1,0,1,2);
         else if(c.getLocation().getX() < c.getTrack().getStart().get(1).getX() || c.getLocation().getY() < c.getTrack().getStart().get(1).getY())
-            firstNext(points, 1,2,0,2);
+            getNextPoints(points, 1,2,0,2);
         else if(c.getLocation().getY() > c.getTrack().getStart().get(1).getY())
-            firstNext(points, 1,2,-1,0);
+            getNextPoints(points, 1,2,-1,0);
        // isValidPoints(points, c.getTrack(), width);
         return points;
     }
 
-    private void firstNext(Set<Point2D> points, int x, int x1, int y, int y1) {
-        for (int nx = x; nx < x1; nx++)
-            for (int ny = y; ny < y1; ny++)
-                addPoint(points, nx, ny);
-    }
-
-    private void removePointIsLocationCar(Car<Point2D, DefaultStateCar> c, Set<Point2D> points) {
-        //elimina il punto dove è la macchina in questo momento.
-        points.stream().filter(p -> p.equals(c.getLocation())).findFirst().map(points::remove);
-    }
-
     private Set<Point2D> getAdjacentPoints(Car<Point2D, DefaultStateCar> c, Set<Point2D> points, int width) {
-        for (int nx = 0; nx < 3; nx++)
-            for (int ny = 0; ny < 3; ny++)
-                addPoint(points, nx, ny);
+        getNextPoints(points,0,3,0,3);
         removePointIsLocationCar(c, points);
         isValidPoints(points, c.getTrack(), width);
         return points;
-    }
-
-    private void addPoint(Set<Point2D> points, int nx, int ny) {
-        points.add(new Point2D(this.x + nx, this.y + ny));
     }
 
     private void isValidPoints(Set<Point2D> points, Track<Point2D, DefaultStateCar> t, int width) {
@@ -115,6 +97,22 @@ public final class Point2D {
 
         //todo 2. eliminare i punti che sono in linea con il muro.
 
+    }
+
+    private void getNextPoints(Set<Point2D> points, int x, int x1, int y, int y1) {
+        for (int nx = x; nx < x1; nx++)
+            for (int ny = y; ny < y1; ny++)
+                points.add(new Point2D(this.x + nx, this.y + ny));
+    }
+
+    /**
+     * Metodo che permette di eliminare dai prossimi punti, il punto dove si trova ora la macchina.
+     * @param c la macchina.
+     * @param points i prossimi punti.
+     */
+    private void removePointIsLocationCar(Car<Point2D, DefaultStateCar> c, Set<Point2D> points) {
+        //elimina il punto dove è la macchina in questo momento.
+        points.stream().filter(p -> p.equals(c.getLocation())).findFirst().map(points::remove);
     }
 
     @Override

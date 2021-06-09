@@ -93,34 +93,22 @@ public class DefaultTrack2D<L extends Point2D, S extends DefaultStateCar> implem
      */
     private void isValidStartFinish() {
         if(this.isCircle()){
-            if(!this.isVerticalStart() && !this.isHorizontalStart())
+            if(!this.isValidVertical(start) && !this.isValidHorizontal(start))
                 throw new IllegalArgumentException("ERROR: the start or finish is invalid.");
         }
         else{
-            if(!(this.isHorizontalStart() && this.isVerticalFinish())
-                    & !(this.isVerticalStart() && this.isHorizontalFinish())
-                    & !(this.isHorizontalStart() && this.isHorizontalFinish())
-                    & !(this.isVerticalStart() && this.isVerticalFinish()))
+            if(!(this.isValidHorizontal(start) && this.isValidVertical(finish))
+                    & !(this.isValidVertical(start) && this.isValidHorizontal(finish))
+                    & !(this.isValidHorizontal(start) && this.isValidHorizontal(finish))
+                    & !(this.isValidVertical(start) && this.isValidVertical(finish)))
                 throw new IllegalArgumentException("ERROR: the start or finish is invalid.");
         }
     }
 
     /**
-     * Metodo che restituisce true se la linea di partenza è orizzontale e setta la larghezza.
-     * @return true se la linea di partenza è orizzontale, false altrimenti.
+     * Metodo che restituisce true se la linea di partenza o di arrivo è orizzontale e setta la larghezza.
+     * @return true se la linea di partenza o arrivo è orizzontale, false altrimenti.
      */
-    private boolean isHorizontalStart() {
-        return isValidHorizontal(start);
-    }
-
-    /**
-     * Metodo che restituisce true se la linea di arrivo è orizzontale e setta la larghezza.
-     * @return true se la linea di arrivo è orizzontale, false altrimenti.
-     */
-    private boolean isHorizontalFinish() {
-        return isValidHorizontal(finish);
-    }
-
     private boolean isValidHorizontal(List<Point2D> list) {
         int temp = this.width;
         if (list.get(0).getY() == list.get(1).getY()) {
@@ -131,27 +119,15 @@ public class DefaultTrack2D<L extends Point2D, S extends DefaultStateCar> implem
     }
 
     /**
-     * Metodo che restituisce true se la linea di partenza è verticale e setta la larghezza.
-     * @return true se la linea di partenza è verticale, false altrimenti.
+     * Metodo che restituisce true se la linea di partenza o di arrivo è verticale e setta la larghezza.
+     * @return true se la linea di partenza o di arrivo è verticale, false altrimenti.
      */
-    private boolean isVerticalStart() {
-        return isValidVertical(start);
-    }
-
     private boolean isValidVertical(List<Point2D> list) {
-        int temp = width;
+        int temp = this.width;
         if (list.get(0).getX() == list.get(1).getX()){
             this.width = Math.abs(list.get(1).getY() - list.get(0).getY());
             return temp == width;
         }
         return false;
-    }
-
-    /**
-     * Metodo che restituisce true se la linea di arrivo è verticale e setta la larghezza.
-     * @return true se la linea di arrivo è verticale, false altrimenti.
-     */
-    private boolean isVerticalFinish() {
-        return isValidVertical(finish);
     }
 }
