@@ -3,7 +3,6 @@ package it.unicam.cs.pa.jraceTrack;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Classe che ha la responsabilit&agrave; di specificare, nel circuito 2D, un punto nel piano.
@@ -35,10 +34,10 @@ public final class Point2D {
     public Set<Point2D> getNextPoint(Car<Point2D, DefaultStateCar> c, int width){
         //TODO aggiungere controlli se i punti sono all'interno del circuito.
         Set<Point2D> points = new HashSet<>(8);
-        //--ok ma aggiungere controlli.
+        //--ok.
         if(c.getVector().getY() == 0)
            return this.getFirstNextPoint(c, points, width);
-        //--ok
+        //--todo da controllare.
         if(c.getVector().getY() == 1)
             return this.getAdjacentPoints(c,points, width);
         //todo
@@ -67,18 +66,34 @@ public final class Point2D {
     }
 
     private Set<Point2D> getFirstNextPoint( Car<Point2D,DefaultStateCar> c, Set<Point2D> points, int width) {
-        for (int nx = -1; nx < 1; nx++)
-            for (int ny = -1; ny < 1; ny++)
-                addPoint(points, nx, ny);
-        isValidPoints(points, c.getTrack(), width);
+        //todo refactoring ?
+        //testato e ok ma fare altri test con altre linee di partenza e arrivo.
+        if(c.getLocation().getX() > c.getTrack().getStart().get(1).getX())
+           firstNext(points, -1,0,1,2);
+        else if(c.getLocation().getX() < c.getTrack().getStart().get(1).getX() || c.getLocation().getY() < c.getTrack().getStart().get(1).getY())
+            firstNext(points, 1,2,0,2);
+        else if(c.getLocation().getY() > c.getTrack().getStart().get(1).getY())
+            firstNext(points, 1,2,-1,0);
+       // isValidPoints(points, c.getTrack(), width);
         return points;
+    }
+
+    private void firstNext(Set<Point2D> points, int x, int x1, int y, int y1) {
+        for (int nx = x; nx < x1; nx++)
+            for (int ny = y; ny < y1; ny++)
+                addPoint(points, nx, ny);
+    }
+
+    private void removePointIsLocationCar(Car<Point2D, DefaultStateCar> c, Set<Point2D> points) {
+        //elimina il punto dove è la macchina in questo momento.
+        points.stream().filter(p -> p.equals(c.getLocation())).findFirst().map(points::remove);
     }
 
     private Set<Point2D> getAdjacentPoints(Car<Point2D, DefaultStateCar> c, Set<Point2D> points, int width) {
         for (int nx = 0; nx < 3; nx++)
             for (int ny = 0; ny < 3; ny++)
                 addPoint(points, nx, ny);
-        points.stream().filter(p -> p.equals(c.getLocation())).findFirst().map(points::remove);
+        removePointIsLocationCar(c, points);
         isValidPoints(points, c.getTrack(), width);
         return points;
     }
@@ -88,15 +103,18 @@ public final class Point2D {
     }
 
     private void isValidPoints(Set<Point2D> points, Track<Point2D, DefaultStateCar> t, int width) {
+        //se è il primo turno
+
         //elimina i punti che toccano un punto specifico del muro. --ok
-        t.getWalls().forEach(w -> points.removeIf(p -> w.getX() == p.getX() && w.getY() == p.getY()));
+        t.getWalls().forEach(w -> points.removeIf(p -> w.getX() == p.getX() || w.getY() == p.getY()));
+
+        //   points.removeIf(p -> p.getX()<=0 && p.getX() > width || p.getY() <= 0 && p.getY() > width);
         //todo 1. eliminare i punti che escono dal circuito.
-        points.removeIf(p -> p.getX()<=0 && p.getX() > width);
+
+
+
         //todo 2. eliminare i punti che sono in linea con il muro.
 
-    }
-
-    private void isValid(Point2D p) {
     }
 
     @Override
