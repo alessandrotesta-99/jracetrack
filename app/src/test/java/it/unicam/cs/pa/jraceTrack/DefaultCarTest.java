@@ -24,11 +24,18 @@ public class DefaultCarTest{
         Point2D w7 = new Point2D(16,5);
         Point2D w8 = new Point2D(16,12);
 
-        Point2D p1 = new Point2D(16,6);
-        Point2D p2 = new Point2D(20,6);
 
-        Point2D p3 = new Point2D(1,11);
-        Point2D p4 = new Point2D(5,11);
+  /*      Point2D w1 = new Point2D(1,1);
+        Point2D w2 = new Point2D(1,5);
+        Point2D w3 = new Point2D(20,5);
+        Point2D w4 = new Point2D(20,1);*/
+
+
+        Point2D p1 = new Point2D(16,5);
+        Point2D p2 = new Point2D(20,5);
+
+        Point2D p3 = new Point2D(1,5);
+        Point2D p4 = new Point2D(5,5);
 
         List<Point2D> start = new ArrayList<>();
         start.add(p1);
@@ -43,15 +50,15 @@ public class DefaultCarTest{
         //TODO non va bene che gia inzia e tocca sul muro del circuito.
         this.printNextPoint(car1);
         //prima mossa.
-        Point2D next = new Point2D(4,10);
+        Point2D next = new Point2D(17,6);
         car1.moveUp(next);
 
         this.printNextPoint(car1);
-        Point2D next1 = new Point2D(5,5);
+        Point2D next1 = new Point2D(18,8);
         car1.moveUp(next1);
 
         this.printNextPoint(car1);
-        Point2D next2 = new Point2D(10,9);
+        Point2D next2 = new Point2D(18,9);
         car1.moveUp(next2);
         this.printNextPoint(car1);
     }

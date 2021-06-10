@@ -75,13 +75,6 @@ public interface Car<L, S> {
 	Color getColor();
 
 	/**
-	 * Metodo che restituisce il numero di movimenti che ha compiuto una macchina all'interno del circuito.
-	 * @param p predicato da rispettare.
-	 * @return il numero di movimenti che ha compiuto una macchina per raggiungere il traguardo.
-	 */
-	int countMovement(Predicate<? super L> p);
-
-	/**
 	 * Metodo che controlla se la macchina ha colpito dei muri.
 	 * @return true se la macchina ha colpito muri, false altrimenti.
 	 */

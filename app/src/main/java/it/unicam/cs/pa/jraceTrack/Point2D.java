@@ -1,6 +1,7 @@
 package it.unicam.cs.pa.jraceTrack;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -13,7 +14,15 @@ import java.util.Set;
  */
 public final class Point2D {
 
-    //TODO cambiare le liste con una vista, in modo da non dover creare una lista.
+    /*todo:
+        problemi:
+        1. dopo il primo turno non vengono mostrati i corretti punti.
+        2. gestire l'orientamento, se in senso antiorario o orario.
+        3. eliminare i punti che non sono nel circuito.
+        4. cambiare le liste con una vista, in modo da non dover creare una lista.
+        ok:
+        1. al primo turno vengono mostrati i punti giusti ma gestire l'orientamento e i muri.
+     */
 
     private final int x;
     private final int y;
@@ -32,21 +41,21 @@ public final class Point2D {
     }
 
     public Set<Point2D> getNextPoint(Car<Point2D, DefaultStateCar> c, int width){
-        //TODO aggiungere controlli se i punti sono all'interno del circuito.
+        int temp = c.getVector().getY();
         Set<Point2D> points = new HashSet<>(8);
         //--ok.
         if(c.getVector().getY() == 0)
            return this.getFirstNextPoint(c, points, width);
-        //--todo da controllare.
+        //--ok
         if(c.getVector().getY() == 1)
             return this.getAdjacentPoints(c,points, width);
         //todo
         //caso 1: accellera
         //--ok
-        if(c.getVector().getX() == 3)
+        else
             return getPoints(c, points,width);
         //caso 2: rimane stabile
-        else if(c.getVector().getX() == 2)
+    /*    else if(c.getVector().getX() == 2)
             return this.getAdjacentPoints(c,points,width);
         //caso 3: frena
         else{
@@ -54,17 +63,30 @@ public final class Point2D {
                 return getPoints(c, points,width);
             else
                 return this.getAdjacentPoints(c,points,width);
-        }
+        }*/
     }
+    /*
+    TODO: i prossimi punti a quello in cui è la macchina devono essere disegnati nella stessa direzione di dove è la macchina.
+     Se una macchina ha un vettore con X settato a 1, i prossimi punti dovranno essere ricostruiti partendo dalla posizione di 1.
+     Se una macchina ha un vettore con X settato a 3 allora i prossimi punti saranno costruiti in diagonale destra,
+     Se una macchina ha un vettore con X settato a 2 allora i prossimi punti saranno costruiti al centro davanti (distanti di tanto quanto la velocita).
+
+     */
 
     private Set<Point2D> getPoints(Car<Point2D, DefaultStateCar> c, Set<Point2D> points, int width) {
-        getNextPoints(points,c.getVector().getY()-1, c.getVector().getY() + 2,
-                c.getVector().getY() - 1, c.getVector().getY() + 2 );
+        if(c.getVector().getX() == 2)
+            getNextPoints(points, c.getVector().getY() - 3, c.getVector().getY() - 2,
+                    c.getVector().getY() + 1, c.getVector().getY() + 3);
         isValidPoints(points, c.getTrack(), width);
         return points;
     }
 
     private Set<Point2D> getFirstNextPoint( Car<Point2D,DefaultStateCar> c, Set<Point2D> points, int width) {
+        c.getTrack().getStart().forEach(ps -> c.getTrack().getFinish().forEach(pf ->
+        {
+            if(ps.getX() > pf.getX())
+                getNextPoints(points, -1,0,1,2);
+        }));
         //todo refactoring ?
         //testato e ok ma fare altri test con altre linee di partenza e arrivo. --ok
         if(c.getLocation().getX() > c.getTrack().getStart().get(1).getX())
@@ -80,14 +102,15 @@ public final class Point2D {
     private Set<Point2D> getAdjacentPoints(Car<Point2D, DefaultStateCar> c, Set<Point2D> points, int width) {
         getNextPoints(points,0,3,0,3);
         removePointIsLocationCar(c, points);
-        isValidPoints(points, c.getTrack(), width);
+       // isValidPoints(points, c.getTrack(), width);
         return points;
     }
 
     private void isValidPoints(Set<Point2D> points, Track<Point2D, DefaultStateCar> t, int width) {
         //se è il primo turno
 
-        //elimina i punti che toccano un punto specifico del muro. --ok
+        //elimina i punti che toccano un punto specifico del muro.
+        // --ok solo se c'è un punto per ogni angolo. se un segmento ha solo due punti not ok.
         t.getWalls().forEach(w -> points.removeIf(p -> w.getX() == p.getX() || w.getY() == p.getY()));
 
         //   points.removeIf(p -> p.getX()<=0 && p.getX() > width || p.getY() <= 0 && p.getY() > width);
@@ -111,7 +134,6 @@ public final class Point2D {
      * @param points i prossimi punti.
      */
     private void removePointIsLocationCar(Car<Point2D, DefaultStateCar> c, Set<Point2D> points) {
-        //elimina il punto dove è la macchina in questo momento.
         points.stream().filter(p -> p.equals(c.getLocation())).findFirst().map(points::remove);
     }
 

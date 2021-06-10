@@ -42,9 +42,9 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
     public void moveUp(Point2D nextDestination) {
         //gestire eccezioni --ok
         Objects.requireNonNull(nextDestination);
-        //calcola la velocita prima di fare il movimento.
+        //calcola la velocita prima di fare il movimento. --ok
         int velocityBeforeMovement = 0;
-        if(this.getLastCheckPoint() != null && this.vector.getY() != 0)
+        if(this.vector.getY() != 0)
             velocityBeforeMovement = this.getLocation().getX() - this.getLastCheckPoint().getX();
         //controllare se il punto inserito è nei prossimi punti disponibili
         //se si selezionalo --ok
@@ -52,10 +52,9 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
             this.setLocation(nextDestination);
         else
             throw new IllegalArgumentException("ERROR: this point is invalid.");
-        //aggiungere il punto al path
+        //aggiungere il punto al path --ok
         path.add(nextDestination);
-        //velocita corrente
-        currentVelocity = this.getLocation().getX() - this.getLastCheckPoint().getX();
+        setCurrentVelocity();
         //switch:
         //3 casi
         //accellera
@@ -72,9 +71,27 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
             this.setStatus(DefaultStateCar.CRASHED);
     }
 
+    private void setCurrentVelocity() {
+        int distanceX = this.getLocation().getX() - this.getLastCheckPoint().getX();
+        int distanceY = this.getLocation().getY() - this.getLastCheckPoint().getY();
+        //setta la velocita corrente --ok
+        if(distanceX >= distanceY)
+            currentVelocity = Math.abs(distanceX);
+        else
+            currentVelocity = Math.abs(distanceY);
+    }
+
     private void accelerate() {
-        //todo 6 quadretti è la massima velocità.
-        this.vector = new Point2D(3, currentVelocity);
+        //todo 6 quadretti è il massimo.
+        if(this.path.size() == 2)
+            this.vector = new Point2D(1,currentVelocity);
+        else
+            if(this.getLocation().getX() - 1 ==  this.getLastCheckPoint().getX())
+                this.vector = new Point2D(2,currentVelocity);
+            else if (this.getLocation().getX() == this.getLastCheckPoint().getX())
+                this.vector = new Point2D(1,currentVelocity);
+            else if(this.getLocation().getX() - 2 == this.getLastCheckPoint().getX())
+                this.vector = new Point2D(3, currentVelocity);
     }
 
     private void brake() {
@@ -133,11 +150,6 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
     @Override
     public Color getColor() {
         return this.color;
-    }
-
-    @Override
-    public int countMovement(Predicate<? super Point2D> p) {
-        return 0;
     }
 
     @Override
