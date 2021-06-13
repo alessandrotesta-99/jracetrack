@@ -47,7 +47,7 @@ public class DefaultCarTest{
         Track<Point2D, DefaultStateCar> tr = new DefaultTrack2D<>(start,finish,w1,w2,w3,w4,w5,w6,w7,w8);
         Car<Point2D, DefaultStateCar> car1 = new DefaultCar<>(tr, null);
         tr.addCar(car1);
-        //TODO non va bene che gia inzia e tocca sul muro del circuito.
+
         this.printNextPoint(car1);
         //prima mossa.
         Point2D next = new Point2D(17,6);
@@ -58,9 +58,13 @@ public class DefaultCarTest{
         car1.moveUp(next1);
 
         this.printNextPoint(car1);
-        Point2D next2 = new Point2D(18,9);
+        Point2D next2 = new Point2D(19,11);
         car1.moveUp(next2);
+
         this.printNextPoint(car1);
+     /*   Point2D next3 = new Point2D(17,13);
+        car1.moveUp(next3);
+        this.printNextPoint(car1);*/
     }
 
     private void printNextPoint(Car<Point2D, DefaultStateCar>  car){

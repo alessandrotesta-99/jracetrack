@@ -41,7 +41,6 @@ public final class Point2D {
     }
 
     public Set<Point2D> getNextPoint(Car<Point2D, DefaultStateCar> c, int width){
-        int temp = c.getVector().getY();
         Set<Point2D> points = new HashSet<>(8);
         //--ok.
         if(c.getVector().getY() == 0)
@@ -51,7 +50,6 @@ public final class Point2D {
             return this.getAdjacentPoints(c,points, width);
         //todo
         //caso 1: accellera
-        //--ok
         else
             return getPoints(c, points,width);
         //caso 2: rimane stabile
@@ -67,17 +65,42 @@ public final class Point2D {
     }
     /*
     TODO: i prossimi punti a quello in cui è la macchina devono essere disegnati nella stessa direzione di dove è la macchina.
-     Se una macchina ha un vettore con X settato a 1, i prossimi punti dovranno essere ricostruiti partendo dalla posizione di 1.
-     Se una macchina ha un vettore con X settato a 3 allora i prossimi punti saranno costruiti in diagonale destra,
-     Se una macchina ha un vettore con X settato a 2 allora i prossimi punti saranno costruiti al centro davanti (distanti di tanto quanto la velocita).
+     Se una macchina ha un vettore con X settato a 1,
+      i prossimi punti dovranno essere ricostruiti partendo dalla posizione di 1.
+     Se una macchina ha un vettore con X settato a 3,
+      allora i prossimi punti saranno costruiti in diagonale destra,
+     Se una macchina ha un vettore con X settato a 2
+      allora i prossimi punti saranno costruiti al centro davanti (distanti di tanto quanto la velocita).
 
      */
 
     private Set<Point2D> getPoints(Car<Point2D, DefaultStateCar> c, Set<Point2D> points, int width) {
-        if(c.getVector().getX() == 2)
-            getNextPoints(points, c.getVector().getY() - 3, c.getVector().getY() - 2,
-                    c.getVector().getY() + 1, c.getVector().getY() + 3);
-        isValidPoints(points, c.getTrack(), width);
+        //TODO - ok. refactoring!!
+        int distanceX = Math.abs(c.getLastCheckPoint().getX() - c.getLocation().getX());
+        int distanceY = Math.abs(c.getLastCheckPoint().getY() - c.getLocation().getY());
+
+        if(c.getVector().getX() == 2){
+            //se la distanza tra la y della location e la y della location prima è uguale alla velocità
+            //vuol dire che stai accellerando in verticale, altrimenti in orizzontale.
+            if(distanceY == c.getVector().getY())
+                getNextPoints(points, - 1,2, c.getVector().getY() - 1, c.getVector().getY() + 2);
+            else if(distanceX == c.getVector().getY())
+                getNextPoints(points, c.getVector().getY() - 1,c.getVector().getY() + 2, - 1,  2);
+        }
+        else if(c.getVector().getX() == 1){
+            //accellero in verticale.
+            if(distanceY == c.getVector().getY())
+                getNextPoints(points, - 2,1, c.getVector().getY() - 1, c.getVector().getY() + 2);
+            else if(distanceX == c.getVector().getY())
+                getNextPoints(points, c.getVector().getY() - 1,c.getVector().getY() + 2, - 2,  1);
+        }
+        else if(c.getVector().getX() == 3){
+            //accellero in verticale.
+            if(distanceY == c.getVector().getY())
+                getNextPoints(points,  0,3, c.getVector().getY() - 1, c.getVector().getY() + 2);
+            else if(distanceX == c.getVector().getY())
+                getNextPoints(points, c.getVector().getY() - 1,c.getVector().getY() + 2,  0,  3);
+        }
         return points;
     }
 
@@ -95,14 +118,12 @@ public final class Point2D {
             getNextPoints(points, 1,2,0,2);
         else if(c.getLocation().getY() > c.getTrack().getStart().get(1).getY())
             getNextPoints(points, 1,2,-1,0);
-       // isValidPoints(points, c.getTrack(), width);
         return points;
     }
 
     private Set<Point2D> getAdjacentPoints(Car<Point2D, DefaultStateCar> c, Set<Point2D> points, int width) {
         getNextPoints(points,0,3,0,3);
         removePointIsLocationCar(c, points);
-       // isValidPoints(points, c.getTrack(), width);
         return points;
     }
 
