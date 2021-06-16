@@ -1,7 +1,6 @@
 package it.unicam.cs.pa.jraceTrack;
 
 import java.util.*;
-import java.util.function.Predicate;
 
 /**
  * Implementazione di default di una macchina.
@@ -27,7 +26,7 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
         this.location = track.getStart().get(0);
         this.status = DefaultStateCar.IN_RACE;
         this.path = new LinkedList<>();
-        this.vector = new Point2D(0, currentVelocity);
+        this.vector = FactoryPoint.createPoint(0, currentVelocity);
         this.currentVelocity = 0;
         this.path.add(this.location);
     }
@@ -40,91 +39,99 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
 
     @Override
     public void moveUp(Point2D nextDestination) {
-        //gestire eccezioni --ok
         Objects.requireNonNull(nextDestination);
-        //calcola la velocita prima di fare il movimento. --not ok
         int velocityBeforeMovement = 0;
         if(this.vector.getY() != 0)
-            velocityBeforeMovement = this.getLocation().getX() - this.getLastCheckPoint().getX();
-        //controllare se il punto inserito è nei prossimi punti disponibili
-        //se si selezionalo --ok
+            velocityBeforeMovement = Math.max(getDistanceX(), getDistanceY());
         if(this.track.getNextLocs(this).contains(nextDestination) && this.track.getCarAt(nextDestination) == null)
             this.setLocation(nextDestination);
         else
             throw new IllegalArgumentException("ERROR: this point is invalid.");
         path.add(nextDestination);
-        setCurrentVelocity();
-        //switch:
-        //3 casi
-        //accellera
-        if(currentVelocity > velocityBeforeMovement)
-            this.accelerate();
-        //frena
-        else if(currentVelocity < velocityBeforeMovement || velocityBeforeMovement == 0)
-            this.brake();
-        //rimane stabile
-        else
-            this.vector = new Point2D(2, currentVelocity);
+        setCurrentVelocity(getDistanceX(),getDistanceY());
+        checkMove(velocityBeforeMovement);
         //controlla se la macchina è nel circuito.
         if(this.hitsWall())
             this.setStatus(DefaultStateCar.CRASHED);
     }
 
-    private void setCurrentVelocity() {
-        int distanceX = this.getLocation().getX() - this.getLastCheckPoint().getX();
-        int distanceY = this.getLocation().getY() - this.getLastCheckPoint().getY();
-        if(distanceX >= distanceY)
-            currentVelocity = Math.abs(distanceX);
+    public int getDistanceY() {
+        return Math.abs(Math.subtractExact(this.getLocation().getY(), this.getLastCheckPoint().getY()));
+    }
+
+    public int getDistanceX() {
+        return Math.abs(Math.subtractExact(this.getLocation().getX(), this.getLastCheckPoint().getX()));
+    }
+
+    private void checkMove(int velocityBeforeMovement) {
+        if(velocityBeforeMovement == 0)
+            this.vector = new Point2D(1, currentVelocity);
+        else if(currentVelocity < velocityBeforeMovement)
+            this.brake();
+        else if(currentVelocity > velocityBeforeMovement)
+            this.accelerate();
         else
-            currentVelocity = Math.abs(distanceY);
+            this.vector = FactoryPoint.createPoint(this.getVector().getX(), currentVelocity);
+        /*    if(vector.getX() == 1){
+                if(this.getLocation().getX() == this.getLastCheckPoint().getX()
+                    || this.getLocation().getY() == this.getLastCheckPoint().getY())
+                    this.vector = FactoryPoint.createPoint(1,currentVelocity);
+            }else if(vector.getX() == 2){
+                if(this.getLocation().getX() == this.getLastCheckPoint().getX()
+                        || this.getLocation().getY() == this.getLastCheckPoint().getY())
+                    this.vector = FactoryPoint.createPoint(2,currentVelocity);
+            }else if(vector.getX() == 3){
+                if(this.getLocation().getX() == this.getLastCheckPoint().getX()
+                        || this.getLocation().getY() == this.getLastCheckPoint().getY())
+                    this.vector = FactoryPoint.createPoint(3,currentVelocity);
+            }*/
+    }
+
+    private void setCurrentVelocity(int distanceX, int distanceY) {
+        currentVelocity = Math.abs(Math.max(distanceX, distanceY));
     }
 
     private void accelerate() {
-        //todo 6 quadretti è il massimo. && refactoring.
+        //todo 6 quadretti è il massimo.
         if(this.path.size() == 2)
-            this.vector = new Point2D(1,currentVelocity);
+            this.vector = FactoryPoint.createPoint(1,currentVelocity);
         else
-            if(vector.getX() == 1){
-                if(this.getLocation().getX() - this.getLastCheckPoint().getX() == 1
-                        || this.getLocation().getY() - this.getLastCheckPoint().getY() == 1)
-                    this.vector = new Point2D(2,currentVelocity);
-                else if(this.getLocation().getX() - this.getLastCheckPoint().getX() == 2
-                        ||this.getLocation().getY() - this.getLastCheckPoint().getY() == 2)
-                    this.vector = new Point2D(3,currentVelocity);
-            }
-            else if(vector.getX() == 2){
-                if(this.getLocation().getX() < this.getLastCheckPoint().getX()
-                        || this.getLocation().getY() < this.getLastCheckPoint().getY())
-                    this.vector = new Point2D(1,currentVelocity);
-                else
-                    this.vector = new Point2D(3, currentVelocity);
-            }
-            else if(vector.getX() == 3){
-                if(this.getLocation().getX() - this.getLastCheckPoint().getX() == 1
-                        || this.getLocation().getY() - this.getLastCheckPoint().getY() == 1)
-                    this.vector = new Point2D(2,currentVelocity);
-                else if(this.getLocation().getX() - this.getLastCheckPoint().getX() == 2
-                        || this.getLocation().getY() - this.getLastCheckPoint().getY() == 2)
-                    this.vector = new Point2D(1,currentVelocity);
-            }
-        this.vector = new Point2D(this.getVector().getX(), currentVelocity);
+            if(vector.getX() == 1)
+                setVector(3);
+            else if(vector.getX() == 2)
+                extracted();
+            else if(vector.getX() == 3)
+                setVector(1);
+    }
 
-
-        /*    if(this.getLocation().getX() == this.getLastCheckPoint().getX()
-                    || this.getLocation().getY() - this.getLastCheckPoint().getY() == currentVelocity)
-                this.vector = new Point2D(2,currentVelocity);
-            else if (this.getLocation().getX() - this.getLastCheckPoint().getX() == 2
-                    || this.getLocation().getY() - this.getLastCheckPoint().getY() == 2)
-                this.vector = new Point2D(3,currentVelocity);
-            else if(this.getLocation().getX() - this.getLastCheckPoint().getX() == 0
-                    || this.getLocation().getY() - this.getLastCheckPoint().getY() == 0 )
-                this.vector = new Point2D(this.getVector().getX(), currentVelocity);
-       */
+    private void setVector(int x1){
+        if(getDistanceX() == 1 || getDistanceY() == 1)
+            this.vector = FactoryPoint.createPoint(2,currentVelocity);
+        else if(getDistanceX() == 2 || getDistanceY() == 2
+                && (this.getLocation().getX() != this.getLastCheckPoint().getX()))
+            this.vector = FactoryPoint.createPoint(x1,currentVelocity);
+        else
+            this.vector = FactoryPoint.createPoint(1,currentVelocity);
     }
 
     private void brake() {
+        if(vector.getX() == 1 || vector.getX() == 2)
+            extracted();
+        else if(vector.getX() == 3)
+            setVector(1);
         //todo
-        this.vector = new Point2D(1, currentVelocity);
+        this.vector = FactoryPoint.createPoint(this.getVector().getX(),currentVelocity);
+    }
+
+    private void extracted() {
+        if(this.getLocation().getX() <= this.getLastCheckPoint().getX()
+                || this.getLocation().getY() <= this.getLastCheckPoint().getY())
+            this.vector = FactoryPoint.createPoint(1,currentVelocity);
+        else if(this.getLocation().getX() > this.getLastCheckPoint().getX()
+                && this.getLocation().getY() != this.getLastCheckPoint().getY()
+                || this.getLocation().getY() > this.getLastCheckPoint().getY()
+                && this.getLocation().getX() != this.getLastCheckPoint().getX())
+            this.vector = FactoryPoint.createPoint(3,currentVelocity);
     }
 
     @Override
@@ -132,7 +139,7 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
         if(path.size() == 1)
             return path.get(0);
         else
-            return path.get((path.size()-1)-1);
+            return path.get((path.size())-2);
     }
 
     @Override

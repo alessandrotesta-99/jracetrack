@@ -97,10 +97,10 @@ public class DefaultTrack2D<L extends Point2D, S extends DefaultStateCar> implem
                 throw new IllegalArgumentException("ERROR: the start or finish is invalid.");
         }
         else{
-            if(!(this.isValidHorizontal(start) && this.isValidVertical(finish))
-                    & !(this.isValidVertical(start) && this.isValidHorizontal(finish))
-                    & !(this.isValidHorizontal(start) && this.isValidHorizontal(finish))
-                    & !(this.isValidVertical(start) && this.isValidVertical(finish)))
+            if(!(this.isValidHorizontal(start) & this.isValidVertical(finish))
+                    & !(this.isValidVertical(start) & this.isValidHorizontal(finish))
+                    & !(this.isValidHorizontal(start) & this.isValidHorizontal(finish))
+                    & !(this.isValidVertical(start) & this.isValidVertical(finish)))
                 throw new IllegalArgumentException("ERROR: the start or finish is invalid.");
         }
     }
@@ -113,6 +113,8 @@ public class DefaultTrack2D<L extends Point2D, S extends DefaultStateCar> implem
         int temp = this.width;
         if (list.get(0).getY() == list.get(1).getY()) {
             this.width = Math.abs(list.get(1).getX() - list.get(0).getX());
+            if(temp == 0)
+                temp = width;
             return temp == width;
         }
         return false;
@@ -126,6 +128,8 @@ public class DefaultTrack2D<L extends Point2D, S extends DefaultStateCar> implem
         int temp = this.width;
         if (list.get(0).getX() == list.get(1).getX()){
             this.width = Math.abs(list.get(1).getY() - list.get(0).getY());
+            if(temp == 0)
+                temp = width;
             return temp == width;
         }
         return false;

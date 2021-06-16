@@ -1,9 +1,9 @@
 package it.unicam.cs.pa.jraceTrack;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.IntStream;
 
 /**
  * Classe che ha la responsabilit&agrave; di specificare, nel circuito 2D, un punto nel piano.
@@ -17,11 +17,11 @@ public final class Point2D {
     /*todo:
         problemi:
         1. dopo il primo turno non vengono mostrati i corretti punti.
-        2. gestire l'orientamento, se in senso antiorario o orario.
         3. eliminare i punti che non sono nel circuito.
         4. cambiare le liste con una vista, in modo da non dover creare una lista.
         ok:
         1. al primo turno vengono mostrati i punti giusti ma gestire l'orientamento e i muri.
+        2. gestire l'orientamento, se in senso antiorario o orario.
      */
 
     private final int x;
@@ -48,20 +48,9 @@ public final class Point2D {
         //--ok
         if(c.getVector().getY() == 1)
             return this.getAdjacentPoints(c,points, width);
-        //todo
-        //caso 1: accellera
+        //--ok.
         else
             return getPoints(c, points,width);
-        //caso 2: rimane stabile
-    /*    else if(c.getVector().getX() == 2)
-            return this.getAdjacentPoints(c,points,width);
-        //caso 3: frena
-        else{
-            if(c.getVector().getY() > 1)
-                return getPoints(c, points,width);
-            else
-                return this.getAdjacentPoints(c,points,width);
-        }*/
     }
     /*
     TODO: i prossimi punti a quello in cui è la macchina devono essere disegnati nella stessa direzione di dove è la macchina.
@@ -75,33 +64,30 @@ public final class Point2D {
      */
 
     private Set<Point2D> getPoints(Car<Point2D, DefaultStateCar> c, Set<Point2D> points, int width) {
-        //TODO - ok. refactoring!!
         int distanceX = Math.abs(c.getLastCheckPoint().getX() - c.getLocation().getX());
         int distanceY = Math.abs(c.getLastCheckPoint().getY() - c.getLocation().getY());
-
-        if(c.getVector().getX() == 2){
-            //se la distanza tra la y della location e la y della location prima è uguale alla velocità
-            //vuol dire che stai accellerando in verticale, altrimenti in orizzontale.
-            if(distanceY == c.getVector().getY())
-                getNextPoints(points, - 1,2, c.getVector().getY() - 1, c.getVector().getY() + 2);
-            else if(distanceX == c.getVector().getY())
-                getNextPoints(points, c.getVector().getY() - 1,c.getVector().getY() + 2, - 1,  2);
-        }
-        else if(c.getVector().getX() == 1){
-            //accellero in verticale.
-            if(distanceY == c.getVector().getY())
-                getNextPoints(points, - 2,1, c.getVector().getY() - 1, c.getVector().getY() + 2);
-            else if(distanceX == c.getVector().getY())
-                getNextPoints(points, c.getVector().getY() - 1,c.getVector().getY() + 2, - 2,  1);
-        }
-        else if(c.getVector().getX() == 3){
-            //accellero in verticale.
-            if(distanceY == c.getVector().getY())
-                getNextPoints(points,  0,3, c.getVector().getY() - 1, c.getVector().getY() + 2);
-            else if(distanceX == c.getVector().getY())
-                getNextPoints(points, c.getVector().getY() - 1,c.getVector().getY() + 2,  0,  3);
-        }
+        boolean flag = c.getLastCheckPoint().getY() <= c.getLocation().getY();
+        if(c.getVector().getX() == 2 && flag)
+            setPoints(c, points, distanceX, distanceY, -1,2);
+        else if ((c.getVector().getX() != 1 || !flag)
+                && c.getVector().getX() != 2 && (c.getVector().getX() != 1 || flag)) {
+            if(c.getVector().getX() == 3)
+                setPoints(c,points,distanceX,distanceY,0,3);
+        }else
+            setPoints(c,points,distanceX,distanceY, -2,1);
         return points;
+    }
+
+    private void setPoints(Car<Point2D, DefaultStateCar> c, Set<Point2D> points, int distanceX, int distanceY, int i, int i2) {
+        //verticale.
+        if(distanceY == c.getVector().getY() && c.getLocation().getY() <= c.getLastCheckPoint().getY())
+            getNextPoints(points, i, i2, -c.getVector().getY() - 1, -(c.getVector().getY() - 2));
+        else if(distanceX == c.getVector().getY() && c.getLocation().getX() > c.getLastCheckPoint().getX())
+            getNextPoints(points, c.getVector().getY() - 1, c.getVector().getY() + 2, i, i2);
+        //verticale.
+        else if (distanceY == c.getVector().getY())
+            getNextPoints(points, i, i2, c.getVector().getY() - 1, c.getVector().getY() + 2);
+
     }
 
     private Set<Point2D> getFirstNextPoint( Car<Point2D,DefaultStateCar> c, Set<Point2D> points, int width) {
@@ -122,7 +108,10 @@ public final class Point2D {
     }
 
     private Set<Point2D> getAdjacentPoints(Car<Point2D, DefaultStateCar> c, Set<Point2D> points, int width) {
-        getNextPoints(points,0,3,0,3);
+        if(c.getLocation().getY() - c.getLastCheckPoint().getY() < 0)
+            getNextPoints(points,-2,1,-2,1);
+        else
+            getNextPoints(points,0,3,0,3);
         removePointIsLocationCar(c, points);
         return points;
     }
@@ -146,7 +135,7 @@ public final class Point2D {
     private void getNextPoints(Set<Point2D> points, int x, int x1, int y, int y1) {
         for (int nx = x; nx < x1; nx++)
             for (int ny = y; ny < y1; ny++)
-                points.add(new Point2D(this.x + nx, this.y + ny));
+                points.add(FactoryPoint.createPoint(this.x + nx, this.y + ny));
     }
 
     /**
