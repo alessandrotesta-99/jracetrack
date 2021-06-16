@@ -7,7 +7,6 @@ public class DefaultTrack2D<L extends Point2D, S extends DefaultStateCar> implem
     private final Map<Car<Point2D, DefaultStateCar>, Point2D> track;
     private final List<Point2D> walls;
     private int width;
-    //todo trovare una soluzione migliore
     private final List<Point2D> start;
     private final List<Point2D> finish;
 
@@ -33,7 +32,6 @@ public class DefaultTrack2D<L extends Point2D, S extends DefaultStateCar> implem
     @Override
     public List<Car<Point2D, DefaultStateCar>> getCars() {
         return new ArrayList<>(this.track.keySet());
-        //todo non so se servirà.
     }
 
     @Override
@@ -43,6 +41,7 @@ public class DefaultTrack2D<L extends Point2D, S extends DefaultStateCar> implem
 
     @Override
     public Track<Point2D, DefaultStateCar> apply(Point2D l, Rule r) {
+        //todo
         this.track.replace(this.getCarAt(l), l);
         return null;
     }
@@ -64,7 +63,7 @@ public class DefaultTrack2D<L extends Point2D, S extends DefaultStateCar> implem
 
     @Override
     public Set<Point2D> getNextLocs(Car<Point2D, DefaultStateCar> c) {
-        return c.getLocation().getNextPoint(c, width);
+        return c.getLocation().getNextLocations(c, width);
     }
 
     @Override

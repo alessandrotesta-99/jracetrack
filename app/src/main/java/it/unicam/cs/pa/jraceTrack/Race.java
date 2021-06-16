@@ -9,7 +9,8 @@ import java.util.Set;
  * Parametrizzata secondo uno stato per avere piu implementazioni di stato diverse.
  * Le classi che implementeranno questa interfaccia avranno la responsabilita di fornire un implementazione
  * di una gara.
- * @param <S> stato della gara.
+ * @param <L> tipo per la locazione.
+ * @param <S> tipo per lo stato.
  */
 public interface Race<L,S> {
 	/**
@@ -22,7 +23,7 @@ public interface Race<L,S> {
 	 * Metodo che restituisce il circuito di gara.
 	 * @return il circuito di gara.
 	 */
-	Track getTrack();
+	Track<L,S> getTrack();
 
 	/**
 	 * Metodo che avvia la gara.
@@ -44,20 +45,14 @@ public interface Race<L,S> {
 	 * Metodo che restituisce lo stato di tutte le macchine in gara.
 	 * @return restituisce lo stato delle macchine in un certo momento.
 	 */
+	//todo dubbi
 	List<S> getStatus();
-
-	/**
-	 * Metodo che restituisce tutte le macchine in gara.
-	 * @return macchine in gara.
-	 */
-	Set<Car<L,S>> getCars();
 
 	/**
 	 *
 	 /**
 	 * Metodo che crea il circuito di gara.
 	 * @param width larghezza del circuito
-	 * @param length lunghezza del circuito
 	 * @param start inizio del circuito
 	 * @param finish fine del circuito
 	 * @param walls muri del circuito
@@ -65,13 +60,6 @@ public interface Race<L,S> {
 	 */
 	//TODO refactoring. non mi piace che devo passare tutti i parametri.
 	Track<L,S> createTrack(int width, List<L> start, List<L> finish, L... walls);
-
-	/**
-	 * Metodo che aggiunge una macchina al circuito.
-	 * @param c macchina da aggiungere.
-	 */
-	//TODO via probabilmente. responsabilità del circuito.
-	void addCar(Car<L,S> c);
 
 	/**
 	 * Metodo che aggiunge un giocatore alla gara.

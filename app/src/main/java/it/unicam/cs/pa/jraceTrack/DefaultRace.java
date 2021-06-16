@@ -7,13 +7,11 @@ public class DefaultRace<L extends Point2D, S extends DefaultStateCar> implement
 
     private final List<Player<Point2D, DefaultStateCar>> players;
     private Track<Point2D, DefaultStateCar> track;
-    private final Set<Car<Point2D, DefaultStateCar>> cars;
     private boolean state;
 
     public DefaultRace() {
         this.players = new ArrayList<>();
         this.track = null;
-        this.cars = new HashSet<>();
         this.start();
     }
 
@@ -54,22 +52,12 @@ public class DefaultRace<L extends Point2D, S extends DefaultStateCar> implement
 
     @Override
     public List<DefaultStateCar> getStatus() {
-        return this.cars.stream().map(Car::getStatus).collect(Collectors.toList());
-    }
-
-    @Override
-    public Set<Car<Point2D, DefaultStateCar>> getCars() {
-        return this.cars;
+        return this.getTrack().getCars().stream().map(Car::getStatus).collect(Collectors.toList());
     }
 
     @Override
     public Track<Point2D, DefaultStateCar> createTrack(int width, List<Point2D> start, List<Point2D> finish, Point2D... walls) {
         return this.track = new DefaultTrack2D<>(start,finish,walls);
-    }
-
-    @Override
-    public void addCar(Car<Point2D, DefaultStateCar> c) {
-        this.cars.add(c);
     }
 
     @Override

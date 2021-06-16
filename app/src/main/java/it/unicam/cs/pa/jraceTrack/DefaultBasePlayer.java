@@ -36,16 +36,6 @@ public abstract class DefaultBasePlayer<L extends Point2D, S extends DefaultStat
     }
 
     @Override
-    public Point2D accelerate(Rule r) {
-        return null;
-    }
-
-    @Override
-    public Point2D brake(Rule r) {
-        return null;
-    }
-
-    @Override
     public void moveUp(Point2D p) {
         this.getCar().moveUp(p);
     }

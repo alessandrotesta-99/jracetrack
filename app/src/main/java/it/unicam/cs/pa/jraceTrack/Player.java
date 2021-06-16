@@ -35,23 +35,6 @@ public interface Player<L, S> {
 	S getStatus();
 
 	/**
-	 * Metodo che permette di far avanzare la macchina guidata dal giocatore secondo determinate regole.
-	 * @param r regola da applicare per far avanzare la macchina.
-	 * @return la nuova posizione che la macchina ha.
-	 */
-	//forse meglio se restituisce un line segment. dovrebbe restituire un segmento di lunghezza tot.
-	L accelerate(Rule r);
-
-	/**
-	 * Metodo che permette di far frenare la macchina guidata dal giocatore, in un certo periodo di tempo
-	 * applicando la regola necessaria.
-	 * @param r regola da applicare per frenare la macchina.
-	 * @return la nuova posizione che la macchina ha.
-	 */
-	//forse meglio se restituisce un line segment
-	L brake(Rule r);
-
-	/**
 	 * Metodo che permette al giocatore di spostare la macchina.
 	 * @param p nuova posizione dove si trova la macchina.
 	 */

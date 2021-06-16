@@ -1,6 +1,7 @@
 package it.unicam.cs.pa.jraceTrack;
 
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,55 +104,66 @@ public class DefaultCarTest{
         //prima mossa.
         Point2D next = new Point2D(2,2);
         car1.moveUp(next);
+        assertEquals(1,car1.getVector().getX());
 
         this.printNextPoint(car1);
         Point2D next1 = new Point2D(2,4);
         car1.moveUp(next1);
+        assertEquals(1,car1.getVector().getX());
 
         this.printNextPoint(car1);
         Point2D next2 = new Point2D(2,6);
         car1.moveUp(next2);
+        assertEquals(1,car1.getVector().getX());
 
         this.printNextPoint(car1);
         Point2D next3 = new Point2D(2,9);
         car1.moveUp(next3);
         this.printNextPoint(car1);
+        assertEquals(1,car1.getVector().getX());
 
 
         Point2D next4 = new Point2D(2,11);
         car1.moveUp(next4);
         this.printNextPoint(car1);
+        assertEquals(1,car1.getVector().getX());
 
         Point2D next5 = new Point2D(2,12);
         car1.moveUp(next5);
         this.printNextPoint(car1);
+        assertEquals(1,car1.getVector().getX());
 
         Point2D next6 = new Point2D(4,14);
         car1.moveUp(next6);
         this.printNextPoint(car1);
+        assertEquals(3,car1.getVector().getX());
 
         Point2D next7 = new Point2D(7,15);
         car1.moveUp(next7);
         this.printNextPoint(car1);
+        assertEquals(2,car1.getVector().getX());
 
-        Point2D next8 = new Point2D(11,14);
+        Point2D next8 = new Point2D(9,14);
         car1.moveUp(next8);
         this.printNextPoint(car1);
+        assertEquals(1,car1.getVector().getX());
 
-        Point2D next9 = new Point2D(14,14);
+        Point2D next9 = new Point2D(12,13);
         car1.moveUp(next9);
         this.printNextPoint(car1);
+        assertEquals(2,car1.getVector().getX());
 
-        Point2D next10 = new Point2D(17,12); //vettore 1
+        Point2D next10 = new Point2D(14,13); //vettore 1
         car1.moveUp(next10);
         this.printNextPoint(car1);
+        assertEquals(2,car1.getVector().getX());
 
-        Point2D next11 = new Point2D(19,10);
+        Point2D next11 = new Point2D(17,13);
         car1.moveUp(next11);
         this.printNextPoint(car1);
 
 
-        Point2D next12 = new Point2D(17,9);
+        Point2D next12 = new Point2D(19,11);
         car1.moveUp(next12);
         this.printNextPoint(car1);
 
@@ -171,7 +183,7 @@ public class DefaultCarTest{
     }
 
     private void printNextPoint(Car<Point2D, DefaultStateCar>  car){
-        car.getLocation().getNextPoint(car,2).forEach(System.out::println);
+        car.getLocation().getNextLocations(car,2).forEach(System.out::println);
         System.out.println("\n");
     }
 
