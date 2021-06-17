@@ -1,7 +1,6 @@
 package it.unicam.cs.pa.jraceTrack;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 /**
  * Interfaccia che specifica una macchina ed ha la responsabilita primaria di tener conto delle
@@ -9,8 +8,8 @@ import java.util.function.Predicate;
  * Parametrizzata per stato e locazione, in modo da non dipendere da una singola implementazione.
  * Le classi che implementeranno questa interfaccia avranno la responsabilita di dare
  * un'implementazione per le caratteristiche di questa macchina.
- * @param <L> locazione della macchina.
- * @param <S> stato della macchina.
+ * @param <L> tipo per la locazione della macchina.
+ * @param <S> tipo per lo stato della macchina.
  */
 public interface Car<L, S> {
 
@@ -27,8 +26,8 @@ public interface Car<L, S> {
 	void moveUp(L l);
 
 	/**
-	 * Metodo che ritorna l'ultimo punto percorso dalla macchina.
-	 * @return l'ultimo punto percorso dalla macchina.
+	 * Metodo che ritorna l'ultima posizione percorsa dalla macchina.
+	 * @return l'ultima posizione percorsa dalla macchina.
 	 */
 	L getLastCheckPoint();
 

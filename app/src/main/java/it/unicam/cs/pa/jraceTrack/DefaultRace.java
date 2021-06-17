@@ -27,14 +27,6 @@ public class DefaultRace<L extends Point2D, S extends DefaultStateCar> implement
 
     @Override
     public void start() {
-        //fai partire il tempo (se voglio)
-
-        //assegna il turno a uno dei giocatori in maniera randomica.
-        Random r = new Random();
-        Player<Point2D, DefaultStateCar> p1 = players.get(r.nextInt(players.size()));
-        p1.setTurn(true);
-        //se è il turno di un giocatore far vedere a lui i prossimi punti.
-     //   p1.getCar().getLocation().getNextPoint(0);
         this.state = true;
        //TODO dubbi se lasciare qui
     }
@@ -67,12 +59,13 @@ public class DefaultRace<L extends Point2D, S extends DefaultStateCar> implement
     }
 
     @Override
-    public void getStatistics() {
-
+    public List<Rule> getListRule() {
+        return null;
     }
 
     @Override
-    public List<Rule> getListRule() {
-        return null;
+    public void setWinnerPlayer(boolean flag, Player<Point2D, DefaultStateCar> player) {
+        if(!player.isWinner())
+            player.setWinner(true);
     }
 }

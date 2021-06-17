@@ -24,7 +24,6 @@ public class DefaultTrack2D<L extends Point2D, S extends DefaultStateCar> implem
         Arrays.stream(walls).sequential().forEach(this::addWall);
         this.start = new ArrayList<>(start);
         this.finish = new ArrayList<>(finish);
-        //todo aggiungere controllo: non permettere di aggiungere in start e finish muri che non sono nel circuito.
         this.isValidStartFinish();
         this.isValidTrack();
     }
@@ -91,6 +90,7 @@ public class DefaultTrack2D<L extends Point2D, S extends DefaultStateCar> implem
      * Metodo che controlla se il punto di partenza e di arrivo sono validi.
      */
     private void isValidStartFinish() {
+        start.removeIf(p -> !this.getWalls().contains(p) && finish.removeIf(p1 -> !this.getWalls().contains(p1)));
         if(this.isCircle()){
             if(!this.isValidVertical(start) && !this.isValidHorizontal(start))
                 throw new IllegalArgumentException("ERROR: the start or finish is invalid.");

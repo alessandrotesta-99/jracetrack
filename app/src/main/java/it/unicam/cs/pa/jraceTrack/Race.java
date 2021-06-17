@@ -67,15 +67,18 @@ public interface Race<L,S> {
 	 */
 	void addPlayer(Player<L,S> p);
 
-	/**
-	 * statistiche di gara: tempo impiegato, numero di turni impiegati, numero di movimenti, ecc.
-	 */
-	void getStatistics();
 
 	/**
 	 * Metodo che restituisce la lista di regole della gara.
 	 * @return lista di regole della gara.
 	 */
 	List<Rule> getListRule();
+
+	/**
+	 * Metodo che setta il vincitore della gara.
+	 * @param flag lo stato del giocatore.
+	 * @param player giocatore vincitore.
+	 */
+	void setWinnerPlayer(boolean flag, Player<L,S> player);
 
 }

@@ -1,6 +1,7 @@
 package it.unicam.cs.pa.jraceTrack;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -34,14 +35,14 @@ public interface Track<L,S> {
 	Track<L,S> apply(L loc, Rule r);
 
 	/**
-	 * Metodo che restituisce il punto di partenza del circuito.
-	 * @return il punto di partenza.
+	 * Metodo che restituisce la linea di partenza del circuito.
+	 * @return la linea di partenza.
 	 */
 	List<L> getStart();
 
 	/**
-	 * Metodo che restituisce il punto di arrivo del circuito.
-	 * @return il punto di arrivo.
+	 * Metodo che restituisce la linea di arrivo del circuito.
+	 * @return la linea di arrivo.
 	 */
 	List<L> getFinish();
 
@@ -83,7 +84,7 @@ public interface Track<L,S> {
 
 	/**
 	 * Metodo che verifica se il circuito è circolare.
-	 * @return true se il punto di inizio coincide con il punto di arrivo.
+	 * @return true se la linea di partenza coincide con la linea di arrivo.
 	 */
 	default boolean isCircle(){
 		return this.getStart().containsAll(this.getFinish());

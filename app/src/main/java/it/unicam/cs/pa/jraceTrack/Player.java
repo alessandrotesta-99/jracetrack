@@ -62,6 +62,7 @@ public interface Player<L, S> {
 	 * Metodo che setta questo giocatore come vincitore della gara.
 	 * @param flag lo stato del giocatore.
 	 */
+	//todo dubbi.
 	void setWinner(boolean flag);
 
 	/**

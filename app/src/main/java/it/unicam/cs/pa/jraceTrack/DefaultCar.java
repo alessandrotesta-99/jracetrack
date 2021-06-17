@@ -93,7 +93,7 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
     private void setVector(int x1){
         if (getDistanceX() != 1 && getDistanceY() != 1) {
             if(getDistanceX() == 2 || getDistanceY() == 2
-                    && (this.getLocation().getX() != this.getLastCheckPoint().getX()))
+                    && this.getLocation().getX() != this.getLastCheckPoint().getX())
                 this.vector = FactoryPoint.createPoint(x1,currentVelocity);
             else
                 this.vector = FactoryPoint.createPoint(1,currentVelocity);
@@ -102,14 +102,13 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
     }
 
     private void setVector() {
-        //todo da vedere se levare un uguale sposta gli equilibri.
-        if(this.getLocation().getX() < this.getLastCheckPoint().getX()
-                || this.getLocation().getY() < this.getLastCheckPoint().getY())
+        if((this.getLocation().getX() < this.getLastCheckPoint().getX()
+                || this.getLocation().getY() < this.getLastCheckPoint().getY()))
             this.vector = FactoryPoint.createPoint(1,currentVelocity);
-        else if(this.getLocation().getX() > this.getLastCheckPoint().getX()
-                && this.getLocation().getY() != this.getLastCheckPoint().getY()
-                || this.getLocation().getY() > this.getLastCheckPoint().getY()
-                && this.getLocation().getX() != this.getLastCheckPoint().getX())
+        else if((this.getLocation().getX() > this.getLastCheckPoint().getX()
+                && this.getLocation().getY() != this.getLastCheckPoint().getY())
+                || (this.getLocation().getY() > this.getLastCheckPoint().getY()
+                && this.getLocation().getX() != this.getLastCheckPoint().getX()))
             this.vector = FactoryPoint.createPoint(3,currentVelocity);
         else
             this.vector = FactoryPoint.createPoint(this.getVector().getX(), currentVelocity);

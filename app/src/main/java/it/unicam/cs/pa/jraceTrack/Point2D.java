@@ -1,8 +1,6 @@
 package it.unicam.cs.pa.jraceTrack;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Classe che ha la responsabilit&agrave; di specificare, nel circuito 2D, un punto nel piano.
@@ -40,76 +38,77 @@ public final class Point2D {
     }
 
     public Set<Point2D> getNextLocations(Car<Point2D, DefaultStateCar> c, int width){
-        Set<Point2D> points = new HashSet<>(8);
         //--ok.
         if(c.getVector().getY() == 0)
-           return this.getFirstNextPoint(c, points, width);
+            return this.getFirstNextPoint(c, width);
         //--ok
         if(c.getVector().getY() == 1)
-            return this.getAdjacentPoints(c,points, width);
+            return this.getAdjacentPoints(c, width);
         //--ok.
         else
-            return getPoints(c, points,width);
+            return this.getPoints(c, width);
     }
 
-    private Set<Point2D> getPoints(Car<Point2D, DefaultStateCar> c, Set<Point2D> points, int width) {
+    private Set<Point2D> getPoints(Car<Point2D, DefaultStateCar> c, int width) {
         int distanceX = Math.abs(c.getLastCheckPoint().getX() - c.getLocation().getX());
         int distanceY = Math.abs(c.getLastCheckPoint().getY() - c.getLocation().getY());
         boolean flag = c.getLastCheckPoint().getY() <= c.getLocation().getY();
         if(c.getVector().getX() == 2 && flag)
-            setPoints(c, points, distanceX, distanceY, -1,2);
+            return setPoints(c,distanceX, distanceY, -1,2);
         else if ((c.getVector().getX() != 1 || !flag) && c.getVector().getX() != 2
                 && (c.getVector().getX() != 1 || flag)) {
             if(c.getVector().getX() == 3)
-                setPoints(c,points,distanceX,distanceY,0,3);
+                return setPoints(c,distanceX,distanceY,0,3);
         }else
-            setPoints(c,points,distanceX,distanceY, -2,1);
-        return points;
+            return setPoints(c,distanceX,distanceY, -2,1);
+        return null;
     }
 
-    private void setPoints(Car<Point2D, DefaultStateCar> c, Set<Point2D> points, int distanceX, int distanceY, int i, int i2) {
+    private Set<Point2D> setPoints(Car<Point2D, DefaultStateCar> c, int distanceX, int distanceY, int i, int i2) {
         //verticale.
         if (distanceY != c.getVector().getY() || c.getLocation().getY() > c.getLastCheckPoint().getY()) {
             if(distanceX == c.getVector().getY() && c.getLocation().getX() > c.getLastCheckPoint().getX())
-                getNextPoints(points, c.getVector().getY() - 1, c.getVector().getY() + 2, i, i2);
+                return getNextPoints( c.getVector().getY() - 1, c.getVector().getY() + 2, i, i2);
             else if (distanceY == c.getVector().getY())
-                getNextPoints(points, i, i2, c.getVector().getY() - 1, c.getVector().getY() + 2);
+                return getNextPoints( i, i2, c.getVector().getY() - 1, c.getVector().getY() + 2);
         } else
-            getNextPoints(points, i, i2, -c.getVector().getY() - 1, -(c.getVector().getY() - 2));
+            return getNextPoints( i, i2, -c.getVector().getY() - 1, -(c.getVector().getY() - 2));
+    return null;
     }
 
-    private Set<Point2D> getFirstNextPoint( Car<Point2D,DefaultStateCar> c, Set<Point2D> points, int width) {
+    private Set<Point2D> getFirstNextPoint( Car<Point2D,DefaultStateCar> c, int width) {
         c.getTrack().getStart().forEach(ps -> c.getTrack().getFinish().forEach(pf ->
         {
             if(ps.getX() > pf.getX())
-                getNextPoints(points, -1,0,1,2);
+                getNextPoints(-1,0,1,2);
         }));
         //todo refactoring ?
         //testato e ok ma fare altri test con altre linee di partenza e arrivo. --ok
         if(c.getLocation().getX() > c.getTrack().getStart().get(1).getX())
-           getNextPoints(points, -1,0,1,2);
+             return getNextPoints(-1,0,1,2);
         else if(c.getLocation().getX() < c.getTrack().getStart().get(1).getX() || c.getLocation().getY() < c.getTrack().getStart().get(1).getY())
-            getNextPoints(points, 1,2,0,2);
-        else if(c.getLocation().getY() > c.getTrack().getStart().get(1).getY())
-            getNextPoints(points, 1,2,-1,0);
-        return points;
+             return getNextPoints( 1,2,0,2);
+        else if(c.getLocation().getY() > c.getTrack().getStart().get(1).getY()) {
+            return getNextPoints(1,2,-1,0);
+        }
+        return null;
     }
 
-    private Set<Point2D> getAdjacentPoints(Car<Point2D, DefaultStateCar> c, Set<Point2D> points, int width) {
+
+    private Set<Point2D> getAdjacentPoints(Car<Point2D, DefaultStateCar> c, int width) {
         if(c.getLocation().getY() - c.getLastCheckPoint().getY() < 0)
-            getNextPoints(points,-2,1,-2,1);
+            return getNextPoints(-2,1,-2,1);
         else
-            getNextPoints(points,0,3,0,3);
-        removePointIsLocationCar(c, points);
-        return points;
+            return getNextPoints(0,3,0,3);
+      //todo  removePointIsLocationCar(c);
     }
 
-    private void isValidPoints(Set<Point2D> points, Track<Point2D, DefaultStateCar> t, int width) {
+    private void isValidPoints(Track<Point2D, DefaultStateCar> t, int width) {
         //se è il primo turno
 
         //elimina i punti che toccano un punto specifico del muro.
         // --ok solo se c'è un punto per ogni angolo. se un segmento ha solo due punti not ok.
-        t.getWalls().forEach(w -> points.removeIf(p -> w.getX() == p.getX() || w.getY() == p.getY()));
+      //  t.getWalls().forEach(w -> points.removeIf(p -> w.getX() == p.getX() || w.getY() == p.getY()));
 
         //   points.removeIf(p -> p.getX()<=0 && p.getX() > width || p.getY() <= 0 && p.getY() > width);
         //todo 1. eliminare i punti che escono dal circuito.
@@ -120,10 +119,12 @@ public final class Point2D {
 
     }
 
-    private void getNextPoints(Set<Point2D> points, int x, int x1, int y, int y1) {
+    private Set<Point2D> getNextPoints(int x, int x1, int y, int y1) {
+        Set<Point2D> points = new HashSet<>(8);
         for (int nx = x; nx < x1; nx++)
             for (int ny = y; ny < y1; ny++)
-                points.add(FactoryPoint.createPoint(this.x + nx, this.y + ny));
+               points.add(FactoryPoint.createPoint(this.x + nx, this.y + ny));
+            return points;
     }
 
     /**
