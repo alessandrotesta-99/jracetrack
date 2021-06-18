@@ -79,11 +79,11 @@ public class DefaultCarTest{
 
 
 
-        Point2D p1 = new Point2D(1,1);
-        Point2D p2 = new Point2D(1,5);
+        Point2D p1 = new Point2D(13,1);
+        Point2D p2 = new Point2D(13,5);
 
-        Point2D p3 = new Point2D(13,12);
-        Point2D p4 = new Point2D(13,16);
+        Point2D p3 = new Point2D(1,5);
+        Point2D p4 = new Point2D(5,5);
 
         List<Point2D> start = new ArrayList<>();
         start.add(p1);
@@ -95,7 +95,7 @@ public class DefaultCarTest{
         Track<Point2D, DefaultStateCar> tr = new DefaultTrack2D<>(start,finish,w1,w2,w3,w4,w5,w6,w7,w8);
         Car<Point2D, DefaultStateCar> car1 = new DefaultCar<>(tr, null);
         tr.addCar(car1);
-/*
+
         this.printNextPoint(car1);
         //prima mossa.
         Point2D next = new Point2D(14,2);
@@ -127,47 +127,63 @@ public class DefaultCarTest{
         Point2D next5 = new Point2D(16,13);
         car1.moveUp(next5);
         this.printNextPoint(car1);
-       // assertEquals(1,car1.getVector().getX());
+        assertEquals(2,car1.getVector().getX());
 
-        Point2D next6 = new Point2D(16,14);
+        Point2D next6 = new Point2D(15,14);
         car1.moveUp(next6);
         this.printNextPoint(car1);
-      //  assertEquals(3,car1.getVector().getX());
+        assertEquals(3,car1.getVector().getX());
 
-        Point2D next7 = new Point2D(16,15);
+        Point2D next7 = new Point2D(13,14);
         car1.moveUp(next7);
-        this.printNextPoint(car1);
-     //   assertEquals(2,car1.getVector().getX());
-
-        Point2D next8 = new Point2D(17,15);
-        car1.moveUp(next8);
         this.printNextPoint(car1);
         assertEquals(1,car1.getVector().getX());
 
-        Point2D next9 = new Point2D(12,13);
+        Point2D next8 = new Point2D(11,13);
+        car1.moveUp(next8);
+        this.printNextPoint(car1);
+        assertEquals(2,car1.getVector().getX());
+
+        Point2D next9 = new Point2D(8,13);
         car1.moveUp(next9);
         this.printNextPoint(car1);
         assertEquals(2,car1.getVector().getX());
 
-        Point2D next10 = new Point2D(14,13); //vettore 1
+        Point2D next10 = new Point2D(6,13); //vettore 1
         car1.moveUp(next10);
         this.printNextPoint(car1);
         assertEquals(2,car1.getVector().getX());
 
-        Point2D next11 = new Point2D(17,13);
+        Point2D next11 = new Point2D(4,12);
         car1.moveUp(next11);
         this.printNextPoint(car1);
+        assertEquals(3,car1.getVector().getX());
 
 
-        Point2D next12 = new Point2D(19,11);
+        Point2D next12 = new Point2D(3,11);
         car1.moveUp(next12);
         this.printNextPoint(car1);
+        assertEquals(2,car1.getVector().getX());
 
-
-        Point2D next13 = new Point2D(17,7);
+        Point2D next13 = new Point2D(2,9);
         car1.moveUp(next13);
         this.printNextPoint(car1);
+        assertEquals(2,car1.getVector().getX());
 
+        Point2D next14 = new Point2D(3,7);
+        car1.moveUp(next14);
+        this.printNextPoint(car1);
+        assertEquals(3,car1.getVector().getX());
+
+        Point2D next15 = new Point2D(2,6);
+        car1.moveUp(next15);
+        this.printNextPoint(car1);
+        assertEquals(2,car1.getVector().getX());
+
+        Point2D next16 = new Point2D(2,5);
+        car1.moveUp(next16);
+        this.printNextPoint(car1);
+        assertEquals(2,car1.getVector().getX());
 
       /*  Point2D next14 = new Point2D(17,10);
         car1.moveUp(next14);
@@ -177,68 +193,68 @@ public class DefaultCarTest{
         car1.moveUp(next6);
         this.printNextPoint(car1);*/
 
-
-        this.printNextPoint(car1);
-        //prima mossa.
-        Point2D next = new Point2D(2,2);
-        car1.moveUp(next);
-        assertEquals(1,car1.getVector().getX());
-
-        this.printNextPoint(car1);
-        Point2D next1 = new Point2D(2,4);
-        car1.moveUp(next1);
-        assertEquals(1,car1.getVector().getX());
-
-        this.printNextPoint(car1);
-        Point2D next2 = new Point2D(2,6);
-        car1.moveUp(next2);
-        assertEquals(1,car1.getVector().getX());
-
-        this.printNextPoint(car1);
-        Point2D next3 = new Point2D(2,9);
-        car1.moveUp(next3);
-        this.printNextPoint(car1);
-        assertEquals(1,car1.getVector().getX());
-
-
-        Point2D next4 = new Point2D(2,11);
-        car1.moveUp(next4);
-        this.printNextPoint(car1);
-        assertEquals(1,car1.getVector().getX());
-
-        Point2D next5 = new Point2D(2,12);
-        car1.moveUp(next5);
-        this.printNextPoint(car1);
-        assertEquals(1,car1.getVector().getX());
-
-        Point2D next6 = new Point2D(4,14);
-        car1.moveUp(next6);
-        this.printNextPoint(car1);
-        assertEquals(3,car1.getVector().getX());
-
-        Point2D next7 = new Point2D(7,15);
-        car1.moveUp(next7);
-        this.printNextPoint(car1);
-        assertEquals(2,car1.getVector().getX());
-
-        Point2D next8 = new Point2D(9,14);
-        car1.moveUp(next8);
-        this.printNextPoint(car1);
-        assertEquals(1,car1.getVector().getX());
-
-        Point2D next9 = new Point2D(12,13);
-        car1.moveUp(next9);
-        this.printNextPoint(car1);
-        assertEquals(2,car1.getVector().getX());
-
-        Point2D next10 = new Point2D(14,13); //vettore 1
-        car1.moveUp(next10);
-        this.printNextPoint(car1);
-        assertEquals(2,car1.getVector().getX());
-
-        Point2D next11 = new Point2D(17,13);
-        car1.moveUp(next11);
-        this.printNextPoint(car1);
+//
+//        this.printNextPoint(car1);
+//        //prima mossa.
+//        Point2D next = new Point2D(2,2);
+//        car1.moveUp(next);
+//        assertEquals(1,car1.getVector().getX());
+//
+//        this.printNextPoint(car1);
+//        Point2D next1 = new Point2D(2,4);
+//        car1.moveUp(next1);
+//        assertEquals(1,car1.getVector().getX());
+//
+//        this.printNextPoint(car1);
+//        Point2D next2 = new Point2D(2,6);
+//        car1.moveUp(next2);
+//        assertEquals(1,car1.getVector().getX());
+//
+//        this.printNextPoint(car1);
+//        Point2D next3 = new Point2D(2,9);
+//        car1.moveUp(next3);
+//        this.printNextPoint(car1);
+//        assertEquals(1,car1.getVector().getX());
+//
+//
+//        Point2D next4 = new Point2D(2,11);
+//        car1.moveUp(next4);
+//        this.printNextPoint(car1);
+//        assertEquals(1,car1.getVector().getX());
+//
+//        Point2D next5 = new Point2D(2,12);
+//        car1.moveUp(next5);
+//        this.printNextPoint(car1);
+//        assertEquals(1,car1.getVector().getX());
+//
+//        Point2D next6 = new Point2D(4,14);
+//        car1.moveUp(next6);
+//        this.printNextPoint(car1);
+//        assertEquals(3,car1.getVector().getX());
+//
+//        Point2D next7 = new Point2D(7,15);
+//        car1.moveUp(next7);
+//        this.printNextPoint(car1);
+//        assertEquals(2,car1.getVector().getX());
+//
+//        Point2D next8 = new Point2D(9,14);
+//        car1.moveUp(next8);
+//        this.printNextPoint(car1);
+//        assertEquals(1,car1.getVector().getX());
+//
+//        Point2D next9 = new Point2D(12,13);
+//        car1.moveUp(next9);
+//        this.printNextPoint(car1);
+//        assertEquals(2,car1.getVector().getX());
+//
+//        Point2D next10 = new Point2D(14,13); //vettore 1
+//        car1.moveUp(next10);
+//        this.printNextPoint(car1);
+//        assertEquals(2,car1.getVector().getX());
+//
+//        Point2D next11 = new Point2D(17,13);
+//        car1.moveUp(next11);
+//        this.printNextPoint(car1);
 
 
 

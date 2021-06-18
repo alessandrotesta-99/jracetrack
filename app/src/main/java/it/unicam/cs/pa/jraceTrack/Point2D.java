@@ -13,12 +13,7 @@ public final class Point2D {
 
     /*todo:
         problemi:
-        1. dopo il primo turno non vengono mostrati i corretti punti.
-        3. eliminare i punti che non sono nel circuito.
-        4. cambiare le liste con una vista, in modo da non dover creare una lista.
-        ok:
-        1. al primo turno vengono mostrati i punti giusti ma gestire l'orientamento e i muri.
-        2. gestire l'orientamento, se in senso antiorario o orario.
+        3. eliminare i punti che non sono nel circuito..
      */
 
     private final int x;
@@ -38,57 +33,46 @@ public final class Point2D {
     }
 
     public Set<Point2D> getNextLocations(Car<Point2D, DefaultStateCar> c, int width){
-        //--ok.
-        if(c.getVector().getY() == 0)
-            return this.getFirstNextPoint(c, width);
-        //--ok
-        if(c.getVector().getY() == 1)
-            return this.getAdjacentPoints(c, width);
-        //--ok.
-        else
-            return this.getPoints(c, width);
+        return c.getVector().getY() == 0 ? this.getFirstNextPoint(c, width) : c.getVector().getY() == 1 ? this.getAdjacentPoints(c, width) : this.getPoints(c, width);
     }
 
     private Set<Point2D> getPoints(Car<Point2D, DefaultStateCar> c, int width) {
         int distanceX = Math.abs(c.getLastCheckPoint().getX() - c.getLocation().getX());
         int distanceY = Math.abs(c.getLastCheckPoint().getY() - c.getLocation().getY());
-        boolean flag = c.getLastCheckPoint().getY() <= c.getLocation().getY();
-        if(c.getVector().getX() == 2 && flag)
-            return setPoints(c,distanceX, distanceY, -1,2);
-        else if ((c.getVector().getX() != 1 || !flag) && c.getVector().getX() != 2
-                && (c.getVector().getX() != 1 || flag)) {
-            if(c.getVector().getX() == 3)
-                return setPoints(c,distanceX,distanceY,0,3);
-        }else
-            return setPoints(c,distanceX,distanceY, -2,1);
-        return null;
+        boolean flag = c.getLastCheckPoint().getY() < c.getLocation().getY();
+        return c.getVector().getX() == 2 && (flag || c.getLocation().getX() < c.getLastCheckPoint().getX()) ? setPoints(c, distanceX, distanceY, -1, 2) : (c.getVector().getX() == 1 && flag) || c.getVector().getX() == 2
+                || (c.getVector().getX() == 1 && !flag) ? setPoints(c, distanceX, distanceY, -2, 1)
+                : (c.getVector().getX() == 3 && flag) ? setPoints(c, distanceX, distanceY, 0, 3)
+                : (c.getVector().getX() == 3 && !flag) ? setPoints(c, distanceX, distanceY, -2, 1):null;
     }
 
     private Set<Point2D> setPoints(Car<Point2D, DefaultStateCar> c, int distanceX, int distanceY, int i, int i2) {
         //verticale.
+        //todo se riesco aggiungere opzione quando la x è negativa. in teoria ok.
         if (distanceY != c.getVector().getY() || c.getLocation().getY() > c.getLastCheckPoint().getY()) {
             if(distanceX == c.getVector().getY() && c.getLocation().getX() > c.getLastCheckPoint().getX())
                 return getNextPoints( c.getVector().getY() - 1, c.getVector().getY() + 2, i, i2);
             else if (distanceY == c.getVector().getY())
                 return getNextPoints( i, i2, c.getVector().getY() - 1, c.getVector().getY() + 2);
+            else
+                return getNextPoints( -c.getVector().getY() - 1, -(c.getVector().getY() - 2), i, i2);
         } else
             return getNextPoints( i, i2, -c.getVector().getY() - 1, -(c.getVector().getY() - 2));
-    return null;
     }
 
     private Set<Point2D> getFirstNextPoint( Car<Point2D,DefaultStateCar> c, int width) {
+        //todo refactoring
         c.getTrack().getStart().forEach(ps -> c.getTrack().getFinish().forEach(pf ->
         {
             if(ps.getX() > pf.getX())
                 getNextPoints(-1,0,1,2);
         }));
-        //todo refactoring ?
         //testato e ok ma fare altri test con altre linee di partenza e arrivo. --ok
         if(c.getLocation().getX() > c.getTrack().getStart().get(1).getX())
              return getNextPoints(-1,0,1,2);
-        else if(c.getLocation().getX() < c.getTrack().getStart().get(1).getX() || c.getLocation().getY() < c.getTrack().getStart().get(1).getY())
+        if(c.getLocation().getX() < c.getTrack().getStart().get(1).getX() || c.getLocation().getY() < c.getTrack().getStart().get(1).getY())
              return getNextPoints( 1,2,0,2);
-        else if(c.getLocation().getY() > c.getTrack().getStart().get(1).getY()) {
+        if(c.getLocation().getY() > c.getTrack().getStart().get(1).getY()) {
             return getNextPoints(1,2,-1,0);
         }
         return null;
@@ -98,25 +82,11 @@ public final class Point2D {
     private Set<Point2D> getAdjacentPoints(Car<Point2D, DefaultStateCar> c, int width) {
         if(c.getLocation().getY() - c.getLastCheckPoint().getY() < 0)
             return getNextPoints(-2,1,-2,1);
+        else if(c.getLocation().getX() - c.getLastCheckPoint().getX() < 0)
+            return getNextPoints(-2,1,0,3);
         else
             return getNextPoints(0,3,0,3);
       //todo  removePointIsLocationCar(c);
-    }
-
-    private void isValidPoints(Track<Point2D, DefaultStateCar> t, int width) {
-        //se è il primo turno
-
-        //elimina i punti che toccano un punto specifico del muro.
-        // --ok solo se c'è un punto per ogni angolo. se un segmento ha solo due punti not ok.
-      //  t.getWalls().forEach(w -> points.removeIf(p -> w.getX() == p.getX() || w.getY() == p.getY()));
-
-        //   points.removeIf(p -> p.getX()<=0 && p.getX() > width || p.getY() <= 0 && p.getY() > width);
-        //todo 1. eliminare i punti che escono dal circuito.
-
-
-
-        //todo 2. eliminare i punti che sono in linea con il muro.
-
     }
 
     private Set<Point2D> getNextPoints(int x, int x1, int y, int y1) {
