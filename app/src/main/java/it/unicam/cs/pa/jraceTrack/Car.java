@@ -9,21 +9,20 @@ import java.util.List;
  * Le classi che implementeranno questa interfaccia avranno la responsabilita di dare
  * un'implementazione per le caratteristiche di questa macchina.
  * @param <L> tipo per la locazione della macchina.
- * @param <S> tipo per lo stato della macchina.
  */
-public interface Car<L, S> {
+public interface Car<L extends Location<? extends L>> {
 
 	/**
 	 * Metodo che restituisce il tracciato in cui gareggia la macchina.
 	 * @return restituisce il tracciato in cui gareggia la macchina.
 	 */
-	Track<L,S> getTrack();
+	Track<L> getTrack();
 
 	/**
 	 * Metodo che permette di muovere la macchina.
-	 * @param l destinazione della macchina.
+	 * @param loc destinazione della macchina.
 	 */
-	void moveUp(L l);
+	void moveUp(L loc);
 
 	/**
 	 * Metodo che ritorna l'ultima posizione percorsa dalla macchina.
@@ -39,9 +38,9 @@ public interface Car<L, S> {
 
 	/**
 	 * Metodo che setta la posizione della macchina.
-	 * @param l nuovo punto
+	 * @param loc nuovo punto
 	 */
-	void setLocation(L l);
+	void setLocation(L loc);
 
 	/**
 	 * Metodo che restituisce il vettore che indica
@@ -60,12 +59,12 @@ public interface Car<L, S> {
 	 * Metodo che ritorna lo stato di una macchina in un certo momento.
 	 * @return stato della macchina.
 	 */
-	S getStatus();
+	DefaultStateCar getStatus();
 
 	/**
 	 * Metodo che setta lo stato della macchina.
 	 */
-	void setStatus(S status);
+	void isCrashed();
 
 	/**
 	 * Metodo che restituisce il colore della macchina.

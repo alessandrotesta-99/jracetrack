@@ -1,14 +1,18 @@
 package it.unicam.cs.pa.jraceTrack;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
-public class DefaultTrack2D<L extends Point2D, S extends DefaultStateCar> implements Track<Point2D, DefaultStateCar> {
+public class DefaultTrack2D<L extends Location<? extends L>> implements Track<TrackLocation2D> {
 
-    private final Map<Car<Point2D, DefaultStateCar>, Point2D> track;
-    private final List<Point2D> walls;
+    //todo se la macchina è uscita fuori dal circuito, game over e settare lo stato della macchina e del circuito.
+
+    private final Map<Car<TrackLocation2D>, TrackLocation2D> mapTrack;
+    private final List<TrackLocation2D> walls;
+    private final List<TrackLocation2D> start;
+    private final List<TrackLocation2D> finish;
     private int width;
-    private final List<Point2D> start;
-    private final List<Point2D> finish;
+    private final DefaultTrackStatus status;
 
     /**
      * Costruttore che crea un circuito con punti per indicare la linea di partenza, di arrivo e i muri.
@@ -16,74 +20,85 @@ public class DefaultTrack2D<L extends Point2D, S extends DefaultStateCar> implem
      * @param finish punti che indicano la linea di arrivo.
      * @param walls punti che indicano i muri del circuito.
      */
-    public DefaultTrack2D(List<Point2D> start, List<Point2D> finish,
-                          Point2D... walls) {
-        this.walls = new LinkedList<>();
-        this.track = new HashMap<>();
-        Arrays.stream(walls).sequential().forEach(w -> new Point2D(w.getX(), w.getY()));
-        Arrays.stream(walls).sequential().forEach(this::addWall);
+    public DefaultTrack2D(List<TrackLocation2D> start, List<TrackLocation2D> finish,
+                          TrackLocation2D... walls) {
+        this.mapTrack = new HashMap<>();
         this.start = new ArrayList<>(start);
-        this.finish = new ArrayList<>(finish);
+        this.walls = new ArrayList<>();
+        this.finish = finish;
+        Arrays.stream(walls).sequential().forEach(w -> new TrackLocation2D(w.getX(), w.getY()));
+        Arrays.stream(walls).sequential().forEach(this::addWall);
+        this.status = DefaultTrackStatus.PLAYING;
         this.isValidStartFinish();
         this.isValidTrack();
     }
 
     @Override
-    public List<Car<Point2D, DefaultStateCar>> getCars() {
-        return new ArrayList<>(this.track.keySet());
+    public List<Car<TrackLocation2D>> getCars(){
+        return new ArrayList<>(mapTrack.keySet());
+    }
+
+    public Car<TrackLocation2D> getCarAt(TrackLocation2D location){
+        return this.mapTrack.keySet()
+                .stream()
+                .filter(p -> p.getLocation().equals(location))
+                .findFirst()
+                .orElse(null);
     }
 
     @Override
-    public Car<Point2D, DefaultStateCar> getCarAt(Point2D location) {
-        return this.track.keySet().stream().filter(p -> p.getLocation().equals(location)).findFirst().orElse(null);
+    public List<TrackLocation2D> getStart() {
+        return start;
     }
 
     @Override
-    public Track<Point2D, DefaultStateCar> apply(Point2D l, Rule r) {
-        //todo
-        this.track.replace(this.getCarAt(l), l);
-        return null;
+    public List<TrackLocation2D> getFinish() {
+        return finish;
+    }
+
+    public void addCar(Car<TrackLocation2D> c){
+        //todo da fare meglio
+        this.mapTrack.putIfAbsent(c, c.getLocation());
     }
 
     @Override
-    public List<Point2D> getStart() {
-        return this.start;
+    public Set<TrackLocation2D> getNextLocs(Car<TrackLocation2D> c) {
+        return c.getLocation().getNextLocations(c); //todo
     }
 
     @Override
-    public List<Point2D> getFinish() {
-        return this.finish;
-    }
-
-    @Override
-    public void addCar(Car<Point2D, DefaultStateCar> c) {
-        this.track.putIfAbsent(c, c.getLocation());
-    }
-
-    @Override
-    public Set<Point2D> getNextLocs(Car<Point2D, DefaultStateCar> c) {
-        return c.getLocation().getNextLocations(c, width);
-    }
-
-    @Override
-    public List<Point2D> getWalls() {
+    public List<TrackLocation2D> getWalls() {
         return walls;
     }
 
     @Override
-    public void addWall(Point2D position) {
-        this.walls.add(position);
+    public void addWall(TrackLocation2D position) {
+        walls.add(position);
     }
 
     @Override
-    public DefaultStateCar getStatus(Car<Point2D, DefaultStateCar> c) {
-        return c.getStatus();
+    public DefaultStateCar getStatusAt(TrackLocation2D loc){
+        return this.mapTrack.keySet()
+                .stream()
+                .filter(c -> c.getLocation().equals(loc))
+                .map(Car::getStatus)
+                .findFirst()
+                .orElse(null);
+    }
+
+    @Override
+    public List<DefaultStateCar> getStatusCars() {
+        return this.getCars().stream().map(Car::getStatus).collect(Collectors.toList());
     }
 
     @Override
     public void isValidTrack() {
         if (this.width < 2)
             throw new IllegalArgumentException("ERROR: The width is invalid.");
+    }
+
+    @Override
+    public void getStatus() {
     }
 
     /**
@@ -108,7 +123,7 @@ public class DefaultTrack2D<L extends Point2D, S extends DefaultStateCar> implem
      * Metodo che restituisce true se la linea di partenza o di arrivo è orizzontale e setta la larghezza.
      * @return true se la linea di partenza o arrivo è orizzontale, false altrimenti.
      */
-    private boolean isValidHorizontal(List<Point2D> list) {
+    private boolean isValidHorizontal(List<TrackLocation2D> list) {
         int temp = this.width;
         if (list.get(0).getY() == list.get(1).getY()) {
             this.width = Math.abs(list.get(1).getX() - list.get(0).getX());
@@ -123,7 +138,7 @@ public class DefaultTrack2D<L extends Point2D, S extends DefaultStateCar> implem
      * Metodo che restituisce true se la linea di partenza o di arrivo è verticale e setta la larghezza.
      * @return true se la linea di partenza o di arrivo è verticale, false altrimenti.
      */
-    private boolean isValidVertical(List<Point2D> list) {
+    private boolean isValidVertical(List<TrackLocation2D> list) {
         int temp = this.width;
         if (list.get(0).getX() == list.get(1).getX()){
             this.width = Math.abs(list.get(1).getY() - list.get(0).getY());

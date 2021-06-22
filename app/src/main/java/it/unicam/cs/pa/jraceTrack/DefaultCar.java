@@ -7,38 +7,34 @@ import java.util.*;
  * @param <L> locazione della macchina.
  * @param <S> stato della macchina.
  */
-public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements Car<Point2D, DefaultStateCar>{
+public class DefaultCar<L extends TrackLocation2D, S extends DefaultStateCar> implements Car<TrackLocation2D>{
 
-    private final Track<Point2D, DefaultStateCar> track;
-    private Point2D location;
+    private final Track<TrackLocation2D> track;
+    private TrackLocation2D location;
     private final Color color;
     private DefaultStateCar status;
-    //vettore composto da due numeri, uno che indica lo spostamento destra-sinistra e uno lo spostamento alto-basso.
-    private Point2D vector;
-    //velocita della macchina (lunghezza del segmento).
+    private TrackLocation2D vector;
     private int currentVelocity;
-    //percorso totale della macchina.
-    private final List<Point2D> path;
+    private final List<TrackLocation2D> path;
 
-    public DefaultCar(Track<Point2D, DefaultStateCar> track, Color color) {
+    public DefaultCar(Track<TrackLocation2D> track, Color color) {
         this.track = track;
         this.color = color;
         this.location = track.getStart().get(0);
         this.status = DefaultStateCar.IN_RACE;
         this.path = new LinkedList<>();
-        this.vector = FactoryPoint.createPoint(0, currentVelocity);
+        this.vector = FactoryLocation.createPoint(0, currentVelocity);
         this.currentVelocity = 0;
         this.path.add(this.location);
     }
 
-
     @Override
-    public Track<Point2D, DefaultStateCar> getTrack() {
+    public Track<TrackLocation2D> getTrack() {
         return this.track;
     }
 
     @Override
-    public void moveUp(Point2D nextDestination) {
+    public void moveUp(TrackLocation2D nextDestination) {
         Objects.requireNonNull(nextDestination);
         int velocityBeforeMovement = 0;
         if(this.vector.getY() != 0)
@@ -52,7 +48,7 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
         checkMove(velocityBeforeMovement);
         //controlla se la macchina è nel circuito.
         if(this.hitsWall())
-            this.setStatus(DefaultStateCar.CRASHED);
+            this.isCrashed();
     }
 
     public int getDistanceY() {
@@ -65,7 +61,7 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
 
     private void checkMove(int velocityBeforeMovement) {
         if(velocityBeforeMovement == 0 || this.path.size() == 2)
-            this.vector = new Point2D(1, currentVelocity);
+            this.vector = new TrackLocation2D(1, currentVelocity);
         else
             this.move();
      }
@@ -80,61 +76,44 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
         if(vector.getX() == 1){
             //se dal vettore 1 mi sposto in verticale nello stesso vettore deve rimanere quel vettore.
             if((getDistanceX() == 0 || getDistanceY() == 0) && this.getLocation().getY() >= this.getLastCheckPoint().getY() || getDistanceX() == 0 && this.getLocation().getY() < this.getLastCheckPoint().getY())
-                this.vector = FactoryPoint.createPoint(1,currentVelocity);
+                this.vector = FactoryLocation.createPoint(1,currentVelocity);
             else if(getDistanceX() == 1 || getDistanceY() == 1)
-                this.vector = FactoryPoint.createPoint(2,currentVelocity);
+                this.vector = FactoryLocation.createPoint(2,currentVelocity);
             else if(getDistanceX() == -1 || getDistanceY() == -1)
-                this.vector = FactoryPoint.createPoint(2,currentVelocity);
+                this.vector = FactoryLocation.createPoint(2,currentVelocity);
             else if(getDistanceX() == 2 || getDistanceY() == 2)
-                this.vector = FactoryPoint.createPoint(3,currentVelocity);
+                this.vector = FactoryLocation.createPoint(3,currentVelocity);
             else if(getDistanceX() == -2 || getDistanceY() == -2)
-                this.vector = FactoryPoint.createPoint(3,currentVelocity);
+                this.vector = FactoryLocation.createPoint(3,currentVelocity);
         }
         else if(vector.getX() == 2){
             if((getDistanceX() == 0 || getDistanceY() == 0) && this.getLocation().getY() > this.getLastCheckPoint().getY())
-                this.vector = FactoryPoint.createPoint(2,currentVelocity);
+                this.vector = FactoryLocation.createPoint(2,currentVelocity);
             else if(getDistanceX() == 0 && this.getLocation().getY() < this.getLastCheckPoint().getY())
-                this.vector = FactoryPoint.createPoint(3, currentVelocity);
+                this.vector = FactoryLocation.createPoint(3, currentVelocity);
             else if(getDistanceX() == 1 || getDistanceY() == 1 || getDistanceY() == -1)
-                this.vector = FactoryPoint.createPoint(3,currentVelocity);
+                this.vector = FactoryLocation.createPoint(3,currentVelocity);
             else if(getDistanceX() == -1 )
-                this.vector = FactoryPoint.createPoint(2,currentVelocity);
+                this.vector = FactoryLocation.createPoint(2,currentVelocity);
         }
         else if(vector.getX() == 3){
             if((getDistanceX() == 0 || getDistanceY() == 0) && this.getLocation().getY() > this.getLastCheckPoint().getY())
-                this.vector = FactoryPoint.createPoint(3,currentVelocity);
+                this.vector = FactoryLocation.createPoint(3,currentVelocity);
             else if(getDistanceX() == 0 && this.getLocation().getY() < this.getLastCheckPoint().getY())
-                this.vector = FactoryPoint.createPoint(1, currentVelocity);
+                this.vector = FactoryLocation.createPoint(1, currentVelocity);
             else if(getDistanceX() == 1 || getDistanceY() == 1)
-                this.vector = FactoryPoint.createPoint(1,currentVelocity);
+                this.vector = FactoryLocation.createPoint(1,currentVelocity);
             else if(getDistanceX() == -1 || getDistanceY() == -1)
-                this.vector = FactoryPoint.createPoint(2,currentVelocity);
+                this.vector = FactoryLocation.createPoint(2,currentVelocity);
             else if(getDistanceX() == 2 || getDistanceY() == 2)
-                this.vector = FactoryPoint.createPoint(2,currentVelocity);
+                this.vector = FactoryLocation.createPoint(2,currentVelocity);
             else if(getDistanceX() == -2 || getDistanceY() == -2)
-                this.vector = FactoryPoint.createPoint(1, currentVelocity);
+                this.vector = FactoryLocation.createPoint(1, currentVelocity);
         }
     }
 
-
-    private void setVector() {
-  /*      if((this.getLocation().getX() < this.getLastCheckPoint().getX()
-                || this.getLocation().getY() < this.getLastCheckPoint().getY()) && vector.getX() == 2)
-            this.vector = FactoryPoint.createPoint(1,currentVelocity);
-        else if((this.getLocation().getX() < this.getLastCheckPoint().getX() &&
-        this.getLocation().getY() > this.getLastCheckPoint().getY()) && vector.getX() == 1)
-            this.vector = FactoryPoint.createPoint(2,currentVelocity);
-        else if((this.getLocation().getX() > this.getLastCheckPoint().getX()
-                && this.getLocation().getY() != this.getLastCheckPoint().getY())
-                || (this.getLocation().getY() > this.getLastCheckPoint().getY()
-                && this.getLocation().getX() != this.getLastCheckPoint().getX()))
-            this.vector = FactoryPoint.createPoint(3,currentVelocity);
-        else
-            this.vector = FactoryPoint.createPoint(this.getVector().getX(), currentVelocity);*/
-    }
-
     @Override
-    public Point2D getLastCheckPoint() {
+    public TrackLocation2D getLastCheckPoint() {
         if(path.size() == 1)
             return path.get(0);
         else
@@ -142,22 +121,22 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
     }
 
     @Override
-    public Point2D getLocation() {
+    public TrackLocation2D getLocation() {
         return this.location;
     }
 
     @Override
-    public void setLocation(Point2D l) {
+    public void setLocation(TrackLocation2D l) {
         this.location = l;
     }
 
     @Override
-    public Point2D getVector() {
+    public TrackLocation2D getVector() {
         return vector;
     }
 
     @Override
-    public List<Point2D> getPath() {
+    public List<TrackLocation2D> getPath() {
         return this.path;
     }
 
@@ -167,8 +146,8 @@ public class DefaultCar<L extends Point2D, S extends DefaultStateCar> implements
     }
 
     @Override
-    public void setStatus(DefaultStateCar status) {
-        this.status = status;
+    public void isCrashed() {
+        this.status = DefaultStateCar.CRASHED;
     }
 
     @Override

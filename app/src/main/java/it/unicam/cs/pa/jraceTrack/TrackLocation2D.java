@@ -3,13 +3,14 @@ package it.unicam.cs.pa.jraceTrack;
 import java.util.*;
 
 /**
- * Classe che ha la responsabilit&agrave; di specificare, nel circuito 2D, un punto nel piano.
- * Un oggetto Point2D pu&ograve; indicare: i bordi del circuito, i punti che rappresentano il punto di
+ * Classe che ha la responsabilit&agrave; di specificare, nel circuito 2D, una locazione nel piano
+ * composta da due coordinate.
+ * Un oggetto {@link TrackLocation2D} pu&ograve; indicare: i bordi del circuito, i punti che rappresentano il punto di
  * partenza e il punto di arrivo, e tutto il cammino percorso dalla macchina in gara.
  * Questa classe non pu&ograve; essere estesa da altre classi. Nel caso si volesse implementare un diverso modo
- * di locazione, creare una nuova classe.
+ * di locazione, creare una nuova classe che implementi L'interfaccia per la locazione.
  */
-public final class Point2D {
+public final class TrackLocation2D implements Location<TrackLocation2D> {
 
     /*todo:
         problemi:
@@ -19,7 +20,7 @@ public final class Point2D {
     private final int x;
     private final int y;
 
-    public Point2D(int x, int y) {
+    public TrackLocation2D(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -32,11 +33,14 @@ public final class Point2D {
         return y;
     }
 
-    public Set<Point2D> getNextLocations(Car<Point2D, DefaultStateCar> c, int width){
-        return c.getVector().getY() == 0 ? this.getFirstNextPoint(c, width) : c.getVector().getY() == 1 ? this.getAdjacentPoints(c, width) : this.getPoints(c, width);
+    @Override
+    public Set<TrackLocation2D> getNextLocations(Car<TrackLocation2D> c){
+        return c.getVector().getY() == 0 ? this.getFirstNextPoint(c)
+                : c.getVector().getY() == 1 ? this.getAdjacentPoints(c)
+                : this.getPoints(c);
     }
 
-    private Set<Point2D> getPoints(Car<Point2D, DefaultStateCar> c, int width) {
+    private Set<TrackLocation2D> getPoints(Car<TrackLocation2D> c) {
         int distanceX = Math.abs(c.getLastCheckPoint().getX() - c.getLocation().getX());
         int distanceY = Math.abs(c.getLastCheckPoint().getY() - c.getLocation().getY());
         boolean flag = c.getLastCheckPoint().getY() < c.getLocation().getY();
@@ -46,7 +50,7 @@ public final class Point2D {
                 : (c.getVector().getX() == 3 && !flag) ? setPoints(c, distanceX, distanceY, -2, 1):null;
     }
 
-    private Set<Point2D> setPoints(Car<Point2D, DefaultStateCar> c, int distanceX, int distanceY, int i, int i2) {
+    private Set<TrackLocation2D> setPoints(Car<TrackLocation2D> c, int distanceX, int distanceY, int i, int i2) {
         //verticale.
         //todo se riesco aggiungere opzione quando la x è negativa. in teoria ok.
         if (distanceY != c.getVector().getY() || c.getLocation().getY() > c.getLastCheckPoint().getY()) {
@@ -60,7 +64,7 @@ public final class Point2D {
             return getNextPoints( i, i2, -c.getVector().getY() - 1, -(c.getVector().getY() - 2));
     }
 
-    private Set<Point2D> getFirstNextPoint( Car<Point2D,DefaultStateCar> c, int width) {
+    private Set<TrackLocation2D> getFirstNextPoint(Car<TrackLocation2D> c) {
         //todo refactoring
         c.getTrack().getStart().forEach(ps -> c.getTrack().getFinish().forEach(pf ->
         {
@@ -78,22 +82,21 @@ public final class Point2D {
         return null;
     }
 
-
-    private Set<Point2D> getAdjacentPoints(Car<Point2D, DefaultStateCar> c, int width) {
+    private Set<TrackLocation2D> getAdjacentPoints(Car<TrackLocation2D> c) {
         if(c.getLocation().getY() - c.getLastCheckPoint().getY() < 0)
             return getNextPoints(-2,1,-2,1);
         else if(c.getLocation().getX() - c.getLastCheckPoint().getX() < 0)
             return getNextPoints(-2,1,0,3);
         else
             return getNextPoints(0,3,0,3);
-      //todo  removePointIsLocationCar(c);
+
     }
 
-    private Set<Point2D> getNextPoints(int x, int x1, int y, int y1) {
-        Set<Point2D> points = new HashSet<>(8);
+    private Set<TrackLocation2D> getNextPoints(int x, int x1, int y, int y1) {
+        Set<TrackLocation2D> points = new HashSet<>(8);
         for (int nx = x; nx < x1; nx++)
             for (int ny = y; ny < y1; ny++)
-               points.add(FactoryPoint.createPoint(this.x + nx, this.y + ny));
+               points.add(FactoryLocation.createPoint(this.x + nx, this.y + ny));
             return points;
     }
 
@@ -102,7 +105,7 @@ public final class Point2D {
      * @param c la macchina.
      * @param points i prossimi punti.
      */
-    private void removePointIsLocationCar(Car<Point2D, DefaultStateCar> c, Set<Point2D> points) {
+    private void removePointIsLocationCar(Car<TrackLocation2D> c, Set<TrackLocation2D> points) {
         points.stream().filter(p -> p.equals(c.getLocation())).findFirst().map(points::remove);
     }
 
@@ -110,7 +113,7 @@ public final class Point2D {
     public boolean equals(Object o) {
         if(this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Point2D point = (Point2D) o;
+        TrackLocation2D point = (TrackLocation2D) o;
         return x == point.x && y == point.y;
     }
 

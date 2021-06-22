@@ -1,7 +1,6 @@
 package it.unicam.cs.pa.jraceTrack;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Interfaccia che si occupa di specificare una gara. La responsabilita &egrave; quella di gestire tutte le
@@ -10,20 +9,20 @@ import java.util.Set;
  * Le classi che implementeranno questa interfaccia avranno la responsabilita di fornire un implementazione
  * di una gara.
  * @param <L> tipo per la locazione.
- * @param <S> tipo per lo stato.
  */
-public interface Race<L,S> {
+public interface Race<L extends Location<? extends L>> {
+
 	/**
 	 * Metodo che restituisce tutti i giocatori che sono in gara.
 	 * @return giocatori che sono in gara.
 	 */
-	List<Player<L, S>> getPlayers();
+	List<Player<L>> getPlayers();
 
 	/**
 	 * Metodo che restituisce il circuito di gara.
 	 * @return il circuito di gara.
 	 */
-	Track<L,S> getTrack();
+	Track<L> getTrack();
 
 	/**
 	 * Metodo che avvia la gara.
@@ -42,13 +41,6 @@ public interface Race<L,S> {
 	boolean isStart();
 
 	/**
-	 * Metodo che restituisce lo stato di tutte le macchine in gara.
-	 * @return restituisce lo stato delle macchine in un certo momento.
-	 */
-	//todo dubbi
-	List<S> getStatus();
-
-	/**
 	 *
 	 /**
 	 * Metodo che crea il circuito di gara.
@@ -59,14 +51,32 @@ public interface Race<L,S> {
 	 * @return il circuito creato.
 	 */
 	//TODO refactoring. non mi piace che devo passare tutti i parametri.
-	Track<L,S> createTrack(int width, List<L> start, List<L> finish, L... walls);
+	Track<L> createTrack(int width, List<L> start, List<L> finish, L... walls);
 
 	/**
 	 * Metodo che aggiunge un giocatore alla gara.
 	 * @param p giocatore da aggiungere.
 	 */
-	void addPlayer(Player<L,S> p);
+	void addPlayer(Player<L> p);
 
+	/**
+	 * Metodo che rimuove un giocatore alla gara.
+	 * @param p giocatore da rimuovere.
+	 */
+	void removePlayer(Player<L> p);
+
+	/**
+	 * Metodo che aggiunge una macchina alla gara.
+	 * @param t
+	 * @param c macchina da aggiungere.
+	 */
+	void addCar(Track<L> t, Car<L> c);
+
+	/**
+	 * Metodo che rimuove una macchina alla gara.
+	 * @param c macchina da rimuovere.
+	 */
+	void removeCar(Car<L> c);
 
 	/**
 	 * Metodo che restituisce la lista di regole della gara.
@@ -75,10 +85,22 @@ public interface Race<L,S> {
 	List<Rule> getListRule();
 
 	/**
+	 * Metodo che setta la lista di regole della gara.
+	 * @param rule lista di regole.
+	 */
+	void setListRule(List<Rule> rule);
+
+	/**
+	 * Metodo che restituisce il giocatore che ha vinto la gara.
+	 * @return il giocatore vincitore.
+	 */
+	Player<L> getWinner();
+
+	/**
 	 * Metodo che setta il vincitore della gara.
 	 * @param flag lo stato del giocatore.
 	 * @param player giocatore vincitore.
 	 */
-	void setWinnerPlayer(boolean flag, Player<L,S> player);
+	void setWinnerPlayer(boolean flag, Player<L> player);
 
 }

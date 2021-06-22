@@ -1,9 +1,9 @@
 package it.unicam.cs.pa.jraceTrack;
 
-public class PlayerBot extends DefaultBasePlayer<Point2D, DefaultStateCar>{
+public class PlayerBot extends DefaultBasePlayer<TrackLocation2D>{
 
 
-    public PlayerBot(String name, Car<Point2D, DefaultStateCar> car) {
+    public PlayerBot(String name, Car<TrackLocation2D> car) {
         super(name, car);
     }
 

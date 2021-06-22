@@ -1,15 +1,15 @@
 package it.unicam.cs.pa.jraceTrack;
 
-public abstract class DefaultBasePlayer<L extends Point2D, S extends DefaultStateCar> implements Player<Point2D, DefaultStateCar>{
+public abstract class DefaultBasePlayer<L extends TrackLocation2D> implements Player<TrackLocation2D>{
 
     private final String name;
     private int turn;
-    private final Car<Point2D, DefaultStateCar> car;
+    private final Car<TrackLocation2D> car;
     private boolean yourTurn;
     private boolean winner;
 
 
-    public DefaultBasePlayer(String name, Car<Point2D, DefaultStateCar> car) {
+    public DefaultBasePlayer(String name, Car<TrackLocation2D> car) {
         this.name = name;
         this.turn = 0;
         this.yourTurn = false;
@@ -23,7 +23,7 @@ public abstract class DefaultBasePlayer<L extends Point2D, S extends DefaultStat
     }
 
     @Override
-    public Car<Point2D, DefaultStateCar> getCar() {
+    public Car<TrackLocation2D> getCar() {
         return this.car;
     }
 
@@ -36,7 +36,7 @@ public abstract class DefaultBasePlayer<L extends Point2D, S extends DefaultStat
     }
 
     @Override
-    public void moveUp(Point2D p) {
+    public void moveUp(TrackLocation2D p) {
         this.getCar().moveUp(p);
     }
 

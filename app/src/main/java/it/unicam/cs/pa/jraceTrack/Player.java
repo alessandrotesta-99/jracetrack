@@ -6,10 +6,9 @@ package it.unicam.cs.pa.jraceTrack;
  * Parametrizzata in base al tipo di giocatore e allo stato in cui si trova.
  * Le classi che implementano questa interfaccia devono fornire una implementazione per un tipo di giocatore
  * che potrebbe essere bot o interattivo.
- * @param <L> tipo per la locazione della macchina.
- * @param <S> tipo per lo stato della macchina.
+ * @param <L> tipo per la locazione.
  */
-public interface Player<L, S> {
+public interface Player<L extends Location<? extends L>> {
 
 	/**
 	 * Metodo che ritorna il nome del giocatore.
@@ -20,7 +19,7 @@ public interface Player<L, S> {
 	/**
 	 * da vedere. eliminare le dipendenze circolari, quindi o usare qui o nell'interfaccia Car.
 	 */
-	Car<L, S> getCar();
+	Car<L> getCar();
 
 	/**
 	 * Metodo che ritorna il tipo del giocatore.
@@ -32,13 +31,13 @@ public interface Player<L, S> {
 	 * Metodo che ritorna lo stato della macchina del giocatore in un certo momento.
 	 * @return lo stato della macchina.
 	 */
-	S getStatus();
+	DefaultStateCar getStatus();
 
 	/**
 	 * Metodo che permette al giocatore di spostare la macchina.
 	 * @param p nuova posizione dove si trova la macchina.
 	 */
-	void moveUp(L p); //TODO dubbi
+	void moveUp(L p); //TODO dubbi -- rimane probably
 
 	/**
 	 * Metodo che restituisce il turno corrente del giocatore.

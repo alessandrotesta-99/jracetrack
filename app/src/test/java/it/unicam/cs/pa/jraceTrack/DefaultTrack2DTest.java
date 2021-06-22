@@ -9,54 +9,54 @@ public class DefaultTrack2DTest{
 
     @Test
     public void testGetCarAt() {
-        Point2D p1 = new Point2D(0,0);
-        Point2D p2 = new Point2D(0,20);
-        Point2D p3 = new Point2D(20,0);
-        Point2D p4 = new Point2D(20,20);
-        List<Point2D> partenza = new ArrayList<>();
+        TrackLocation2D p1 = new TrackLocation2D(0,0);
+        TrackLocation2D p2 = new TrackLocation2D(0,20);
+        TrackLocation2D p3 = new TrackLocation2D(20,0);
+        TrackLocation2D p4 = new TrackLocation2D(20,20);
+        List<TrackLocation2D> partenza = new ArrayList<>();
         partenza.add(p1);
         partenza.add(p2);
-        List<Point2D> arrivo = new ArrayList<>();
+        List<TrackLocation2D> arrivo = new ArrayList<>();
         arrivo.add(p3);
         arrivo.add(p4);
 
         //test costruttore.
-        Point2D a1 = new Point2D(1,1);
-        Point2D a2 = new Point2D(1,2);
-        Point2D a3 = new Point2D(1,3);
-        Point2D a4 = new Point2D(2,1);
-        Point2D a5 = new Point2D(2,2);
-        Point2D a6 = new Point2D(2,3);
-        Point2D a7 = new Point2D(3,2);
-        Point2D a8 = new Point2D(3,3);
+        TrackLocation2D a1 = new TrackLocation2D(1,1);
+        TrackLocation2D a2 = new TrackLocation2D(1,2);
+        TrackLocation2D a3 = new TrackLocation2D(1,3);
+        TrackLocation2D a4 = new TrackLocation2D(2,1);
+        TrackLocation2D a5 = new TrackLocation2D(2,2);
+        TrackLocation2D a6 = new TrackLocation2D(2,3);
+        TrackLocation2D a7 = new TrackLocation2D(3,2);
+        TrackLocation2D a8 = new TrackLocation2D(3,3);
         partenza.forEach(System.out::println);
-        DefaultTrack2D<Point2D, DefaultStateCar> tr = new DefaultTrack2D<>( partenza, arrivo,
+        DefaultTrack2D<Location<TrackLocation2D>> tr = new DefaultTrack2D<>( partenza, arrivo,
                 a1, a2, a3, a4, a5, a6, a7, a8);
         tr.getWalls().forEach(System.out::println);
     }
 
     @Test
     public void testCreateTrackCircle(){
-        Point2D w1 = new Point2D(1,1);
-        Point2D w2 = new Point2D(1,8);
-        Point2D w3 = new Point2D(10,1);
-        Point2D w4 = new Point2D(10,8);
+        TrackLocation2D w1 = new TrackLocation2D(1,1);
+        TrackLocation2D w2 = new TrackLocation2D(1,8);
+        TrackLocation2D w3 = new TrackLocation2D(10,1);
+        TrackLocation2D w4 = new TrackLocation2D(10,8);
 
-        Point2D w5 = new Point2D(3,3);
-        Point2D w6 = new Point2D(3,6);
-        Point2D w7 = new Point2D(8,3);
-        Point2D w8 = new Point2D(8,6);
+        TrackLocation2D w5 = new TrackLocation2D(3,3);
+        TrackLocation2D w6 = new TrackLocation2D(3,6);
+        TrackLocation2D w7 = new TrackLocation2D(8,3);
+        TrackLocation2D w8 = new TrackLocation2D(8,6);
 
-        Point2D p1 = new Point2D(5,6);
-        Point2D p2 = new Point2D(5,8);
+        TrackLocation2D p1 = new TrackLocation2D(5,6);
+        TrackLocation2D p2 = new TrackLocation2D(5,8);
 
-        Point2D p3 = new Point2D(5,6);
-        Point2D p4 = new Point2D(5,8);
+        TrackLocation2D p3 = new TrackLocation2D(5,6);
+        TrackLocation2D p4 = new TrackLocation2D(5,8);
 
-        List<Point2D> start = new ArrayList<>();
+        List<TrackLocation2D> start = new ArrayList<>();
         start.add(p1);
         start.add(p2);
-        List<Point2D> finish = new ArrayList<>();
+        List<TrackLocation2D> finish = new ArrayList<>();
         finish.add(p3);
         finish.add(p4);
 
@@ -65,26 +65,26 @@ public class DefaultTrack2DTest{
 
     @Test
     public void testCreateTrackNotCircle(){
-        Point2D w1 = new Point2D(1,1);
-        Point2D w2 = new Point2D(1,8);
-        Point2D w3 = new Point2D(10,1);
-        Point2D w4 = new Point2D(10,8);
+        TrackLocation2D w1 = new TrackLocation2D(1,1);
+        TrackLocation2D w2 = new TrackLocation2D(1,8);
+        TrackLocation2D w3 = new TrackLocation2D(10,1);
+        TrackLocation2D w4 = new TrackLocation2D(10,8);
 
-        Point2D w5 = new Point2D(3,3);
-        Point2D w6 = new Point2D(3,6);
-        Point2D w7 = new Point2D(8,3);
-        Point2D w8 = new Point2D(8,6);
+        TrackLocation2D w5 = new TrackLocation2D(3,3);
+        TrackLocation2D w6 = new TrackLocation2D(3,6);
+        TrackLocation2D w7 = new TrackLocation2D(8,3);
+        TrackLocation2D w8 = new TrackLocation2D(8,6);
 
-        Point2D p1 = new Point2D(5,6);
-        Point2D p2 = new Point2D(5,8);
+        TrackLocation2D p1 = new TrackLocation2D(5,6);
+        TrackLocation2D p2 = new TrackLocation2D(5,8);
 
-        Point2D p3 = new Point2D(1,4);
-        Point2D p4 = new Point2D(3,4);
+        TrackLocation2D p3 = new TrackLocation2D(1,4);
+        TrackLocation2D p4 = new TrackLocation2D(3,4);
 
-        List<Point2D> start = new ArrayList<>();
+        List<TrackLocation2D> start = new ArrayList<>();
         start.add(p1);
         start.add(p2);
-        List<Point2D> finish = new ArrayList<>();
+        List<TrackLocation2D> finish = new ArrayList<>();
         finish.add(p3);
         finish.add(p4);
 
