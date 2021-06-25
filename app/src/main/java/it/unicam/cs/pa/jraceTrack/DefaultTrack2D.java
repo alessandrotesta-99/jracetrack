@@ -23,9 +23,9 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
     public DefaultTrack2D(List<TrackLocation2D> start, List<TrackLocation2D> finish,
                           TrackLocation2D... walls) {
         this.mapTrack = new HashMap<>();
-        this.start = new ArrayList<>(start);
-        this.walls = new ArrayList<>();
+        this.start = start;
         this.finish = finish;
+        this.walls = new ArrayList<>();
         Arrays.stream(walls).sequential().forEach(w -> new TrackLocation2D(w.getX(), w.getY()));
         Arrays.stream(walls).sequential().forEach(this::addWall);
         this.status = DefaultTrackStatus.PLAYING;
