@@ -40,18 +40,11 @@ public interface Race<L extends Location<? extends L>> {
 	 */
 	boolean isStart();
 
-	/**
-	 *
 	 /**
 	 * Metodo che crea il circuito di gara.
-	 * @param width larghezza del circuito
-	 * @param start inizio del circuito
-	 * @param finish fine del circuito
-	 * @param walls muri del circuito
-	 * @return il circuito creato.
+	 * @param track il tracciato da creare.
 	 */
-	//TODO refactoring. non mi piace che devo passare tutti i parametri.
-	Track<L> createTrack(int width, List<L> start, List<L> finish, L... walls);
+	void createTrack(Track<L> track);
 
 	/**
 	 * Metodo che aggiunge un giocatore alla gara.
@@ -67,13 +60,12 @@ public interface Race<L extends Location<? extends L>> {
 
 	/**
 	 * Metodo che aggiunge una macchina alla gara.
-	 * @param t
 	 * @param c macchina da aggiungere.
 	 */
-	void addCar(Track<L> t, Car<L> c);
+	void addCar(Car<L> c);
 
 	/**
-	 * Metodo che rimuove una macchina alla gara.
+	 * Metodo che rimuove una macchina dalla gara.
 	 * @param c macchina da rimuovere.
 	 */
 	void removeCar(Car<L> c);

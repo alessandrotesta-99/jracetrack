@@ -43,11 +43,10 @@ public interface Car<L extends Location<? extends L>> {
 	void setLocation(L loc);
 
 	/**
-	 * Metodo che restituisce il vettore che indica
-	 * lo spostamento destra-sinistra e lo spostamento alto-basso della macchina.
-	 * @return il vettore.
+	 * Metodo che restituisce la velocità della macchina.
+	 * @return la velocità della macchina.
 	 */
-	L getVector();
+	int getCurrentVelocity();
 
 	/**
 	 * Metodo che restituisce tutto il percorso che ha fatto la macchina.

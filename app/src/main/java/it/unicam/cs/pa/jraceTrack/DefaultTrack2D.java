@@ -5,14 +5,11 @@ import java.util.stream.Collectors;
 
 public class DefaultTrack2D<L extends Location<? extends L>> implements Track<TrackLocation2D> {
 
-    //todo se la macchina è uscita fuori dal circuito, game over e settare lo stato della macchina e del circuito.
-
     private final Map<Car<TrackLocation2D>, TrackLocation2D> mapTrack;
     private final List<TrackLocation2D> walls;
     private final List<TrackLocation2D> start;
     private final List<TrackLocation2D> finish;
     private int width;
-    private final DefaultTrackStatus status;
 
     /**
      * Costruttore che crea un circuito con punti per indicare la linea di partenza, di arrivo e i muri.
@@ -28,7 +25,6 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
         this.walls = new ArrayList<>();
         Arrays.stream(walls).sequential().forEach(w -> new TrackLocation2D(w.getX(), w.getY()));
         Arrays.stream(walls).sequential().forEach(this::addWall);
-        this.status = DefaultTrackStatus.PLAYING;
         this.isValidStartFinish();
         this.isValidTrack();
     }
@@ -39,6 +35,7 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
     }
 
     public Car<TrackLocation2D> getCarAt(TrackLocation2D location){
+        Objects.requireNonNull(location);
         return this.mapTrack.keySet()
                 .stream()
                 .filter(p -> p.getLocation().equals(location))
@@ -57,12 +54,13 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
     }
 
     public void addCar(Car<TrackLocation2D> c){
-        //todo da fare meglio
-        this.mapTrack.putIfAbsent(c, c.getLocation());
+        Objects.requireNonNull(c);
+        this.mapTrack.putIfAbsent(c, c.getPath().get(0)); //todo
     }
 
     @Override
     public Set<TrackLocation2D> getNextLocs(Car<TrackLocation2D> c) {
+        Objects.requireNonNull(c);
         return c.getLocation().getNextLocations(c); //todo
     }
 
@@ -78,6 +76,7 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
 
     @Override
     public DefaultStateCar getStatusAt(TrackLocation2D loc){
+        Objects.requireNonNull(loc);
         return this.mapTrack.keySet()
                 .stream()
                 .filter(c -> c.getLocation().equals(loc))
@@ -95,10 +94,6 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
     public void isValidTrack() {
         if (this.width < 2)
             throw new IllegalArgumentException("ERROR: The width is invalid.");
-    }
-
-    @Override
-    public void getStatus() {
     }
 
     /**

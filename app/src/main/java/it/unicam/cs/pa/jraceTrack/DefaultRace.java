@@ -46,8 +46,9 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
     }
 
     @Override
-    public Track<TrackLocation2D> createTrack(int width, List<TrackLocation2D> start, List<TrackLocation2D> finish, TrackLocation2D... walls) {
-        return this.track = new DefaultTrack2D<>(start,finish,walls);
+    public void createTrack(Track<TrackLocation2D> track) {
+        Objects.requireNonNull(track);
+        this.track = track;
     }
 
     @Override
@@ -62,13 +63,15 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
     }
 
     @Override
-    public void addCar(Track<TrackLocation2D> t, Car<TrackLocation2D> c) {
-        t.addCar(c);
+    public void addCar(Car<TrackLocation2D> c) {
+        if(this.track.getCars().contains(c))
+            throw new IllegalArgumentException("ERROR: this car already exists.");
+        track.addCar(c);
     }
 
     @Override
     public void removeCar(Car<TrackLocation2D> c) {
-
+        this.track.getCars().removeIf(car -> car.equals(c));
     }
 
     @Override
@@ -83,11 +86,15 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
 
     @Override
     public Player<TrackLocation2D> getWinner() {
-        return null;
+        return this.players
+                .stream()
+                .filter(Player::isWinner)
+                .findFirst().orElse(null);
     }
 
     @Override
     public void setWinnerPlayer(boolean flag, Player<TrackLocation2D> player) {
+        //todo
         if(!player.isWinner())
             player.setWinner(true);
     }

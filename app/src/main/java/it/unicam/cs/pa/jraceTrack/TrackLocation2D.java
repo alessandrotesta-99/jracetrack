@@ -12,10 +12,6 @@ import java.util.*;
  */
 public final class TrackLocation2D implements Location<TrackLocation2D> {
 
-    /*todo:
-        problemi:
-        3. eliminare i punti che non sono nel circuito..
-     */
 
     private final int x;
     private final int y;
@@ -35,113 +31,38 @@ public final class TrackLocation2D implements Location<TrackLocation2D> {
 
     @Override
     public Set<TrackLocation2D> getNextLocations(Car<TrackLocation2D> c){
-      /*  return c.getVector().getY() == 0 ? this.getFirstNextPoint(c)
-                : c.getVector().getY() == 1 ? this.getAdjacentPoints(c)
-                : this.getPoints(c);*/
-        if(c.getVector().getY() == 0)
-            return calculateAdjacentPoints(new TrackLocation2D(c.getLocation().getX(), c.getLocation().getY()));
+        if(c.getCurrentVelocity() == 0)
+            return calculateAdjacentPoints(c.getLocation().getX(), c.getLocation().getY());
         else
             return calculateNextPoints(c);
     }
 
-    private Set<TrackLocation2D> calculateAdjacentPoints(TrackLocation2D point){
-       return Set.of(new TrackLocation2D(point.x, point.y + 1),
-                new TrackLocation2D(point.x, point.y - 1),
-                new TrackLocation2D(point.x + 1, point.y),
-                new TrackLocation2D(point.x - 1, point.y),
-                new TrackLocation2D(point.x, point.y - 1),
-                new TrackLocation2D(point.x - 1, point.y + 1),
-                new TrackLocation2D(point.x + 1, point.y + 1),
-                new TrackLocation2D(point.x - 1, point.y - 1),
-                new TrackLocation2D(point.x + 1, point.y - 1));
+    private Set<TrackLocation2D> calculateAdjacentPoints(int x, int y){
+       return Set.of(new TrackLocation2D(x, y), //togliere probably todo.
+                new TrackLocation2D(x, y + 1),
+                new TrackLocation2D(x, y - 1),
+                new TrackLocation2D(x + 1, y),
+                new TrackLocation2D(x - 1, y),
+                new TrackLocation2D(x - 1, y + 1),
+                new TrackLocation2D(x + 1, y + 1),
+                new TrackLocation2D(x - 1, y - 1),
+                new TrackLocation2D(x + 1, y - 1));
     }
 
-    private Set<TrackLocation2D> calculateNextPoints(Car<TrackLocation2D> c){
-        if(c.getLocation().getX() < c.getLastCheckPoint().getX())
-           return calculateAdjacentPoints(new TrackLocation2D(c.getLocation().getX() - c.getVector().getY(), c.getLocation().getY()));
-        if(c.getLocation().getX() > c.getLastCheckPoint().getX() && c.getLocation().getY() < c.getLastCheckPoint().getY())
-            return calculateAdjacentPoints(new TrackLocation2D(c.getLocation().getX() + c.getVector().getY(), c.getLocation().getY()));
-        if(c.getLocation().getX() - c.getLastCheckPoint().getX() == 1 && c.getLocation().getY() >= c.getLastCheckPoint().getY())
-            return calculateAdjacentPoints(new TrackLocation2D(c.getLocation().getX(), c.getLocation().getY() + c.getVector().getY()));
-        if(c.getLocation().getX() == c.getLastCheckPoint().getX() && c.getLocation().getY() >= c.getLastCheckPoint().getY())
-            return calculateAdjacentPoints(new TrackLocation2D(c.getLocation().getX() - 1, c.getLocation().getY() + c.getVector().getY()));
-        else if(c.getLocation().getX() == c.getLastCheckPoint().getX() && c.getLocation().getY() < c.getLastCheckPoint().getY())
-            return calculateAdjacentPoints(new TrackLocation2D(c.getLocation().getX() + 1, c.getLocation().getY() + c.getVector().getY()));
-        return null;
+    private Set<TrackLocation2D> calculateNextPoints(Car<TrackLocation2D> c) {
+        if(c.getLocation().getX() != c.getLastCheckPoint().getX() || c.getLocation().getX() == c.getLastCheckPoint().getX()) {
+            if (c.getLocation().getY() < c.getLastCheckPoint().getY())
+                return calculateAdjacentPoints(c.getLocation().getX(), c.getLocation().getY() - c.getCurrentVelocity());
+            if (c.getLocation().getY() > c.getLastCheckPoint().getY())
+                return calculateAdjacentPoints(c.getLocation().getX(), c.getLocation().getY() + c.getCurrentVelocity());
+            if(c.getLocation().getX() < c.getLastCheckPoint().getX() &&
+                    c.getLocation().getY() == c.getLastCheckPoint().getY())
+                return calculateAdjacentPoints(c.getLocation().getX() - c.getCurrentVelocity(), c.getLocation().getY());
+            if(c.getLocation().getX() > c.getLastCheckPoint().getX()
+                    && c.getLocation().getY() == c.getLastCheckPoint().getY())
+                return calculateAdjacentPoints(c.getLocation().getX() + c.getCurrentVelocity(), c.getLocation().getY());
     }
-
-
-
-
-
-
-    private Set<TrackLocation2D> getPoints(Car<TrackLocation2D> c) {
-        int distanceX = Math.abs(c.getLastCheckPoint().getX() - c.getLocation().getX());
-        int distanceY = Math.abs(c.getLastCheckPoint().getY() - c.getLocation().getY());
-        boolean flag = c.getLastCheckPoint().getY() < c.getLocation().getY();
-        return c.getVector().getX() == 2 && (flag || c.getLocation().getX() < c.getLastCheckPoint().getX()) ? setPoints(c, distanceX, distanceY, -1, 2) : (c.getVector().getX() == 1 && flag) || c.getVector().getX() == 2
-                || (c.getVector().getX() == 1 && !flag) ? setPoints(c, distanceX, distanceY, -2, 1)
-                : (c.getVector().getX() == 3 && flag) ? setPoints(c, distanceX, distanceY, 0, 3)
-                : (c.getVector().getX() == 3 && !flag) ? setPoints(c, distanceX, distanceY, -2, 1):null;
-    }
-
-    private Set<TrackLocation2D> setPoints(Car<TrackLocation2D> c, int distanceX, int distanceY, int i, int i2) {
-        //verticale.
-        //todo se riesco aggiungere opzione quando la x è negativa. in teoria ok.
-        if (distanceY != c.getVector().getY() || c.getLocation().getY() > c.getLastCheckPoint().getY()) {
-            if(distanceX == c.getVector().getY() && c.getLocation().getX() > c.getLastCheckPoint().getX())
-                    return getNextPoints( c.getVector().getY() - 1, c.getVector().getY() + 2, i, i2);
-            else if (distanceY == c.getVector().getY())
-                return getNextPoints( i, i2, c.getVector().getY() - 1, c.getVector().getY() + 2);
-            else
-                return getNextPoints( -c.getVector().getY() - 1, -(c.getVector().getY() - 2), i, i2);
-        } else
-            return getNextPoints( i, i2, -c.getVector().getY() - 1, -(c.getVector().getY() - 2));
-    }
-
-    private Set<TrackLocation2D> getFirstNextPoint(Car<TrackLocation2D> c) {
-        //todo refactoring
-     /*   c.getTrack().getStart().forEach(ps -> c.getTrack().getFinish().forEach(pf ->
-        {
-            if(ps.getX() > pf.getX())
-                getNextPoints(-1,0,1,2);
-        }));*/
-        //testato e ok ma fare altri test con altre linee di partenza e arrivo. --ok
-        if(c.getLocation().getX() > c.getTrack().getStart().get(1).getX())
-             return getNextPoints(-1,0,1,2);
-        if(c.getLocation().getX() < c.getTrack().getStart().get(1).getX() || c.getLocation().getY() < c.getTrack().getStart().get(1).getY())
-             return getNextPoints( 1,2,0,2);
-        if(c.getLocation().getY() > c.getTrack().getStart().get(1).getY()) {
-            return getNextPoints(1,2,-1,0);
-        }
-        return null;
-    }
-
-    private Set<TrackLocation2D> getAdjacentPoints(Car<TrackLocation2D> c) {
-        if(c.getLocation().getY() - c.getLastCheckPoint().getY() <= 0)
-            return getNextPoints(-2,1,-2,1);
-        else if(c.getLocation().getX() - c.getLastCheckPoint().getX() <= 0)
-            return getNextPoints(-2,1,0,3);
-        else
-            return getNextPoints(0,3,0,3);
-
-    }
-
-    private Set<TrackLocation2D> getNextPoints(int x, int x1, int y, int y1) {
-        Set<TrackLocation2D> points = new HashSet<>(8);
-        for (int nx = x; nx < x1; nx++)
-            for (int ny = y; ny < y1; ny++)
-               points.add(FactoryLocation.createPoint(this.x + nx, this.y + ny));
-            return points;
-    }
-
-    /**
-     * Metodo che permette di eliminare dai prossimi punti, il punto dove si trova ora la macchina.
-     * @param c la macchina.
-     * @param points i prossimi punti.
-     */
-    private void removePointIsLocationCar(Car<TrackLocation2D> c, Set<TrackLocation2D> points) {
-        points.stream().filter(p -> p.equals(c.getLocation())).findFirst().map(points::remove);
+         return null;
     }
 
     @Override

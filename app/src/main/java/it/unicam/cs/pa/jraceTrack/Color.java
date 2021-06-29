@@ -9,6 +9,6 @@ public interface Color {
 	/**
 	 * Metodo che assegna un colore ad un oggetto.
 	 */
-	void setColor(int color);
+	void setColor(int color); //todo
 
 }

@@ -6,7 +6,7 @@ package it.unicam.cs.pa.jraceTrack;
  */
 public interface FactoryLocation {
 
-    static TrackLocation2D createPoint(int x, int y){
-        return new TrackLocation2D(x,y);
+    static Location<?> createPoint(int...values){
+        return new TrackLocation2D(values[0], values[1]);
     }
 }

@@ -38,7 +38,7 @@ public interface Track<L extends Location<? extends L>> {
 	List<L> getFinish();
 
 	/**
-	 * Metodo che aggiunge una macchina al circuito.
+	 * Metodo che aggiunge una macchina al circuito con la locazione iniziale.
 	 * @param c macchina da aggiungere.
 	 */
 	void addCar(Car<L> c);
@@ -78,11 +78,6 @@ public interface Track<L extends Location<? extends L>> {
 	 * Metodo che controlla se il circuito è valido.
 	 */
 	void isValidTrack();
-
-	/**
-	 * Metodo che restituisce lo stato del circuito.
-	 */
-	void getStatus();
 
 	/**
 	 * Metodo che verifica se il circuito è circolare.
