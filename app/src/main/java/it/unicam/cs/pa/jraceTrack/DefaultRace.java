@@ -53,7 +53,11 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
 
     @Override
     public void addPlayer(Player<TrackLocation2D> p) {
-        //aggiungere eccezioni se inserisci un bot e un giocatore interattivo
+        if(p.getType() == TypePlayer.BOT)
+            this.players.add(new PlayerBot(p.getName(),p.getCar()));
+        else
+            this.players.add(new PlayerInteractive(p.getName(), p.getCar()));
+        //aggiungere eccezioni se inserisci un bot e un giocatore interattivo todo
         this.players.add(p);
     }
 
