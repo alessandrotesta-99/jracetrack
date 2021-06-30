@@ -4,8 +4,6 @@ import java.util.*;
 
 public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocation2D>{
 
-    //todo aggiungere metodo per controllare se il giocatore ha vinto.
-
     private final List<Player<TrackLocation2D>> players;
     private Track<TrackLocation2D> track;
     private List<Rule> rules;
@@ -31,13 +29,11 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
     @Override
     public void start() {
         this.state = true;
-       //TODO dubbi se lasciare qui
     }
 
     @Override
     public void finish() {
         this.state = false;
-        //TODO dubbi se lasciare qui
     }
 
     @Override
@@ -53,12 +49,11 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
 
     @Override
     public void addPlayer(Player<TrackLocation2D> p) {
-        if(p.getType() == TypePlayer.BOT)
-            this.players.add(new PlayerBot(p.getName(),p.getCar()));
-        else
-            this.players.add(new PlayerInteractive(p.getName(), p.getCar()));
-        //aggiungere eccezioni se inserisci un bot e un giocatore interattivo todo
-        this.players.add(p);
+        if(p.getType() == TypePlayer.BOT && this.players.stream().allMatch(pl -> pl.getType().equals(TypePlayer.BOT))
+           || p.getType() == TypePlayer.INTERACTIVE && this.players.stream().allMatch(pl -> pl.getType().equals(TypePlayer.INTERACTIVE)))
+            this.players.add(p);
+       else
+           throw new IllegalArgumentException("ERROR: impossible to add players with different types.");
     }
 
     @Override
@@ -97,9 +92,10 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
     }
 
     @Override
-    public void setWinnerPlayer(boolean flag, Player<TrackLocation2D> player) {
-        //todo
-        if(!player.isWinner())
+    public void setWinnerPlayer(Player<TrackLocation2D> player) {
+        if(this.getTrack().getFinish().contains(player.getCar().getLocation())){
             player.setWinner(true);
+            this.finish();
+        }
     }
 }

@@ -17,8 +17,7 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
      * @param finish punti che indicano la linea di arrivo.
      * @param walls punti che indicano i muri del circuito.
      */
-    public DefaultTrack2D(List<TrackLocation2D> start, List<TrackLocation2D> finish,
-                          TrackLocation2D... walls) {
+    public DefaultTrack2D(List<TrackLocation2D> start, List<TrackLocation2D> finish, TrackLocation2D... walls) {
         this.mapTrack = new HashMap<>();
         this.start = start;
         this.finish = finish;
@@ -55,7 +54,7 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
 
     public void addCar(Car<TrackLocation2D> c){
         Objects.requireNonNull(c);
-        this.mapTrack.putIfAbsent(c, c.getPath().get(0)); //todo
+        this.mapTrack.putIfAbsent(c, c.getLocation()); //non aggiorna la posizione. todo
     }
 
     @Override
@@ -100,7 +99,7 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
      * Metodo che controlla se il punto di partenza e di arrivo sono validi.
      */
     private void isValidStartFinish() {
-    //    start.removeIf(p -> !this.getWalls().contains(p) && finish.removeIf(p1 -> !this.getWalls().contains(p1)));
+    //    start.removeIf(p -> !this.getWalls().contains(p) && finish.removeIf(p1 -> !this.getWalls().contains(p1))); todo
         if(this.isCircle()){
             if(!this.isValidVertical(start) && !this.isValidHorizontal(start))
                 throw new IllegalArgumentException("ERROR: the start or finish is invalid.");

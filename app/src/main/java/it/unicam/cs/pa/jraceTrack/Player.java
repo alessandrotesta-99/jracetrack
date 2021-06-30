@@ -61,7 +61,6 @@ public interface Player<L extends Location<? extends L>> {
 	 * Metodo che setta questo giocatore come vincitore della gara.
 	 * @param flag lo stato del giocatore.
 	 */
-	//todo dubbi.
 	void setWinner(boolean flag);
 
 	/**

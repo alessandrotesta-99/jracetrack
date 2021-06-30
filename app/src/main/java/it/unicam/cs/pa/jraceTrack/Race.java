@@ -90,9 +90,8 @@ public interface Race<L extends Location<? extends L>> {
 
 	/**
 	 * Metodo che setta il vincitore della gara.
-	 * @param flag lo stato del giocatore.
 	 * @param player giocatore vincitore.
 	 */
-	void setWinnerPlayer(boolean flag, Player<L> player);
+	void setWinnerPlayer(Player<L> player);
 
 }

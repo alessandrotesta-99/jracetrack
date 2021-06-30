@@ -17,6 +17,7 @@ public class DefaultCar<L extends TrackLocation2D> implements Car<TrackLocation2
     private final List<TrackLocation2D> path;
 
     public DefaultCar(Track<TrackLocation2D> track, Color color) {
+        Objects.requireNonNull(track);
         this.track = track;
         this.color = color;
         this.location = track.getStart().get(0);
@@ -24,6 +25,7 @@ public class DefaultCar<L extends TrackLocation2D> implements Car<TrackLocation2
         this.path = new LinkedList<>();
         this.currentVelocity = 0;
         this.path.add(this.location);
+        this.track.addCar(this);
     }
 
     @Override
@@ -101,7 +103,7 @@ public class DefaultCar<L extends TrackLocation2D> implements Car<TrackLocation2
 
     @Override
     public boolean hitsWall() {
-        return this.getTrack().getWalls()
+        return !this.getTrack().getWalls()
                 .stream()
                 .filter(p -> p.equals(this.getLocation()))
                 .collect(Collectors.toSet())

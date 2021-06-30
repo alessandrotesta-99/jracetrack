@@ -1,9 +1,7 @@
 package it.unicam.cs.pa.jraceTrack;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.Objects;
 import java.util.Random;
-import java.util.Set;
 
 public abstract class DefaultBasePlayer<L extends TrackLocation2D> implements Player<TrackLocation2D>{
 
@@ -15,6 +13,7 @@ public abstract class DefaultBasePlayer<L extends TrackLocation2D> implements Pl
 
 
     public DefaultBasePlayer(String name, Car<TrackLocation2D> car) {
+        Objects.requireNonNull(car);
         this.name = name;
         this.turn = 0;
         this.yourTurn = false;

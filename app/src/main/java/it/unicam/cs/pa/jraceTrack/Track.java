@@ -1,7 +1,6 @@
 package it.unicam.cs.pa.jraceTrack;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -38,7 +37,7 @@ public interface Track<L extends Location<? extends L>> {
 	List<L> getFinish();
 
 	/**
-	 * Metodo che aggiunge una macchina al circuito con la locazione iniziale.
+	 * Metodo che aggiunge una macchina al circuito con la locazione corrente.
 	 * @param c macchina da aggiungere.
 	 */
 	void addCar(Car<L> c);
