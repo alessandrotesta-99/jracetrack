@@ -1,6 +1,7 @@
 package it.unicam.cs.pa.jraceTrack;
 
 import java.util.*;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 public class DefaultTrack2D<L extends Location<? extends L>> implements Track<TrackLocation2D> {
@@ -53,7 +54,13 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
     }
 
     public void addCar(Car<TrackLocation2D> c){
-        this.mapTrack.put(c, c.getLocation()); //non aggiorna la posizione. todo
+        if(this.getCars().contains(c))
+            this.mapTrack.entrySet()
+                .stream()
+                .filter(car -> car.getKey().equals(c))
+                .forEach(ca -> ca.setValue(c.getLocation()));
+        else
+            this.mapTrack.putIfAbsent(c, c.getLocation());//non aggiunge macchine con posizione uguale. todo
     }
 
     @Override

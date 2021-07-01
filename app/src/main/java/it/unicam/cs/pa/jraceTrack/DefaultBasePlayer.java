@@ -7,17 +7,14 @@ public abstract class DefaultBasePlayer<L extends TrackLocation2D> implements Pl
 
     private final String name;
     private int turn;
-    private final Car<TrackLocation2D> car;
+    private Car<TrackLocation2D> car;
     private boolean yourTurn;
     private boolean winner;
 
-
-    public DefaultBasePlayer(String name, Car<TrackLocation2D> car) {
-        Objects.requireNonNull(car);
+    public DefaultBasePlayer(String name) {
         this.name = name;
         this.turn = 0;
         this.yourTurn = false;
-        this.car = car;
         this.winner = false;
     }
 
@@ -29,6 +26,12 @@ public abstract class DefaultBasePlayer<L extends TrackLocation2D> implements Pl
     @Override
     public Car<TrackLocation2D> getCar() {
         return this.car;
+    }
+
+    @Override
+    public void setCar(Car<TrackLocation2D> car){
+        Objects.requireNonNull(car);
+        this.car = car;
     }
 
     @Override

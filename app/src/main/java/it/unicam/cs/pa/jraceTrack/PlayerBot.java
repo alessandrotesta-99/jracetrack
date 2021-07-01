@@ -3,8 +3,8 @@ package it.unicam.cs.pa.jraceTrack;
 public class PlayerBot extends DefaultBasePlayer<TrackLocation2D>{
 
 
-    public PlayerBot(String name, Car<TrackLocation2D> car) {
-        super(name, car);
+    public PlayerBot(String name) {
+        super(name);
     }
 
     @Override

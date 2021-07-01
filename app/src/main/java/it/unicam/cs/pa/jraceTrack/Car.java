@@ -13,6 +13,12 @@ import java.util.List;
 public interface Car<L extends Location<? extends L>> {
 
 	/**
+	 * Metodo che restituisce l'id della macchina.
+	 * @return l'id della macchina.
+	 */
+	int getId();
+
+	/**
 	 * Metodo che restituisce il tracciato in cui gareggia la macchina.
 	 * @return restituisce il tracciato in cui gareggia la macchina.
 	 */
@@ -63,7 +69,7 @@ public interface Car<L extends Location<? extends L>> {
 	/**
 	 * Metodo che setta lo stato della macchina.
 	 */
-	void isCrashed();
+	void setStatus();
 
 	/**
 	 * Metodo che restituisce il colore della macchina.

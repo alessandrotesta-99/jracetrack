@@ -22,6 +22,12 @@ public interface Player<L extends Location<? extends L>> {
 	Car<L> getCar();
 
 	/**
+	 * Metodo che setta la macchina al giocatore.
+	 * @param car la macchina.
+	 */
+	void setCar(Car<L> car);
+
+	/**
 	 * Metodo che ritorna il tipo del giocatore.
 	 * @return il tipo del giocatore.
 	 */

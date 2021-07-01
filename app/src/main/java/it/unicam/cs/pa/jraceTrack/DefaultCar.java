@@ -9,23 +9,30 @@ import java.util.stream.Collectors;
  */
 public class DefaultCar<L extends TrackLocation2D> implements Car<TrackLocation2D>{
 
+    //todo add metodo per settare colore.
+
     private final Track<TrackLocation2D> track;
     private TrackLocation2D location;
-    private final Color color;
+    private Color color;
     private DefaultStateCar status;
     private int currentVelocity;
-    private final List<TrackLocation2D> path;
+    private final List<TrackLocation2D> path = new LinkedList<>();
+    //todo
+    private int id;
 
-    public DefaultCar(Track<TrackLocation2D> track, Color color) {
+    public DefaultCar(Track<TrackLocation2D> track) {
         Objects.requireNonNull(track);
         this.track = track;
-        this.color = color;
+      //  this.color = color;
         this.location = track.getStart().get(0);
         this.status = DefaultStateCar.IN_RACE;
-        this.path = new LinkedList<>();
         this.currentVelocity = 0;
         this.path.add(this.location);
-        this.track.addCar(this);
+    }
+
+    @Override
+    public int getId() {
+        return this.id;
     }
 
     @Override
@@ -36,7 +43,6 @@ public class DefaultCar<L extends TrackLocation2D> implements Car<TrackLocation2
     @Override
     public void moveUp(TrackLocation2D nextDestination) {
         Objects.requireNonNull(nextDestination);
-        checkStateCar();
         if(this.track.getNextLocs(this).contains(nextDestination) && this.track.getCarAt(nextDestination) == null)
             this.setLocation(nextDestination);
         else
@@ -44,11 +50,13 @@ public class DefaultCar<L extends TrackLocation2D> implements Car<TrackLocation2
         path.add(nextDestination);
         setCurrentVelocity(Math.abs(getDistanceX()), Math.abs(getDistanceY()));
         if(this.hitsWall())
-            this.isCrashed();
+            this.setStatus();
+        checkStateCar();
+        this.track.addCar(this);
     }
 
     private void checkStateCar() {
-        if(this.getTrack().isGameOver())
+        if(getStatus() == DefaultStateCar.CRASHED)
             throw new IllegalStateException("ERROR: this car is crashed.");
     }
 
@@ -98,7 +106,7 @@ public class DefaultCar<L extends TrackLocation2D> implements Car<TrackLocation2
     }
 
     @Override
-    public void isCrashed() {
+    public void setStatus() {
         this.status = DefaultStateCar.CRASHED;
     }
 
@@ -121,7 +129,10 @@ public class DefaultCar<L extends TrackLocation2D> implements Car<TrackLocation2
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DefaultCar<?> that = (DefaultCar<?>) o;
-        return Objects.equals(track, that.track) && Objects.equals(location, that.location) && Objects.equals(color, that.color) && status == that.status && Objects.equals(currentVelocity, that.currentVelocity) && Objects.equals(path, that.path);
+        //todo. da togliere quando verrà messo un id.
+        if(Objects.equals(track,that.track) && Objects.equals(path.get(0), that.path.get(0)))
+            return false;
+        return Objects.equals(track, that.track) && Objects.equals(location, that.location);
     }
 
     @Override

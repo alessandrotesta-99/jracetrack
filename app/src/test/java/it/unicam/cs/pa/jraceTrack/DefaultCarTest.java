@@ -170,7 +170,7 @@ public class DefaultCarTest{
         finish.add(p8);
 
         Track<TrackLocation2D> tr = new DefaultTrack2D<>(start, finish, w1, w2, w3, w4, w5, w6, w7, w8);
-        return new DefaultCar<>(tr, null);
+        return new DefaultCar<>(tr);
     }
 
     @Test

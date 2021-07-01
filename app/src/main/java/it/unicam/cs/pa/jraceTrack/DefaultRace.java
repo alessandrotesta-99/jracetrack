@@ -9,11 +9,21 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
     private List<Rule> rules;
     private boolean state;
 
-    public DefaultRace() {
+    public DefaultRace(Track<TrackLocation2D> track, Player<TrackLocation2D>... players) {
         this.rules = new ArrayList<>();
-        this.players = new ArrayList<>();
-        this.track = null;
+        this.players = new ArrayList<>(players.length);
+        createTrack(track);
+        Arrays.stream(players).forEach(this::addPlayer);
+        setInit(players);
         this.start();
+    }
+
+    private void setInit(Player<TrackLocation2D> ... players) {
+        for (int i = 0; i< players.length; i++){
+            Car<TrackLocation2D> car = new DefaultCar<>(this.getTrack());
+            this.addCar(car);
+            this.players.get(i).setCar(car);
+        }
     }
 
     @Override
@@ -43,7 +53,6 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
 
     @Override
     public void createTrack(Track<TrackLocation2D> track) {
-        Objects.requireNonNull(track);
         this.track = track;
     }
 
@@ -63,8 +72,6 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
 
     @Override
     public void addCar(Car<TrackLocation2D> c) {
-        if(this.track.getCars().contains(c))
-            throw new IllegalArgumentException("ERROR: this car already exists.");
         track.addCar(c);
     }
 
