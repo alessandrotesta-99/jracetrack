@@ -86,4 +86,10 @@ public interface Track<L extends Location<? extends L>> {
 		return this.getStart().containsAll(this.getFinish());
 	}
 
+	/**
+	 * Metodo che verifica se la macchina è ancora in gioco o no.
+	 * @return true se la macchina è ancora in gara, false altrimenti.
+	 */
+	boolean isGameOver();
+
 }

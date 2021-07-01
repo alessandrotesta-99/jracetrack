@@ -91,9 +91,6 @@ public class DefaultTrack2DTest{
         new DefaultTrack2D<>(start,finish,w1,w2,w3,w4,w5,w6,w7,w8);
     }
 
-    @Test
-    public void testApply() {
-    }
 
     @Test
     public void testGetNextLocs() {

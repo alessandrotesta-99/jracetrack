@@ -36,6 +36,7 @@ public class DefaultCar<L extends TrackLocation2D> implements Car<TrackLocation2
     @Override
     public void moveUp(TrackLocation2D nextDestination) {
         Objects.requireNonNull(nextDestination);
+        checkStateCar();
         if(this.track.getNextLocs(this).contains(nextDestination) && this.track.getCarAt(nextDestination) == null)
             this.setLocation(nextDestination);
         else
@@ -44,6 +45,11 @@ public class DefaultCar<L extends TrackLocation2D> implements Car<TrackLocation2
         setCurrentVelocity(Math.abs(getDistanceX()), Math.abs(getDistanceY()));
         if(this.hitsWall())
             this.isCrashed();
+    }
+
+    private void checkStateCar() {
+        if(this.getTrack().isGameOver())
+            throw new IllegalStateException("ERROR: this car is crashed.");
     }
 
     private int getDistanceY() {

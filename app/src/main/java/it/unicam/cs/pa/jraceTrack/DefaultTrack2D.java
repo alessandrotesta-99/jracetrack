@@ -53,8 +53,7 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
     }
 
     public void addCar(Car<TrackLocation2D> c){
-        Objects.requireNonNull(c);
-        this.mapTrack.putIfAbsent(c, c.getLocation()); //non aggiorna la posizione. todo
+        this.mapTrack.put(c, c.getLocation()); //non aggiorna la posizione. todo
     }
 
     @Override
@@ -93,6 +92,11 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
     public void isValidTrack() {
         if (this.width < 2)
             throw new IllegalArgumentException("ERROR: The width is invalid.");
+    }
+
+    @Override
+    public boolean isGameOver() {
+        return getStatusCars().stream().anyMatch(s -> s.equals(DefaultStateCar.CRASHED));
     }
 
     /**
