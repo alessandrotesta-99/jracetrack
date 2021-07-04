@@ -3,16 +3,15 @@ package it.unicam.cs.pa.jraceTrack;
 import java.util.Objects;
 import java.util.Random;
 
-public abstract class DefaultBasePlayer<L extends TrackLocation2D> implements Player<TrackLocation2D>{
+public abstract class DefaultBasePlayer implements Player<TrackLocation2D>{
 
-    private final String name;
+    private String name;
     private int turn;
     private Car<TrackLocation2D> car;
     private boolean yourTurn;
     private boolean winner;
 
-    public DefaultBasePlayer(String name) {
-        this.name = name;
+    public DefaultBasePlayer() {
         this.turn = 0;
         this.yourTurn = false;
         this.winner = false;
@@ -21,6 +20,11 @@ public abstract class DefaultBasePlayer<L extends TrackLocation2D> implements Pl
     @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public void setName(String name){
+        this.name = name;
     }
 
     @Override

@@ -17,6 +17,12 @@ public interface Player<L extends Location<? extends L>> {
 	String getName();
 
 	/**
+	 * Metodo che setta il nome al giocatore.
+	 * @param name nome del giocatore.
+	 */
+	void setName(String name);
+
+	/**
 	 * da vedere. eliminare le dipendenze circolari, quindi o usare qui o nell'interfaccia Car.
 	 */
 	Car<L> getCar();

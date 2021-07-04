@@ -1,7 +1,6 @@
 package it.unicam.cs.pa.jraceTrack;
 
 import java.util.*;
-import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 public class DefaultTrack2D<L extends Location<? extends L>> implements Track<TrackLocation2D> {
@@ -60,7 +59,23 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
                 .filter(car -> car.getKey().equals(c))
                 .forEach(ca -> ca.setValue(c.getLocation()));
         else
-            this.mapTrack.putIfAbsent(c, c.getLocation());//non aggiunge macchine con posizione uguale. todo
+            this.mapTrack.putIfAbsent(c, c.getLocation());
+    }
+
+    @Override
+    public Car<TrackLocation2D> createCar() {
+        Car<TrackLocation2D> c = new DefaultCar<>(this);
+        c.setLocation(initLocationCar());
+        return c;
+    }
+
+    private TrackLocation2D initLocationCar() {
+        TrackLocation2D pos;
+        TrackLocation2D randomElement = this.getStart().get(new Random().nextInt(this.getStart().size()));
+        pos = (TrackLocation2D) FactoryLocation.createPoint(randomElement.getX(),randomElement.getY());
+        while (getCarAt(pos) != null)
+            pos = new TrackLocation2D(randomElement.getX(), randomElement.getY());
+        return pos;
     }
 
     @Override

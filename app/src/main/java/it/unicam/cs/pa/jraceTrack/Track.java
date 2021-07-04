@@ -43,6 +43,13 @@ public interface Track<L extends Location<? extends L>> {
 	void addCar(Car<L> c);
 
 	/**
+	 * Metodo che crea una macchina.
+	 * @return la macchina creata.
+	 */
+	Car<L> createCar();
+
+
+	/**
 	 * Metodo che restituisce le prossime posizioni disponibili nel circuito.
 	 * @param c macchina che richiede le prossime posizioni.
 	 * @return le prossime posizioni disponibili.

@@ -47,6 +47,12 @@ public interface Race<L extends Location<? extends L>> {
 	void createTrack(Track<L> track);
 
 	/**
+	 * Metodo che crea un giocatore.
+	 * @param typePlayer tipo del giocatore.
+	 */
+	void createPlayer(TypePlayer typePlayer);
+
+	/**
 	 * Metodo che aggiunge un giocatore alla gara.
 	 * @param p giocatore da aggiungere.
 	 */

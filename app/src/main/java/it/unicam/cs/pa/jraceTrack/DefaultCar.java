@@ -9,25 +9,21 @@ import java.util.stream.Collectors;
  */
 public class DefaultCar<L extends TrackLocation2D> implements Car<TrackLocation2D>{
 
-    //todo add metodo per settare colore.
-
     private final Track<TrackLocation2D> track;
     private TrackLocation2D location;
     private Color color;
     private DefaultStateCar status;
     private int currentVelocity;
-    private final List<TrackLocation2D> path = new LinkedList<>();
+    private final List<TrackLocation2D> path;
     //todo
     private int id;
 
     public DefaultCar(Track<TrackLocation2D> track) {
         Objects.requireNonNull(track);
         this.track = track;
-      //  this.color = color;
-        this.location = track.getStart().get(0);
         this.status = DefaultStateCar.IN_RACE;
         this.currentVelocity = 0;
-        this.path.add(this.location);
+        this.path = new LinkedList<>();
     }
 
     @Override
@@ -113,6 +109,11 @@ public class DefaultCar<L extends TrackLocation2D> implements Car<TrackLocation2
     @Override
     public Color getColor() {
         return this.color;
+    }
+
+    @Override
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     @Override

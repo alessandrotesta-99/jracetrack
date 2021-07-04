@@ -9,21 +9,23 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
     private List<Rule> rules;
     private boolean state;
 
-    public DefaultRace(Track<TrackLocation2D> track, Player<TrackLocation2D>... players) {
+    public DefaultRace(Track<TrackLocation2D> track, int numberOfPlayers, TypePlayer typePlayer) {
         this.rules = new ArrayList<>();
-        this.players = new ArrayList<>(players.length);
+        this.players = new ArrayList<>(numberOfPlayers);
         createTrack(track);
-        Arrays.stream(players).forEach(this::addPlayer);
+        for(int i = 0; i < numberOfPlayers; i++)
+            createPlayer(typePlayer);
         setInit(players);
         this.start();
     }
 
-    private void setInit(Player<TrackLocation2D> ... players) {
-        for (int i = 0; i< players.length; i++){
-            Car<TrackLocation2D> car = new DefaultCar<>(this.getTrack());
+    private void setInit(List<Player<TrackLocation2D>> players) {
+        for (int i = 0; i< players.size(); i++){
+            Car<TrackLocation2D> car = this.getTrack().createCar();
             this.addCar(car);
             this.players.get(i).setCar(car);
-        }
+            }
+        this.players.get(new Random().nextInt(players.size())).setTurn(true);
     }
 
     @Override
@@ -57,6 +59,14 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
     }
 
     @Override
+    public void createPlayer(TypePlayer typePlayer) {
+        if(typePlayer == TypePlayer.BOT)
+            this.addPlayer(new PlayerBot());
+        else if(typePlayer == TypePlayer.INTERACTIVE)
+            this.addPlayer(new PlayerInteractive());
+    }
+
+    @Override
     public void addPlayer(Player<TrackLocation2D> p) {
         if(p.getType() == TypePlayer.BOT && this.players.stream().allMatch(pl -> pl.getType().equals(TypePlayer.BOT))
            || p.getType() == TypePlayer.INTERACTIVE && this.players.stream().allMatch(pl -> pl.getType().equals(TypePlayer.INTERACTIVE)))
@@ -72,8 +82,22 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
 
     @Override
     public void addCar(Car<TrackLocation2D> c) {
+        if(!this.getTrack().getStart().contains(c.getLocation()) || getTrack().getCarAt(c.getLocation()) != null)
+            throw new IllegalArgumentException("ERROR: this location is not valid.");
+        c.setLocation(locationInit());
+        c.getPath().add(locationInit());
         track.addCar(c);
     }
+
+    private TrackLocation2D locationInit(){
+        TrackLocation2D pos;
+        TrackLocation2D randomElement = this.getTrack().getStart().get(new Random().nextInt(this.getTrack().getStart().size()));
+        pos = (TrackLocation2D) FactoryLocation.createPoint(randomElement.getX(),randomElement.getY());
+        while (getTrack().getCarAt(pos) != null)
+            pos = new TrackLocation2D(randomElement.getX(), randomElement.getY());
+        return pos;
+    }
+
 
     @Override
     public void removeCar(Car<TrackLocation2D> c) {

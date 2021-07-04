@@ -78,6 +78,12 @@ public interface Car<L extends Location<? extends L>> {
 	Color getColor();
 
 	/**
+	 * Metodo per settare il colore.
+	 * @param color il colore.
+	 */
+	void setColor(Color color);
+
+	/**
 	 * Metodo che controlla se la macchina ha colpito dei muri.
 	 * @return true se la macchina ha colpito muri, false altrimenti.
 	 */

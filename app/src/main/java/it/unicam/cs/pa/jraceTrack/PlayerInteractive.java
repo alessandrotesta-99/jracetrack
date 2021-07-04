@@ -1,9 +1,9 @@
 package it.unicam.cs.pa.jraceTrack;
 
-public class PlayerInteractive extends DefaultBasePlayer<TrackLocation2D>{
+public class PlayerInteractive extends DefaultBasePlayer{
 
-    public PlayerInteractive(String name) {
-        super(name);
+    public PlayerInteractive() {
+        super();
     }
 
     @Override
