@@ -15,8 +15,8 @@ public class DefaultCar<L extends TrackLocation2D> implements Car<TrackLocation2
     private DefaultStateCar status;
     private int currentVelocity;
     private final List<TrackLocation2D> path;
-    //todo
-    private int id;
+    private static int lastID = 0;
+    private final int id;
 
     public DefaultCar(Track<TrackLocation2D> track) {
         Objects.requireNonNull(track);
@@ -24,6 +24,8 @@ public class DefaultCar<L extends TrackLocation2D> implements Car<TrackLocation2
         this.status = DefaultStateCar.IN_RACE;
         this.currentVelocity = 0;
         this.path = new LinkedList<>();
+        lastID++;
+        this.id = lastID;
     }
 
     @Override
@@ -125,19 +127,18 @@ public class DefaultCar<L extends TrackLocation2D> implements Car<TrackLocation2
                 .isEmpty();
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DefaultCar<?> that = (DefaultCar<?>) o;
-        //todo. da togliere quando verrà messo un id.
-        if(Objects.equals(track,that.track) && Objects.equals(path.get(0), that.path.get(0)))
-            return false;
-        return Objects.equals(track, that.track) && Objects.equals(location, that.location);
+        return id == that.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(track, color, path);
+        return Objects.hash(id);
     }
+
 }

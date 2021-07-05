@@ -150,27 +150,23 @@ public class DefaultCarTest{
 
         TrackLocation2D p1 = new TrackLocation2D(1, 9);
         TrackLocation2D p2 = new TrackLocation2D(5, 9);
-        TrackLocation2D p3 = new TrackLocation2D(1, 8);
-        TrackLocation2D p4 = new TrackLocation2D(5, 8);
 
         TrackLocation2D p5 = new TrackLocation2D(1, 9);
         TrackLocation2D p6 = new TrackLocation2D(5, 9);
-        TrackLocation2D p7 = new TrackLocation2D(1, 8);
-        TrackLocation2D p8 = new TrackLocation2D(5, 8);
 
         List<TrackLocation2D> start = new ArrayList<>();
         start.add(p1);
         start.add(p2);
-        start.add(p3);
-        start.add(p4);
+
         List<TrackLocation2D> finish = new ArrayList<>();
         finish.add(p5);
         finish.add(p6);
-        finish.add(p7);
-        finish.add(p8);
+
 
         Track<TrackLocation2D> tr = new DefaultTrack2D<>(start, finish, w1, w2, w3, w4, w5, w6, w7, w8);
-        return new DefaultCar<>(tr);
+        Race<TrackLocation2D> r = new DefaultRace<>(tr, 1, TypePlayer.INTERACTIVE);
+        r.getPlayers().get(0).getCar().setLocation(new TrackLocation2D(1,9)); //solo per test.
+        return r.getPlayers().get(0).getCar();
     }
 
     @Test
@@ -193,5 +189,4 @@ public class DefaultCarTest{
         //todo non porta al momento perche bisognerebbe aggiungere i punti al circuito.
         assertTrue(car.hitsWall());
     }
-
 }

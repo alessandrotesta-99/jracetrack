@@ -1,7 +1,6 @@
 package it.unicam.cs.pa.jraceTrack;
 
 import java.util.Objects;
-import java.util.Random;
 
 public abstract class DefaultBasePlayer implements Player<TrackLocation2D>{
 
@@ -47,31 +46,18 @@ public abstract class DefaultBasePlayer implements Player<TrackLocation2D>{
     }
 
     @Override
-    public void moveUp(TrackLocation2D p) {
-        if(this.getType() == TypePlayer.BOT){
-            int nextPositions = this.getCar().getLocation().getNextLocations(this.getCar()).size();
-            int randomElement = new Random().nextInt(nextPositions);
-            int count = 0;
-            for(TrackLocation2D t : this.getCar().getLocation().getNextLocations(this.getCar())){
-                if(count == randomElement)
-                    this.getCar().moveUp(t);
-                count++;
-            }
-        }
-        else if(this.getType() == TypePlayer.INTERACTIVE)
-            this.getCar().moveUp(p);
-    }
+    public abstract void moveUp(TrackLocation2D p);
 
     @Override
     public int getTurn() {
-        if(this.isMyTurn())
-            turn++;
         return turn;
     }
 
     @Override
     public void setTurn(boolean turn){
         this.yourTurn = turn;
+        if(this.isMyTurn())
+            this.turn++;
     }
 
     @Override

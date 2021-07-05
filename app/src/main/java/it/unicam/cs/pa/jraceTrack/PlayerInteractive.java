@@ -10,4 +10,9 @@ public class PlayerInteractive extends DefaultBasePlayer{
     public TypePlayer getType() {
         return TypePlayer.INTERACTIVE;
     }
+
+    @Override
+    public void moveUp(TrackLocation2D p) {
+        this.getCar().moveUp(p);
+    }
 }

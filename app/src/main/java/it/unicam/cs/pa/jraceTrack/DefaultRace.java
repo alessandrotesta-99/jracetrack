@@ -10,7 +10,7 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
     private boolean state;
 
     public DefaultRace(Track<TrackLocation2D> track, int numberOfPlayers, TypePlayer typePlayer) {
-        this.rules = new ArrayList<>();
+        //todo aggiungere eccezione: il numero dei giocatori deve essere minore o uguale della larghezza.
         this.players = new ArrayList<>(numberOfPlayers);
         createTrack(track);
         for(int i = 0; i < numberOfPlayers; i++)
@@ -84,20 +84,8 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
     public void addCar(Car<TrackLocation2D> c) {
         if(!this.getTrack().getStart().contains(c.getLocation()) || getTrack().getCarAt(c.getLocation()) != null)
             throw new IllegalArgumentException("ERROR: this location is not valid.");
-        c.setLocation(locationInit());
-        c.getPath().add(locationInit());
         track.addCar(c);
     }
-
-    private TrackLocation2D locationInit(){
-        TrackLocation2D pos;
-        TrackLocation2D randomElement = this.getTrack().getStart().get(new Random().nextInt(this.getTrack().getStart().size()));
-        pos = (TrackLocation2D) FactoryLocation.createPoint(randomElement.getX(),randomElement.getY());
-        while (getTrack().getCarAt(pos) != null)
-            pos = new TrackLocation2D(randomElement.getX(), randomElement.getY());
-        return pos;
-    }
-
 
     @Override
     public void removeCar(Car<TrackLocation2D> c) {

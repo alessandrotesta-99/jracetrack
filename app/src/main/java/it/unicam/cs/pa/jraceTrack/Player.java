@@ -47,9 +47,9 @@ public interface Player<L extends Location<? extends L>> {
 
 	/**
 	 * Metodo che permette al giocatore di spostare la macchina.
-	 * @param p nuova posizione dove si trova la macchina.
+	 * @param pos posizione prossima della macchina.
 	 */
-	void moveUp(L p);
+	void moveUp(L pos);
 
 	/**
 	 * Metodo che restituisce il turno corrente del giocatore.

@@ -37,7 +37,7 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
         Objects.requireNonNull(location);
         return this.mapTrack.keySet()
                 .stream()
-                .filter(p -> p.getLocation().equals(location))
+                .filter(c -> c.getLocation().equals(location))
                 .findFirst()
                 .orElse(null);
     }
@@ -66,16 +66,23 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
     public Car<TrackLocation2D> createCar() {
         Car<TrackLocation2D> c = new DefaultCar<>(this);
         c.setLocation(initLocationCar());
+        c.getPath().add(c.getLocation());
         return c;
     }
 
     private TrackLocation2D initLocationCar() {
-        TrackLocation2D pos;
-        TrackLocation2D randomElement = this.getStart().get(new Random().nextInt(this.getStart().size()));
-        pos = (TrackLocation2D) FactoryLocation.createPoint(randomElement.getX(),randomElement.getY());
+        TrackLocation2D pos = getTrackLocation2D();
         while (getCarAt(pos) != null)
-            pos = new TrackLocation2D(randomElement.getX(), randomElement.getY());
+            pos = getTrackLocation2D();
         return pos;
+    }
+
+    private TrackLocation2D getTrackLocation2D() {
+        return (TrackLocation2D) FactoryLocation.createPoint(this.getStart().get(generateRandomLocation()).getX(), this.getStart().get(generateRandomLocation()).getY());
+    }
+
+    private int generateRandomLocation() {
+        return new Random().nextInt(this.getStart().size());
     }
 
     @Override
