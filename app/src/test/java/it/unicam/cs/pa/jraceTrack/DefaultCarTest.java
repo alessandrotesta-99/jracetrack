@@ -162,7 +162,6 @@ public class DefaultCarTest{
         finish.add(p5);
         finish.add(p6);
 
-
         Track<TrackLocation2D> tr = new DefaultTrack2D<>(start, finish, w1, w2, w3, w4, w5, w6, w7, w8);
         Race<TrackLocation2D> r = new DefaultRace<>(tr, 1, TypePlayer.INTERACTIVE);
         r.getPlayers().get(0).getCar().setLocation(new TrackLocation2D(1,9)); //solo per test.

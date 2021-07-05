@@ -1,6 +1,7 @@
 package it.unicam.cs.pa.jraceTrack;
 
 import java.util.Random;
+import java.util.Set;
 
 public class PlayerBot extends DefaultBasePlayer{
 
@@ -17,10 +18,11 @@ public class PlayerBot extends DefaultBasePlayer{
     @Override
     public void moveUp(TrackLocation2D p) {
         //todo trovare un modo per eliminare il parametro.
-        int nextPositions = this.getCar().getLocation().getNextLocations(this.getCar()).size();
-        int randomElement = new Random().nextInt(nextPositions);
+        Set<TrackLocation2D> nextLocs = this.getCar().getLocation().getNextLocations(this.getCar());
+        int intLocs = nextLocs.size();
+        int randomElement = new Random().nextInt(intLocs);
         int count = 0;
-        for (TrackLocation2D t : this.getCar().getLocation().getNextLocations(this.getCar())) {
+        for (TrackLocation2D t : nextLocs) {
             if (count == randomElement)
                 this.getCar().moveUp(t);
             count++;

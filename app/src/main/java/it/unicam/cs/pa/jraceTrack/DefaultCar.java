@@ -1,6 +1,8 @@
 package it.unicam.cs.pa.jraceTrack;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**

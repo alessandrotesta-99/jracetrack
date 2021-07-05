@@ -1,7 +1,6 @@
 package it.unicam.cs.pa.jraceTrack;
 
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * Interfaccia che ha la responsabilita di applicare le regole al gioco.

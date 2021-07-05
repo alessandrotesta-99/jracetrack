@@ -1,6 +1,13 @@
 package it.unicam.cs.pa.jraceTrack;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class DefaultTrack2D<L extends Location<? extends L>> implements Track<TrackLocation2D> {
@@ -132,8 +139,7 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
      * Metodo che controlla se il punto di partenza e di arrivo sono validi.
      */
     private void isValidStartFinish() {
-    //    start.removeIf(p -> !this.getWalls().contains(p) && finish.removeIf(p1 -> !this.getWalls().contains(p1))); todo
-        if(this.isCircle()){
+         if(this.isCircle()){
             if(!this.isValidVertical(start) && !this.isValidHorizontal(start))
                 throw new IllegalArgumentException("ERROR: the start or finish is invalid.");
         }

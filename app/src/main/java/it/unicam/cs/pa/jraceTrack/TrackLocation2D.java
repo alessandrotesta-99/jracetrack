@@ -1,6 +1,7 @@
 package it.unicam.cs.pa.jraceTrack;
 
-import java.util.*;
+import java.util.Set;
+import java.util.Objects;
 
 /**
  * Classe che ha la responsabilit&agrave; di specificare, nel circuito 2D, una locazione nel piano
