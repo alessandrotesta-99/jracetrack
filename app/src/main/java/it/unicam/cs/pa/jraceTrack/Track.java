@@ -51,10 +51,10 @@ public interface Track<L extends Location<? extends L>> {
 
 	/**
 	 * Metodo che restituisce le prossime posizioni disponibili nel circuito.
-	 * @param c macchina che richiede le prossime posizioni.
+	 * @param loc posizione della macchina in questo momento.
 	 * @return le prossime posizioni disponibili.
 	 */
-	Set<L> getNextLocs(Car<L> c);
+	Set<L> getNextLocs(L loc);
 
 	/**
 	 * Metodo che restituisce la posizione di tutti i muri della pista.

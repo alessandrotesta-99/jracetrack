@@ -18,7 +18,7 @@ public class PlayerBot extends DefaultBasePlayer{
     @Override
     public void moveUp(TrackLocation2D p) {
         //todo trovare un modo per eliminare il parametro.
-        Set<TrackLocation2D> nextLocs = this.getCar().getLocation().getNextLocations(this.getCar());
+        Set<TrackLocation2D> nextLocs = this.getCar().getTrack().getNextLocs(this.getCar().getLocation());
         int intLocs = nextLocs.size();
         int randomElement = new Random().nextInt(intLocs);
         int count = 0;

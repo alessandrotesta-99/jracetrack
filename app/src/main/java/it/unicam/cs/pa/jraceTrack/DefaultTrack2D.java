@@ -93,9 +93,9 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
     }
 
     @Override
-    public Set<TrackLocation2D> getNextLocs(Car<TrackLocation2D> c) {
-        Objects.requireNonNull(c);
-        return c.getLocation().getNextLocations(c); //todo
+    public Set<TrackLocation2D> getNextLocs(TrackLocation2D loc) {
+        Objects.requireNonNull(loc);
+        return loc.getNextLocations(getCarAt(loc));
     }
 
     @Override

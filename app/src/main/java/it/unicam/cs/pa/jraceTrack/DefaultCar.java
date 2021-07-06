@@ -43,7 +43,7 @@ public class DefaultCar<L extends TrackLocation2D> implements Car<TrackLocation2
     @Override
     public void moveUp(TrackLocation2D nextDestination) {
         Objects.requireNonNull(nextDestination);
-        if(this.track.getNextLocs(this).contains(nextDestination) && this.track.getCarAt(nextDestination) == null)
+        if(this.track.getNextLocs(this.getLocation()).contains(nextDestination) && this.track.getCarAt(nextDestination) == null)
             this.setLocation(nextDestination);
         else
             throw new IllegalArgumentException("ERROR: this point is invalid.");

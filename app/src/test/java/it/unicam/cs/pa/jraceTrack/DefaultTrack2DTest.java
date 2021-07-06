@@ -35,7 +35,7 @@ public class DefaultTrack2DTest{
         Track<TrackLocation2D> tr = getDefaultTrack();
         Car<TrackLocation2D> c = tr.createCar();
         tr.addCar(c);
-        System.out.println(tr.getNextLocs(c));
+        System.out.println(tr.getNextLocs(c.getLocation()));
         Set<TrackLocation2D> nextPoints1 = Set.of(new TrackLocation2D(4,6),
                 new TrackLocation2D(4,5),
                 new TrackLocation2D(4,7),
@@ -55,9 +55,9 @@ public class DefaultTrack2DTest{
                 new TrackLocation2D(6,8),
                 new TrackLocation2D(6,9));
         if(c.getLocation().equals(new TrackLocation2D(5, 6)))
-            assertTrue(tr.getNextLocs(c).containsAll(nextPoints1));
+            assertTrue(tr.getNextLocs(c.getLocation()).containsAll(nextPoints1));
         else if(c.getLocation().equals(new TrackLocation2D(5,8)))
-            assertTrue(tr.getNextLocs(c).containsAll(nextPoints2));
+            assertTrue(tr.getNextLocs(c.getLocation()).containsAll(nextPoints2));
     }
 
     @Test
