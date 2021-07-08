@@ -1,4 +1,4 @@
-package it.unicam.cs.pa.jraceTrack;
+package it.unicam.cs.pa.jraceTrack.Model;
 
 /**
  * Interfaccia che specifica un qualsiasi tipo di giocatore che vuole giocare al gioco.

@@ -1,4 +1,4 @@
-package it.unicam.cs.pa.jraceTrack;
+package it.unicam.cs.pa.jraceTrack.Model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +13,15 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
     public DefaultRace(Track<TrackLocation2D> track, int numberOfPlayers, TypePlayer typePlayer) {
         //todo aggiungere eccezione: il numero dei giocatori deve essere minore o uguale della larghezza. {controller}
         this.players = new ArrayList<>(numberOfPlayers);
-        createTrack(track.getStart(),track.getFinish(), track.getWalls());
+
         for(int i = 0; i < numberOfPlayers; i++)
             createPlayer(typePlayer);
         setInit(players);
         this.start();
+    }
+
+    public DefaultRace() {
+        this.players = new ArrayList<>();
     }
 
     public DefaultRace(int numberOfPlayers, TypePlayer typePlayer) {
@@ -64,7 +68,7 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
 
     @Override
     public void createTrack(List<TrackLocation2D> start, List<TrackLocation2D> finish, List<TrackLocation2D> walls) {
-        this.track = new DefaultTrack2D<>(start,finish,walls);
+        this.track = new DefaultTrack2D<>(start, finish, walls);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package it.unicam.cs.pa.jraceTrack;
+package it.unicam.cs.pa.jraceTrack.Model;
 
 public class MyFactoryLocation implements FactoryLocation<TrackLocation2D>{
 

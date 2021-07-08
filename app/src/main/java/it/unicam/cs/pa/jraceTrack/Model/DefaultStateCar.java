@@ -1,4 +1,4 @@
-package it.unicam.cs.pa.jraceTrack;
+package it.unicam.cs.pa.jraceTrack.Model;
 /**
  * Enumerazione che stabilisce i possibili stati della macchina.
  */

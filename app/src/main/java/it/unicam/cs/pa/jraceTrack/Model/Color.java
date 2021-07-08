@@ -1,4 +1,4 @@
-package it.unicam.cs.pa.jraceTrack;
+package it.unicam.cs.pa.jraceTrack.Model;
 
 /**
  * Interfaccia che ha la responsabilita di assegnare un colore.

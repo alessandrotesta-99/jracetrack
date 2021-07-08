@@ -1,5 +1,6 @@
 package it.unicam.cs.pa.jraceTrack;
 
+import it.unicam.cs.pa.jraceTrack.Model.*;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
