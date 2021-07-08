@@ -10,34 +10,42 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
     private Track<TrackLocation2D> track;
     private boolean state;
 
+    /**
+     * Costruttore che permette di costruire una gara con le configurazioni iniziali settate manualmente senza
+     * l'uso di un file di configurazione iniziale.
+     *
+     * @param track il tracciato di gara.
+     * @param numberOfPlayers il numero di giocatori.
+     * @param typePlayer il tipo dei giocatori.
+     */
     public DefaultRace(Track<TrackLocation2D> track, int numberOfPlayers, TypePlayer typePlayer) {
         //todo aggiungere eccezione: il numero dei giocatori deve essere minore o uguale della larghezza. {controller}
         this.players = new ArrayList<>(numberOfPlayers);
-
+         this.track = track;
         for(int i = 0; i < numberOfPlayers; i++)
             createPlayer(typePlayer);
         setInit(players);
         this.start();
     }
 
+    /**
+     * Costruttore che permette di costruire una gara senza settare niente manualmente.
+     * Il tracciato e i giocatori vengono settati tramite un file di configurazione iniziale.
+     */
     public DefaultRace() {
         this.players = new ArrayList<>();
-    }
-
-    public DefaultRace(int numberOfPlayers, TypePlayer typePlayer) {
-        this.players = new ArrayList<>(numberOfPlayers);
-        for(int i = 0; i < numberOfPlayers; i++)
-            createPlayer(typePlayer);
-      //  setInit(players);
         this.start();
     }
 
     private void setInit(List<Player<TrackLocation2D>> players) {
         for (int i = 0; i< players.size(); i++){
-            Car<TrackLocation2D> car = this.getTrack().createCar();
-            this.addCar(car);
-            this.players.get(i).setCar(car);
+            if(this.players.get(i).getCar() == null){
+                Car<TrackLocation2D> car = this.getTrack().createCar();
+                this.addCar(car);
+                this.players.get(i).setCar(car);
             }
+        }
+        //TODO da aggiungere al controller nel momento che inizi una nuova gara.
         this.players.get(new Random().nextInt(players.size())).setTurn(true);
     }
 
@@ -77,6 +85,7 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
             this.addPlayer(new PlayerBot());
         else if(typePlayer == TypePlayer.INTERACTIVE)
             this.addPlayer(new PlayerInteractive());
+        setInit(players);
     }
 
     @Override

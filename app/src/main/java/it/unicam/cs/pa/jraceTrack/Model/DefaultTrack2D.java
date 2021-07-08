@@ -121,7 +121,10 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
 
     @Override
     public List<DefaultStateCar> getStatusCars() {
-        return this.getCars().stream().map(Car::getStatus).collect(Collectors.toList());
+        return this.getCars()
+                .stream()
+                .map(Car::getStatus)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -132,7 +135,9 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
 
     @Override
     public boolean isGameOver() {
-        return getStatusCars().stream().anyMatch(s -> s.equals(DefaultStateCar.CRASHED));
+        return getStatusCars()
+                .stream()
+                .anyMatch(s -> s.equals(DefaultStateCar.CRASHED));
     }
 
     /**
