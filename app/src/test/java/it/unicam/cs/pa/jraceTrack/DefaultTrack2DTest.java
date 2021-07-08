@@ -80,6 +80,15 @@ public class DefaultTrack2DTest{
         TrackLocation2D w6 = new TrackLocation2D(3,6);
         TrackLocation2D w7 = new TrackLocation2D(8,3);
         TrackLocation2D w8 = new TrackLocation2D(8,6);
+        List<TrackLocation2D> walls = new ArrayList<>();
+        walls.add(w1);
+        walls.add(w2);
+        walls.add(w3);
+        walls.add(w4);
+        walls.add(w5);
+        walls.add(w6);
+        walls.add(w7);
+        walls.add(w8);
 
         TrackLocation2D p1 = new TrackLocation2D(5,6);
         TrackLocation2D p2 = new TrackLocation2D(5,8);
@@ -93,7 +102,7 @@ public class DefaultTrack2DTest{
         finish.add(p3);
         finish.add(p4);
         //crea tracciato
-        return new DefaultTrack2D<>(start,finish,w1,w2,w3,w4,w5,w6,w7,w8);
+        return new DefaultTrack2D<>(start,finish,walls);
     }
 
     @Test

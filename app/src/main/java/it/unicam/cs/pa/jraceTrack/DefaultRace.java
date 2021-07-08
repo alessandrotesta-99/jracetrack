@@ -8,16 +8,23 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
 
     private final List<Player<TrackLocation2D>> players;
     private Track<TrackLocation2D> track;
-    private List<Rule> rules;
     private boolean state;
 
     public DefaultRace(Track<TrackLocation2D> track, int numberOfPlayers, TypePlayer typePlayer) {
         //todo aggiungere eccezione: il numero dei giocatori deve essere minore o uguale della larghezza. {controller}
         this.players = new ArrayList<>(numberOfPlayers);
-        createTrack(track);
+        createTrack(track.getStart(),track.getFinish(), track.getWalls());
         for(int i = 0; i < numberOfPlayers; i++)
             createPlayer(typePlayer);
         setInit(players);
+        this.start();
+    }
+
+    public DefaultRace(int numberOfPlayers, TypePlayer typePlayer) {
+        this.players = new ArrayList<>(numberOfPlayers);
+        for(int i = 0; i < numberOfPlayers; i++)
+            createPlayer(typePlayer);
+      //  setInit(players);
         this.start();
     }
 
@@ -56,8 +63,8 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
     }
 
     @Override
-    public void createTrack(Track<TrackLocation2D> track) {
-        this.track = track;
+    public void createTrack(List<TrackLocation2D> start, List<TrackLocation2D> finish, List<TrackLocation2D> walls) {
+        this.track = new DefaultTrack2D<>(start,finish,walls);
     }
 
     @Override
@@ -95,19 +102,10 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
     }
 
     @Override
-    public List<Rule> getListRule() {
-        return rules;
-    }
-
-    @Override
-    public void setListRule(List<Rule> rule) {
-        this.rules = rule;
-    }
-
-    @Override
     public Player<TrackLocation2D> getWinner() {
         return this.players
                 .stream()
+                .sequential()
                 .filter(Player::isWinner)
                 .findFirst().orElse(null);
     }

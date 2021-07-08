@@ -148,6 +148,16 @@ public class DefaultCarTest{
         TrackLocation2D w7 = new TrackLocation2D(16, 5);
         TrackLocation2D w8 = new TrackLocation2D(16, 12);
 
+        List<TrackLocation2D> walls = new ArrayList<>();
+        walls.add(w1);
+        walls.add(w2);
+        walls.add(w3);
+        walls.add(w4);
+        walls.add(w5);
+        walls.add(w6);
+        walls.add(w7);
+        walls.add(w8);
+
         TrackLocation2D p1 = new TrackLocation2D(1, 9);
         TrackLocation2D p2 = new TrackLocation2D(5, 9);
 
@@ -162,7 +172,7 @@ public class DefaultCarTest{
         finish.add(p5);
         finish.add(p6);
 
-        Track<TrackLocation2D> tr = new DefaultTrack2D<>(start, finish, w1, w2, w3, w4, w5, w6, w7, w8);
+        Track<TrackLocation2D> tr = new DefaultTrack2D<>(start, finish, walls);
         Race<TrackLocation2D> r = new DefaultRace<>(tr, 1, TypePlayer.INTERACTIVE);
         r.getPlayers().get(0).getCar().setLocation(new TrackLocation2D(1,9)); //solo per test.
         return r.getPlayers().get(0).getCar();

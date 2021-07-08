@@ -1,7 +1,7 @@
 package it.unicam.cs.pa.jraceTrack;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Interfaccia che permette di leggere da file un oggetto @{@link Track} che rappresenta il circuito.
@@ -18,10 +18,11 @@ public interface TrackReader<L extends Location<? extends L>> {
 
     /**
      * Metodo che crea un oggetto dal file che viene letto.
-     * @param file file che viene letto.
-     * @return il tracciato creato.
+     *  @param start
+     * @param finish
+     * @param walls
      */
-    Track<L> createTrackFrom(File file);
+    void createTrackFromFile(List<L> start, List<L> finish, List<L> walls);
 
 
 }

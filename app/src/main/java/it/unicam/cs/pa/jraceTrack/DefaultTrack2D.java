@@ -24,13 +24,11 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
      * @param finish punti che indicano la linea di arrivo.
      * @param walls punti che indicano i muri del circuito.
      */
-    public DefaultTrack2D(List<TrackLocation2D> start, List<TrackLocation2D> finish, TrackLocation2D... walls) {
+    public DefaultTrack2D(List<TrackLocation2D> start, List<TrackLocation2D> finish, List<TrackLocation2D> walls) {
         this.mapTrack = new HashMap<>();
         this.start = start;
         this.finish = finish;
-        this.walls = new ArrayList<>();
-        Arrays.stream(walls).sequential().forEach(w -> new TrackLocation2D(w.getX(), w.getY()));
-        Arrays.stream(walls).sequential().forEach(this::addWall);
+        this.walls = walls;
         this.isValidStartFinish();
         this.isValidTrack();
     }
@@ -44,6 +42,7 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
         Objects.requireNonNull(location);
         return this.mapTrack.keySet()
                 .stream()
+                .sequential()
                 .filter(c -> c.getLocation().equals(location))
                 .findFirst()
                 .orElse(null);
@@ -63,6 +62,7 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
         if(this.getCars().contains(c))
             this.mapTrack.entrySet()
                 .stream()
+                .sequential()
                 .filter(car -> car.getKey().equals(c))
                 .forEach(ca -> ca.setValue(c.getLocation()));
         else
@@ -85,7 +85,7 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
     }
 
     private TrackLocation2D getTrackLocation2D() {
-        return (TrackLocation2D) FactoryLocation.createPoint(this.getStart().get(generateRandomLocation()).getX(), this.getStart().get(generateRandomLocation()).getY());
+        return MyFactoryLocation.getInstance().createLocation(this.getStart().get(generateRandomLocation()).getX(), this.getStart().get(generateRandomLocation()).getY());
     }
 
     private int generateRandomLocation() {
@@ -113,6 +113,7 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
         Objects.requireNonNull(loc);
         return this.mapTrack.keySet()
                 .stream()
+                .sequential()
                 .filter(c -> c.getLocation().equals(loc))
                 .map(Car::getStatus)
                 .findFirst()

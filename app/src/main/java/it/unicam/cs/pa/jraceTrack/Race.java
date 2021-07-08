@@ -42,9 +42,11 @@ public interface Race<L extends Location<? extends L>> {
 
 	 /**
 	 * Metodo che crea il circuito di gara.
-	 * @param track il tracciato da creare.
-	 */
-	void createTrack(Track<L> track);
+	  * @param start linea di partenza.
+	  * @param finish linea di arrivo.
+	  * @param walls muri del circuito.
+	  */
+	void createTrack(List<L> start, List<L> finish, List<L> walls);
 
 	/**
 	 * Metodo che crea un giocatore.
@@ -75,18 +77,6 @@ public interface Race<L extends Location<? extends L>> {
 	 * @param c macchina da rimuovere.
 	 */
 	void removeCar(Car<L> c);
-
-	/**
-	 * Metodo che restituisce la lista di regole della gara.
-	 * @return lista di regole della gara.
-	 */
-	List<Rule> getListRule();
-
-	/**
-	 * Metodo che setta la lista di regole della gara.
-	 * @param rule lista di regole.
-	 */
-	void setListRule(List<Rule> rule);
 
 	/**
 	 * Metodo che restituisce il giocatore che ha vinto la gara.
