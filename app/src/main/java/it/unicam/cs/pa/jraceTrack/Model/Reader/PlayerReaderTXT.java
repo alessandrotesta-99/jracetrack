@@ -8,6 +8,19 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * Classe che specifica un Reader per la lettura di un file, che corrisponde ad una lista di giocatori che
+ * parteciperanno alla gara.
+ * Il formato del file deve essere ".txt" e deve essere scritto in questo modo:
+ *
+ * TIPOGIOCATORE;nomeGiocatore,
+ * TIPOGIOCATORE;nomeGiocatore,
+ * TIPOGIOCATORE;nomeGiocatore,
+ *
+ * Ogni stringa rappresenta un giocatore. La stringa ha un separatore di campi: ";" che la divide in due campi.
+ * Il primo campo indica il tipo del giocatore, mentre il secondo campo indica il nome del giocatore.
+ * &Egrave; possibile inserire sia giocatori Bot che giocatori Interattivi, ma non entrambi nella stessa gara.
+ */
 public class PlayerReaderTXT implements ObjectReader<TrackLocation2D> {
 
     private final Race<TrackLocation2D> race;

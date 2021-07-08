@@ -10,6 +10,26 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe che specifica un Reader per la lettura di un file, che corrisponde ad un tracciato.
+ * Il formato del file deve essere ".txt" e deve essere scritto in questo modo:
+ * (x,y),
+ * (x,y),
+ * (x,y),
+ * (x,y),
+ * (x,y)
+ * ;
+ * (x,y),
+ * (x,y)
+ * ;
+ * (x,y),
+ * (x,y)
+ *
+ * Le coordinate scritte fino al primo ";" specificano i punti che corrispondono ai muri del circuito.
+ * Dopo di che vegnono specificate le coordinate che rappresentano i punti che formano una linea di partenza,
+ * e infine dopo l'ultimo ";" vengono specificate le coordinate che rappresentano i punti che formano
+ * la linea di arrivo.
+ */
 public class TrackReaderTXT implements ObjectReader<TrackLocation2D> {
 
     private final Race<TrackLocation2D> race;
