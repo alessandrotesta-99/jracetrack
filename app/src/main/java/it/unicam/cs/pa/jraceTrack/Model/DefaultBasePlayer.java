@@ -41,11 +41,6 @@ public abstract class DefaultBasePlayer implements Player<TrackLocation2D>{
     public abstract TypePlayer getType();
 
     @Override
-    public DefaultStateCar getStatus() {
-        return this.getCar().getStatus();
-    }
-
-    @Override
     public abstract void moveUp(TrackLocation2D p);
 
     @Override

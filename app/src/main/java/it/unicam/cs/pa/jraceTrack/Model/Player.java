@@ -39,11 +39,6 @@ public interface Player<L extends Location<? extends L>> {
 	 */
 	TypePlayer getType();
 
-	/**
-	 * Metodo che ritorna lo stato della macchina del giocatore in un certo momento.
-	 * @return lo stato della macchina.
-	 */
-	DefaultStateCar getStatus();
 
 	/**
 	 * Metodo che permette al giocatore di spostare la macchina.
