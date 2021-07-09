@@ -3,8 +3,8 @@ package it.unicam.cs.pa.jraceTrack.Controller;
 import it.unicam.cs.pa.jraceTrack.Model.Location;
 import it.unicam.cs.pa.jraceTrack.Model.Player;
 import it.unicam.cs.pa.jraceTrack.Model.Track;
-import it.unicam.cs.pa.jraceTrack.Model.Car;
 import it.unicam.cs.pa.jraceTrack.Model.Color;
+import it.unicam.cs.pa.jraceTrack.Model.Car;
 import it.unicam.cs.pa.jraceTrack.Model.DefaultStateCar;
 
 import java.io.IOException;
@@ -104,8 +104,9 @@ public interface Controller<L extends Location<L>> {
     /**
      * Metodo che permette di muovere la macchina.
      * @param loc prossima locazione dove posizionare la macchina.
+     * @param player giocatore che muove la macchina.
      */
-    void moveUp(L loc);
+    void moveUp(L loc, Player<L> player);
 
     /**
      * Metodo che ritorna una macchina ad una certa posizione se la macchina esiste.
@@ -120,6 +121,13 @@ public interface Controller<L extends Location<L>> {
      * @return un set di locazioni dove può andare la macchina.
      */
     Set<L> getNextLocs(L loc);
+
+    /**
+     * Metodo che restituisce il turno del giocatore.
+     * @param player il giocatore.
+     * @return il turno del giocatore.
+     */
+    int getTurnPlayer(Player<L> player);
 
     /**
      * Metodo che permette di aggiungere un circuito da un file.

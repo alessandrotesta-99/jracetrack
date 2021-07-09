@@ -1,13 +1,23 @@
 package it.unicam.cs.pa.jraceTrack.Controller;
 
-import it.unicam.cs.pa.jraceTrack.Model.*;
+import it.unicam.cs.pa.jraceTrack.Model.TrackLocation2D;
+import it.unicam.cs.pa.jraceTrack.Model.Race;
+import it.unicam.cs.pa.jraceTrack.Model.DefaultRace;
+import it.unicam.cs.pa.jraceTrack.Model.Player;
+import it.unicam.cs.pa.jraceTrack.Model.Track;
+import it.unicam.cs.pa.jraceTrack.Model.Color;
+import it.unicam.cs.pa.jraceTrack.Model.Car;
+import it.unicam.cs.pa.jraceTrack.Model.DefaultStateCar;
+import it.unicam.cs.pa.jraceTrack.Model.TypePlayer;
 import it.unicam.cs.pa.jraceTrack.Model.Reader.ObjectReader;
 import it.unicam.cs.pa.jraceTrack.Model.Reader.PlayerReaderTXT;
 import it.unicam.cs.pa.jraceTrack.Model.Reader.TrackReaderTXT;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
+import java.util.stream.Stream;
 
 public class DefaultController implements Controller<TrackLocation2D> {
 
@@ -23,6 +33,7 @@ public class DefaultController implements Controller<TrackLocation2D> {
 
     @Override
     public void newGame() {
+        this.race.getPlayers().get(new Random().nextInt(getPlayers().size())).setTurn(true);
         race.start();
     }
 
@@ -48,13 +59,13 @@ public class DefaultController implements Controller<TrackLocation2D> {
 
     @Override
     public void addCar(Track<TrackLocation2D> track, Car<TrackLocation2D> car, Color color) {
-        getTrack().addCar(car);
+        race.addCar(car);
         car.setColor(color);
     }
 
     @Override
     public void removeCar(Car<TrackLocation2D> car) {
-        getTrack().getCars().removeIf(c -> c.equals(car));
+        race.removeCar(car);
     }
 
     @Override
@@ -64,7 +75,7 @@ public class DefaultController implements Controller<TrackLocation2D> {
 
     @Override
     public void removePlayer(Player<TrackLocation2D> player) {
-        race.getPlayers().removeIf(p -> p.equals(player));
+        race.removePlayer(player);
     }
 
     @Override
@@ -93,8 +104,11 @@ public class DefaultController implements Controller<TrackLocation2D> {
     }
 
     @Override
-    public void moveUp(TrackLocation2D loc) {
-        //todo
+    public void moveUp(TrackLocation2D loc, Player<TrackLocation2D> player) {
+        if(player.getType().equals(TypePlayer.BOT))
+            player.moveUp(null);
+        else if(player.getType().equals(TypePlayer.INTERACTIVE))
+            player.moveUp(loc);
     }
 
     @Override
@@ -105,6 +119,11 @@ public class DefaultController implements Controller<TrackLocation2D> {
     @Override
     public Set<TrackLocation2D> getNextLocs(TrackLocation2D loc) {
         return getTrack().getNextLocs(loc);
+    }
+
+    @Override
+    public int getTurnPlayer(Player<TrackLocation2D> player) {
+        return player.getTurn();
     }
 
     @Override

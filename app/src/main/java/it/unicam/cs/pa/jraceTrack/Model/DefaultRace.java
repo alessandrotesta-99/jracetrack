@@ -45,8 +45,6 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
                 this.players.get(i).setCar(car);
             }
         }
-        //TODO da aggiungere al controller nel momento che inizi una nuova gara.
-        this.players.get(new Random().nextInt(players.size())).setTurn(true);
     }
 
     @Override
