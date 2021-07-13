@@ -12,6 +12,6 @@ public interface View<L extends Location<L>> {
 
     void open() throws IOException;
 
-    void close();
+    void close() throws IOException;
 
 }

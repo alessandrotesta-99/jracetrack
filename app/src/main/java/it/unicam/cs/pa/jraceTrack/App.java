@@ -16,5 +16,6 @@ public class App {
     public static void main(String[] args) throws IOException {
         View<TrackLocation2D> view = new ConsoleView();
         view.open();
+        view.close();
     }
 }

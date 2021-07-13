@@ -116,7 +116,7 @@ public class ConsoleView implements View<TrackLocation2D> {
                 printMsg(p5, "Percorso totale di " + p5.getName() + " : " + controller.getCarPath(p5.getCar()));
                 break;
             case "999":
-                controller.finish();
+                this.close();
                 break;
         }
     }
@@ -145,7 +145,6 @@ public class ConsoleView implements View<TrackLocation2D> {
     private void loadFile() throws IOException {
         controller.loadTrack();
         controller.loadPlayers();
-       // controller.getRepresentation();
     }
 
     private void createTrack() {
@@ -161,7 +160,7 @@ public class ConsoleView implements View<TrackLocation2D> {
     }
 
     @Override
-    public void close() {
-
+    public void close(){
+        controller.finish();
     }
 }

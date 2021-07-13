@@ -1,2 +1,2 @@
-INTERACTIVE;piero,
-INTERACTIVE;luca
+BOT;piero,
+BOT;luca
