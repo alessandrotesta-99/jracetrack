@@ -3,15 +3,18 @@
  */
 package it.unicam.cs.pa.jraceTrack;
 
-import java.io.Console;
+import it.unicam.cs.pa.jraceTrack.Model.TrackLocation2D;
+import it.unicam.cs.pa.jraceTrack.View.ConsoleView;
+import it.unicam.cs.pa.jraceTrack.View.View;
+
+import java.io.IOException;
 
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
 
+
+    public static void main(String[] args) throws IOException {
+        View<TrackLocation2D> view = new ConsoleView();
+        view.open();
     }
 }

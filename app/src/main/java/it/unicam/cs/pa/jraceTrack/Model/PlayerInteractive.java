@@ -13,6 +13,8 @@ public class PlayerInteractive extends DefaultBasePlayer{
 
     @Override
     public void moveUp(TrackLocation2D p) {
+        setTurn(true);
         this.getCar().moveUp(p);
+        setTurn(false);
     }
 }

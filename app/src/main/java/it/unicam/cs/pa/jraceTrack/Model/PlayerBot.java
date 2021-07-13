@@ -17,6 +17,7 @@ public class PlayerBot extends DefaultBasePlayer{
 
     @Override
     public void moveUp(TrackLocation2D p) {
+        setTurn(true);
         Set<TrackLocation2D> nextLocs = this.getCar().getTrack().getNextLocs(this.getCar().getLocation());
         int intLocs = nextLocs.size();
         int randomElement = new Random().nextInt(intLocs);
@@ -26,5 +27,6 @@ public class PlayerBot extends DefaultBasePlayer{
                 this.getCar().moveUp(t);
             count++;
         }
+        setTurn(false);
     }
 }

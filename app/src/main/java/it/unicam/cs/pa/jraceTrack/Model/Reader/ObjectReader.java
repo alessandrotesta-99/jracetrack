@@ -13,9 +13,8 @@ public interface ObjectReader<L extends Location<? extends L>> {
 
     /**
      * Metodo che permette di leggere un file di configurazione.
-     * @param name nome del file.
      */
-    void read(String name) throws IOException;
+    void read() throws IOException;
 
     /**
      * Metodo che crea un oggetto dal file che viene letto.

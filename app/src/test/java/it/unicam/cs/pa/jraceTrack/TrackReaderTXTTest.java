@@ -16,8 +16,8 @@ public class TrackReaderTXTTest {
     public void readTrack() throws IOException {
         Race<TrackLocation2D> race = new DefaultRace<>();
         assertNull(race.getTrack());
-        ObjectReader<TrackLocation2D> r = new TrackReaderTXT(race);
-        r.read("track.txt");
+        ObjectReader<TrackLocation2D> r = new TrackReaderTXT(race, "\\track.txt");
+        r.read();
         assertNotNull(race.getTrack());
     }
 }

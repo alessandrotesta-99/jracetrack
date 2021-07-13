@@ -7,6 +7,7 @@ import it.unicam.cs.pa.jraceTrack.Model.TypePlayer;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.File;
 
 /**
  * Classe che specifica un Reader per la lettura di un file, che corrisponde ad una lista di giocatori che
@@ -25,15 +26,17 @@ public class PlayerReaderTXT implements ObjectReader<TrackLocation2D> {
 
     private final Race<TrackLocation2D> race;
     private TypePlayer typePlayer;
+    private final File file;
 
 
-    public PlayerReaderTXT(Race<TrackLocation2D> race) {
+    public PlayerReaderTXT(Race<TrackLocation2D> race, String name) {
         this.race = race;
+        this.file = new File(name);
     }
 
     @Override
-    public void read(String name) throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(name.trim()));
+    public void read() throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(file));
         String nextStr = br.readLine();
         int count = 0;
         while (nextStr != null) {

@@ -89,10 +89,11 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
     @Override
     public void addPlayer(Player<TrackLocation2D> p) {
         if(p.getType() == TypePlayer.BOT && this.players.stream().allMatch(pl -> pl.getType().equals(TypePlayer.BOT))
-           || p.getType() == TypePlayer.INTERACTIVE && this.players.stream().allMatch(pl -> pl.getType().equals(TypePlayer.INTERACTIVE)))
+           || p.getType() == TypePlayer.INTERACTIVE && this.players.stream().allMatch(pl -> pl.getType().equals(TypePlayer.INTERACTIVE))
+                || players.stream().noneMatch(player -> player.getName().equals(p.getName())))
             this.players.add(p);
        else
-           throw new IllegalArgumentException("ERROR: impossible to add players with different types.");
+           throw new IllegalArgumentException("ERROR: impossible to add players with different types or same name.");
     }
 
     @Override

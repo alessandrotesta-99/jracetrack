@@ -1,11 +1,6 @@
 package it.unicam.cs.pa.jraceTrack.Controller;
 
-import it.unicam.cs.pa.jraceTrack.Model.Location;
-import it.unicam.cs.pa.jraceTrack.Model.Player;
-import it.unicam.cs.pa.jraceTrack.Model.Track;
-import it.unicam.cs.pa.jraceTrack.Model.Color;
-import it.unicam.cs.pa.jraceTrack.Model.Car;
-import it.unicam.cs.pa.jraceTrack.Model.DefaultStateCar;
+import it.unicam.cs.pa.jraceTrack.Model.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -26,8 +21,15 @@ public interface Controller<L extends Location<L>> {
      */
     void finish();
 
+
     /**
-     * Lista di tutti i giocatori.
+     * Metodo che verifica se la gara è finita o no.
+     * @return true se la gara non è finita, false altrimenti.
+     */
+    boolean isStart();
+
+    /**
+     * Metodo che mostra la lista di tutti i giocatori.
      * @return tutti i giocatori in gara.
      */
     List<Player<L>> getPlayers();
@@ -39,10 +41,11 @@ public interface Controller<L extends Location<L>> {
     Track<L> getTrack();
 
     /**
-     * Lista di tutte le macchine nel circuito.
+     * Metodo che mostra la lista di tutte le macchine nel circuito.
+     * @param track circuito dove si trovano le macchine.
      * @return tutte le macchine nel circuito.
      */
-    List<Car<L>> getCars();
+    List<Car<L>> getCars(Track<L> track);
 
     /**
      * Metodo che aggiunge una macchina al circuito.
@@ -50,7 +53,7 @@ public interface Controller<L extends Location<L>> {
      * @param car macchina da aggiungere.
      * @param color colore della macchina.
      */
-    void addCar(Track<L> track, Car<L> car, Color color);
+    void addCar(Track<L> track, Car<L> car, Color color); //todo ne ho bisogno solo per il colore.
 
     /**
      * Metodo che rimuove la macchina dalla gara.
@@ -62,13 +65,13 @@ public interface Controller<L extends Location<L>> {
      * Metodo che aggiunge un giocatore alla gara.
      * @param player giocatore da aggiungere.
      */
-    void addPlayer(Player<L> player);
+    void addPlayer(Player<L> player);  //todo potrei non aver bisogno perche carico tutto da file.
 
     /**
      * Metodo che rimuove un giocatore dalla gara.
      * @param player il giocatore da rimuovere.
      */
-    void removePlayer(Player<L> player);
+    void removePlayer(Player<L> player); //todo idem sopra.
 
     /**
      * Metodo che setta il giocatore vincitore.
@@ -113,7 +116,7 @@ public interface Controller<L extends Location<L>> {
      * @param loc la posione
      * @return la macchina ad una certa posizione o null.
      */
-    Car<L> getCarAt(L loc);
+    Car<L> getCarAt(L loc); //todo non penso che servirà
 
     /**
      * Metodo che restituisce le prossime locazioni dove poter andare.
@@ -131,15 +134,27 @@ public interface Controller<L extends Location<L>> {
 
     /**
      * Metodo che permette di aggiungere un circuito da un file.
-     * @param name nome del file.
      */
-    void loadTrack(String name) throws IOException;
+    void loadTrack() throws IOException;
 
     /**
      * Metodo che permette di aggiungere un set di giocatori da file.
-     * @param name nome del file.
      */
-    void loadPlayers(String name) throws IOException;
+    void loadPlayers() throws IOException;
 
+    /**
+     * Metodo che ritorna la rappresentazione in stringa di una coordinata.
+     * @param i la coordinata.
+     * @return la rappresentazione in stringa di una coordinata.
+     */
+    String getRepresentation(int i);
 
+    Race<L> getRace();
+
+    /**
+     * Metodo che restituisce tutto il percorso di una macchina.
+     * @param car macchina.
+     * @return il percorso di una macchina.
+     */
+    List<L> getCarPath(Car<L> car);
 }

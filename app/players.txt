@@ -1,2 +1,0 @@
-BOT;Bot1,
-BOT;bot2

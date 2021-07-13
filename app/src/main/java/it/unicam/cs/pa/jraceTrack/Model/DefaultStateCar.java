@@ -4,5 +4,5 @@ package it.unicam.cs.pa.jraceTrack.Model;
  */
 public enum DefaultStateCar {
     IN_RACE,
-    CRASHED
+    CRASHED;
 }

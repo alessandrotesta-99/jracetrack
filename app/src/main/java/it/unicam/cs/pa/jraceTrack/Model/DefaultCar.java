@@ -52,12 +52,11 @@ public class DefaultCar<L extends TrackLocation2D> implements Car<TrackLocation2
         if(this.hitsWall())
             this.setStatus();
         checkStateCar();
-        this.track.addCar(this);
     }
 
     private void checkStateCar() {
-        if(getStatus() == DefaultStateCar.CRASHED)
-            throw new IllegalStateException("ERROR: this car is crashed.");
+        if(getStatus() != DefaultStateCar.CRASHED)
+            this.track.addCar(this);
     }
 
     private int getDistanceY() {
@@ -143,4 +142,16 @@ public class DefaultCar<L extends TrackLocation2D> implements Car<TrackLocation2
         return Objects.hash(id);
     }
 
+    @Override
+    public String toString() {
+        return "\n{" +
+                "id=" + id +
+                ", track=" + track +
+                ", location=" + location +
+                ", color=" + color +
+                ", status=" + status +
+                ", currentVelocity=" + currentVelocity +
+                ", path=" + path +
+                '}';
+    }
 }

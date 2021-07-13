@@ -186,4 +186,14 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "walls=" + walls +
+                ",\nstart=" + start +
+                ",\nfinish=" + finish +
+                ",\nwidth=" + width +
+                '}';
+    }
 }

@@ -2,7 +2,6 @@ package it.unicam.cs.pa.jraceTrack.Controller;
 
 import it.unicam.cs.pa.jraceTrack.Model.TrackLocation2D;
 import it.unicam.cs.pa.jraceTrack.Model.Race;
-import it.unicam.cs.pa.jraceTrack.Model.DefaultRace;
 import it.unicam.cs.pa.jraceTrack.Model.Player;
 import it.unicam.cs.pa.jraceTrack.Model.Track;
 import it.unicam.cs.pa.jraceTrack.Model.Color;
@@ -17,7 +16,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import java.util.stream.Stream;
 
 public class DefaultController implements Controller<TrackLocation2D> {
 
@@ -25,10 +23,14 @@ public class DefaultController implements Controller<TrackLocation2D> {
     private final ObjectReader<TrackLocation2D> readerTrack;
     private final ObjectReader<TrackLocation2D> readerPlayers;
 
-    public DefaultController() {
-        this.race = new DefaultRace<>();
-        this.readerTrack = new TrackReaderTXT(race);
-        this.readerPlayers = new PlayerReaderTXT(race);
+    public DefaultController(Race<TrackLocation2D> race, ObjectReader<TrackLocation2D> readerTrack, ObjectReader<TrackLocation2D> readerPlayers){
+        this.race = race;
+        this.readerTrack = readerTrack;
+        this.readerPlayers = readerPlayers;
+    }
+
+    public DefaultController(Race<TrackLocation2D> race, String nameFileTrack, String nameFilePlayers){
+        this(race, new TrackReaderTXT(race,nameFileTrack), new PlayerReaderTXT(race, nameFilePlayers));
     }
 
     @Override
@@ -43,6 +45,11 @@ public class DefaultController implements Controller<TrackLocation2D> {
     }
 
     @Override
+    public boolean isStart() {
+        return race.isStart();
+    }
+
+    @Override
     public List<Player<TrackLocation2D>> getPlayers() {
         return race.getPlayers();
     }
@@ -53,8 +60,8 @@ public class DefaultController implements Controller<TrackLocation2D> {
     }
 
     @Override
-    public List<Car<TrackLocation2D>> getCars() {
-        return getTrack().getCars();
+    public List<Car<TrackLocation2D>> getCars(Track<TrackLocation2D> track) {
+        return track.getCars();
     }
 
     @Override
@@ -127,12 +134,27 @@ public class DefaultController implements Controller<TrackLocation2D> {
     }
 
     @Override
-    public void loadTrack(String name) throws IOException {
-        readerTrack.read(name);
+    public void loadTrack() throws IOException {
+        readerTrack.read();
     }
 
     @Override
-    public void loadPlayers(String name) throws IOException {
-        readerPlayers.read(name);
+    public void loadPlayers() throws IOException {
+        readerPlayers.read();
+    }
+
+    @Override
+    public String getRepresentation(int i) {
+        return null; //todo
+    }
+
+    @Override
+    public Race<TrackLocation2D> getRace() {
+        return race;
+    }
+
+    @Override
+    public List<TrackLocation2D> getCarPath(Car<TrackLocation2D> car) {
+        return car.getPath();
     }
 }

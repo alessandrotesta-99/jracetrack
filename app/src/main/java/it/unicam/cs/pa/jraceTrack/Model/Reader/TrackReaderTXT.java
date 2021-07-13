@@ -4,9 +4,7 @@ import it.unicam.cs.pa.jraceTrack.Model.MyFactoryLocation;
 import it.unicam.cs.pa.jraceTrack.Model.Race;
 import it.unicam.cs.pa.jraceTrack.Model.TrackLocation2D;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,17 +34,19 @@ public class TrackReaderTXT implements ObjectReader<TrackLocation2D> {
     private final List<TrackLocation2D> start;
     private final List<TrackLocation2D> finish;
     private final List<TrackLocation2D> walls;
+    private final File file;
 
-    public TrackReaderTXT(Race<TrackLocation2D> race) {
+    public TrackReaderTXT(Race<TrackLocation2D> race, String name) {
         this.start = new ArrayList<>();
         this.finish = new ArrayList<>();
         this.walls = new ArrayList<>();
         this.race = race;
+        this.file = new File(name);
     }
 
     @Override
-    public void read(String name) throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(name.trim()));
+    public void read() throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(file));
         String nextStr = br.readLine();
         List<String> fieldSeparator = new ArrayList<>();
         while (nextStr != null) {
@@ -56,15 +56,19 @@ public class TrackReaderTXT implements ObjectReader<TrackLocation2D> {
             }
             String[] xy = nextStr.replaceAll("\\(", "").replaceAll("\\)", "").split(",");
             if(fieldSeparator.isEmpty())
-                walls.add(MyFactoryLocation.getInstance().createLocation(Integer.parseInt(String.valueOf(xy[0])), Integer.parseInt(String.valueOf(xy[1]))));
+                walls.add(getLocation(xy));
             if (fieldSeparator.size() == 1)
-                start.add(MyFactoryLocation.getInstance().createLocation(Integer.parseInt(String.valueOf(xy[0])), Integer.parseInt(String.valueOf(xy[1]))));
+                start.add(getLocation(xy));
             else if(fieldSeparator.size() == 2)
-                finish.add(MyFactoryLocation.getInstance().createLocation(Integer.parseInt(String.valueOf(xy[0])), Integer.parseInt(String.valueOf(xy[1]))));
+                finish.add(getLocation(xy));
             nextStr = br.readLine();
         }
         br.close();
         createObjectFromFile();
+    }
+
+    private TrackLocation2D getLocation(String[] xy) {
+        return MyFactoryLocation.getInstance().createLocation(Integer.parseInt(String.valueOf(xy[0])), Integer.parseInt(String.valueOf(xy[1])));
     }
 
     @Override
