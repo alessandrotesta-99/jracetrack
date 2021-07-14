@@ -11,7 +11,6 @@ import it.unicam.cs.pa.jraceTrack.Model.Reader.ObjectReader;
 import it.unicam.cs.pa.jraceTrack.Model.Reader.PlayerReaderTXT;
 import it.unicam.cs.pa.jraceTrack.Model.Reader.TrackReaderTXT;
 
-import java.awt.Color;
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
@@ -113,10 +112,6 @@ public class DefaultController implements Controller<TrackLocation2D> {
         readerPlayers.read();
     }
 
-    @Override
-    public String getRepresentation(int i) {
-        return null; //todo
-    }
 
     @Override
     public Race<TrackLocation2D> getRace() {

@@ -1,6 +1,11 @@
 package it.unicam.cs.pa.jraceTrack.Controller;
 
-import it.unicam.cs.pa.jraceTrack.Model.*;
+import it.unicam.cs.pa.jraceTrack.Model.Location;
+import it.unicam.cs.pa.jraceTrack.Model.Race;
+import it.unicam.cs.pa.jraceTrack.Model.Player;
+import it.unicam.cs.pa.jraceTrack.Model.Track;
+import it.unicam.cs.pa.jraceTrack.Model.Car;
+import it.unicam.cs.pa.jraceTrack.Model.DefaultStateCar;
 
 import java.io.IOException;
 import java.util.List;
