@@ -2,7 +2,6 @@ package it.unicam.cs.pa.jraceTrack.Model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocation2D>{
 
@@ -123,10 +122,11 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
     }
 
     @Override
-    public void setWinnerPlayer(Player<TrackLocation2D> player) {
-        if(this.getTrack().getFinish().contains(player.getCar().getLocation())){
-            player.setWinner(true);
-            this.finish();
-        }
+    public void setWinnerPlayer(List<Player<TrackLocation2D>> players) {
+        players
+                .stream()
+                .filter(p -> p.getCar().getPath()
+                        .stream()
+                        .anyMatch(point -> this.getTrack().getFinish().contains(point))).findFirst().ifPresent(pl -> pl.setWinner(true));
     }
 }

@@ -4,6 +4,7 @@ import it.unicam.cs.pa.jraceTrack.Controller.Controller;
 import it.unicam.cs.pa.jraceTrack.Controller.DefaultController;
 import it.unicam.cs.pa.jraceTrack.Model.*;
 
+import java.awt.Color;
 import java.io.*;
 import java.util.Scanner;
 
@@ -50,6 +51,7 @@ public class ConsoleView implements View<TrackLocation2D> {
     }
 
     private void printCommand() {
+        out.println("\n");
         out.println("0 - mostra tracciato");
         out.println("1 - mostra giocatori");
         out.println("2 - mostra posizione giocatore");
@@ -60,11 +62,12 @@ public class ConsoleView implements View<TrackLocation2D> {
         out.println("7 - muovi la macchina");
         out.println("8 - mostra il turno di un giocatore");
         out.println("9 - mostra tutto il percorso di un giocatore");
+        out.println("10 - mostra il vincitore");
         out.println("999 - esci dal gioco");
     }
 
     private void processCommand() {
-        Scanner input = new Scanner(in); //todo refactoring
+        Scanner input = new Scanner(in);
         switch (input.nextLine()){
             case "0":
                 out.println(controller.getTrack().toString());
@@ -94,26 +97,25 @@ public class ConsoleView implements View<TrackLocation2D> {
                 Player<TrackLocation2D> p3 = getPlayerFrom(input);
                 if(p3.isMyTurn()){
                     if(p3.getType() == TypePlayer.BOT)
-                        controller.moveUp(null,p3);
-                    else if (p3.getType() == TypePlayer.INTERACTIVE){
-                        out.println("Inserisci la coordinata x della prossima posizione: ");
-                        int x = Integer.parseInt(input.next());
-                        out.println("Inserisci la coordinata y della prossima posizione: ");
-                        int y = Integer.parseInt(input.next());
-                        controller.moveUp(MyFactoryLocation.getInstance().createLocation(x,y), p3);
-                    }
+                        controller.moveUp(new TrackLocation2D(5,8),p3);
                     out.println("La nuova posizione è: " + p3.getCar().getLocation());
-                } else
-                    out.println("Non è il turno di " + p3.getName() + "!");
-
-                    break;
+                }else
+                    err.println("Non è il turno di " + p3.getName() + "!");
+                break;
             case "8":
                 Player<TrackLocation2D> p4 = getPlayerFrom(input);
-                printMsg(p4, "Il turno del giocatore: " + p4.getName() + " è: " + controller.getTurnPlayer(p4));
+                printMsg(p4, "Il turno del giocatore " + p4.getName() + " è: " + controller.getTurnPlayer(p4));
                 break;
             case "9":
                 Player<TrackLocation2D> p5 = getPlayerFrom(input);
                 printMsg(p5, "Percorso totale di " + p5.getName() + " : " + controller.getCarPath(p5.getCar()));
+                break;
+            case "10":
+                controller.setWinnerPlayer(controller.getPlayers());
+                if(controller.getWinner() != null)
+                    printMsg(controller.getWinner(), "Il giocatore " + controller.getWinner().getName() + " ha vinto!");
+                else
+                    out.println("Non ci sono vincitori!");
                 break;
             case "999":
                 this.close();
@@ -133,13 +135,9 @@ public class ConsoleView implements View<TrackLocation2D> {
     }
 
     private void addFiles() throws IOException {
-        Scanner input = new Scanner(in);
-        out.println("Vuoi inserire un file di configurazione inziale per giocatori e tracciato?> s/n");
-        String sn = input.next();
-        if(sn.equalsIgnoreCase("s")){
-            loadFile();
-            controller.newGame();
-        }
+        loadFile();
+        controller.newGame();
+        out.println("File caricato!");
     }
 
     private void loadFile() throws IOException {
@@ -147,13 +145,10 @@ public class ConsoleView implements View<TrackLocation2D> {
         controller.loadPlayers();
     }
 
-    private void createTrack() {
-    }
-
     private void printHello() throws IOException {
         out.println("*****************************************************************");
         out.println("*                                                               *");
-        out.println("*        BENVENUTO NEL GIOCO FORMULA 1 CARTA E PENNA            *");
+        out.println("*        BENVENUT* NEL GIOCO FORMULA 1 CARTA E PENNA            *");
         out.println("*                                                               *");
         out.println("*****************************************************************");
         addFiles();

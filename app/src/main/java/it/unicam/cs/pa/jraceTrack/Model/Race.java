@@ -88,6 +88,6 @@ public interface Race<L extends Location<? extends L>> {
 	 * Metodo che setta il vincitore della gara.
 	 * @param player giocatore vincitore.
 	 */
-	void setWinnerPlayer(Player<L> player);
+	void setWinnerPlayer(List<Player<L>> player);
 
 }

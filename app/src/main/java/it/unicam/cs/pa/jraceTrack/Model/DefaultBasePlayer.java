@@ -74,7 +74,6 @@ public abstract class DefaultBasePlayer implements Player<TrackLocation2D>{
         return this.winner;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

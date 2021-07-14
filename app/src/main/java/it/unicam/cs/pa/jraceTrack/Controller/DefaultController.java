@@ -4,7 +4,6 @@ import it.unicam.cs.pa.jraceTrack.Model.TrackLocation2D;
 import it.unicam.cs.pa.jraceTrack.Model.Race;
 import it.unicam.cs.pa.jraceTrack.Model.Player;
 import it.unicam.cs.pa.jraceTrack.Model.Track;
-import it.unicam.cs.pa.jraceTrack.Model.Color;
 import it.unicam.cs.pa.jraceTrack.Model.Car;
 import it.unicam.cs.pa.jraceTrack.Model.DefaultStateCar;
 import it.unicam.cs.pa.jraceTrack.Model.TypePlayer;
@@ -12,6 +11,7 @@ import it.unicam.cs.pa.jraceTrack.Model.Reader.ObjectReader;
 import it.unicam.cs.pa.jraceTrack.Model.Reader.PlayerReaderTXT;
 import it.unicam.cs.pa.jraceTrack.Model.Reader.TrackReaderTXT;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
@@ -65,29 +65,8 @@ public class DefaultController implements Controller<TrackLocation2D> {
     }
 
     @Override
-    public void addCar(Track<TrackLocation2D> track, Car<TrackLocation2D> car, Color color) {
-        race.addCar(car);
-        car.setColor(color);
-    }
-
-    @Override
-    public void removeCar(Car<TrackLocation2D> car) {
-        race.removeCar(car);
-    }
-
-    @Override
-    public void addPlayer(Player<TrackLocation2D> player) {
-        race.createPlayer(player.getType());
-    }
-
-    @Override
-    public void removePlayer(Player<TrackLocation2D> player) {
-        race.removePlayer(player);
-    }
-
-    @Override
-    public void setWinnerPlayer(Player<TrackLocation2D> player) {
-        race.setWinnerPlayer(player);
+    public void setWinnerPlayer(List<Player<TrackLocation2D>> players) {
+        race.setWinnerPlayer(players);
     }
 
     @Override
@@ -106,21 +85,12 @@ public class DefaultController implements Controller<TrackLocation2D> {
     }
 
     @Override
-    public boolean isGameOver() {
-        return getTrack().isGameOver();
-    }
-
-    @Override
     public void moveUp(TrackLocation2D loc, Player<TrackLocation2D> player) {
         if(player.getType().equals(TypePlayer.BOT))
             player.moveUp(null);
         else if(player.getType().equals(TypePlayer.INTERACTIVE))
             player.moveUp(loc);
-    }
-
-    @Override
-    public Car<TrackLocation2D> getCarAt(TrackLocation2D loc) {
-        return getTrack().getCarAt(loc);
+        player.setTurn(false);
     }
 
     @Override

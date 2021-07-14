@@ -48,36 +48,10 @@ public interface Controller<L extends Location<L>> {
     List<Car<L>> getCars(Track<L> track);
 
     /**
-     * Metodo che aggiunge una macchina al circuito.
-     * @param track il circuito a cui aggiungere la macchina.
-     * @param car macchina da aggiungere.
-     * @param color colore della macchina.
+     * Metodo che setta il giocatore vincitore da una lista di giocatori.
+     * @param players la lista di giocatori.
      */
-    void addCar(Track<L> track, Car<L> car, Color color); //todo ne ho bisogno solo per il colore.
-
-    /**
-     * Metodo che rimuove la macchina dalla gara.
-     * @param car la macchina da eliminare.
-     */
-    void removeCar(Car<L> car);
-
-    /**
-     * Metodo che aggiunge un giocatore alla gara.
-     * @param player giocatore da aggiungere.
-     */
-    void addPlayer(Player<L> player);  //todo potrei non aver bisogno perche carico tutto da file.
-
-    /**
-     * Metodo che rimuove un giocatore dalla gara.
-     * @param player il giocatore da rimuovere.
-     */
-    void removePlayer(Player<L> player); //todo idem sopra.
-
-    /**
-     * Metodo che setta il giocatore vincitore.
-     * @param player il giocatore vincitore.
-     */
-    void setWinnerPlayer(Player<L> player);
+    void setWinnerPlayer(List<Player<L>> players);
 
     /**
      * Metodo che ritorna il giocatore vincitore della gara.
@@ -99,24 +73,11 @@ public interface Controller<L extends Location<L>> {
     DefaultStateCar getStatus(L loc);
 
     /**
-     * Metodo che verifica se la macchina è ancora in gara.
-     * @return true se la macchina è in gara, false altrimenti.
-     */
-    boolean isGameOver();
-
-    /**
      * Metodo che permette di muovere la macchina.
      * @param loc prossima locazione dove posizionare la macchina.
      * @param player giocatore che muove la macchina.
      */
     void moveUp(L loc, Player<L> player);
-
-    /**
-     * Metodo che ritorna una macchina ad una certa posizione se la macchina esiste.
-     * @param loc la posione
-     * @return la macchina ad una certa posizione o null.
-     */
-    Car<L> getCarAt(L loc); //todo non penso che servirà
 
     /**
      * Metodo che restituisce le prossime locazioni dove poter andare.
@@ -143,12 +104,9 @@ public interface Controller<L extends Location<L>> {
     void loadPlayers() throws IOException;
 
     /**
-     * Metodo che ritorna la rappresentazione in stringa di una coordinata.
-     * @param i la coordinata.
-     * @return la rappresentazione in stringa di una coordinata.
+     * Metodo che restituisce la gara.
+     * @return la gara.
      */
-    String getRepresentation(int i);
-
     Race<L> getRace();
 
     /**

@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
+import java.awt.Color;
 /**
  * Implementazione di default di una macchina.
  * @param <L> locazione della macchina.
