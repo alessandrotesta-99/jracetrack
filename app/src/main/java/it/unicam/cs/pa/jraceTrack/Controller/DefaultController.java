@@ -74,13 +74,13 @@ public class DefaultController implements Controller<TrackLocation2D> {
     }
 
     @Override
-    public List<DefaultStateCar> getStatusCars() {
-        return getTrack().getStatusCars();
+    public List<DefaultStateCar> getStatusCars(Track<TrackLocation2D> track) {
+        return track.getStatusCars();
     }
 
     @Override
-    public DefaultStateCar getStatus(TrackLocation2D loc) {
-        return getTrack().getStatusAt(loc);
+    public DefaultStateCar getStatus(TrackLocation2D loc, Track<TrackLocation2D> track) {
+        return track.getStatusAt(loc);
     }
 
     @Override
@@ -93,8 +93,8 @@ public class DefaultController implements Controller<TrackLocation2D> {
     }
 
     @Override
-    public Set<TrackLocation2D> getNextLocs(TrackLocation2D loc) {
-        return getTrack().getNextLocs(loc);
+    public Set<TrackLocation2D> getNextLocs(TrackLocation2D loc, Track<TrackLocation2D> track) {
+        return track.getNextLocs(loc);
     }
 
     @Override

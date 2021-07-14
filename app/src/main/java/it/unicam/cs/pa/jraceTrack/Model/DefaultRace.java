@@ -96,20 +96,10 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
     }
 
     @Override
-    public void removePlayer(Player<TrackLocation2D> p) {
-        this.players.remove(p);
-    }
-
-    @Override
     public void addCar(Car<TrackLocation2D> c) {
         if(!this.getTrack().getStart().contains(c.getLocation()) || getTrack().getCarAt(c.getLocation()) != null)
             throw new IllegalArgumentException("ERROR: this location is not valid.");
         track.addCar(c);
-    }
-
-    @Override
-    public void removeCar(Car<TrackLocation2D> c) {
-        this.track.getCars().removeIf(car -> car.equals(c));
     }
 
     @Override

@@ -61,22 +61,10 @@ public interface Race<L extends Location<? extends L>> {
 	void addPlayer(Player<L> p);
 
 	/**
-	 * Metodo che rimuove un giocatore alla gara.
-	 * @param p giocatore da rimuovere.
-	 */
-	void removePlayer(Player<L> p);
-
-	/**
 	 * Metodo che aggiunge una macchina alla gara.
 	 * @param c macchina da aggiungere.
 	 */
 	void addCar(Car<L> c);
-
-	/**
-	 * Metodo che rimuove una macchina dalla gara.
-	 * @param c macchina da rimuovere.
-	 */
-	void removeCar(Car<L> c);
 
 	/**
 	 * Metodo che restituisce il giocatore che ha vinto la gara.
@@ -86,8 +74,8 @@ public interface Race<L extends Location<? extends L>> {
 
 	/**
 	 * Metodo che setta il vincitore della gara.
-	 * @param player giocatore vincitore.
+	 * @param players lista da dove prendere il vincitore.
 	 */
-	void setWinnerPlayer(List<Player<L>> player);
+	void setWinnerPlayer(List<Player<L>> players);
 
 }

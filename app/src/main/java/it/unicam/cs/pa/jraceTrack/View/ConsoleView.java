@@ -4,7 +4,6 @@ import it.unicam.cs.pa.jraceTrack.Controller.Controller;
 import it.unicam.cs.pa.jraceTrack.Controller.DefaultController;
 import it.unicam.cs.pa.jraceTrack.Model.*;
 
-import java.awt.Color;
 import java.io.*;
 import java.util.Scanner;
 
@@ -81,17 +80,17 @@ public class ConsoleView implements View<TrackLocation2D> {
                 break;
             case "3":
                 Player<TrackLocation2D> p1 = getPlayerFrom(input);
-                printMsg(p1, "Le prossime posizioni del giocatore sono: " + controller.getNextLocs(p1.getCar().getLocation()));
+                printMsg(p1, "Le prossime posizioni del giocatore sono: " + controller.getNextLocs(p1.getCar().getLocation(), controller.getTrack()));
                 break;
             case "4":
                 out.println(controller.getCars(controller.getTrack()).toString());
                 break;
             case "5":
-                out.println(controller.getStatusCars().toString());
+                out.println(controller.getStatusCars(controller.getTrack()).toString());
                 break;
             case "6":
                 Player<TrackLocation2D> p2 = getPlayerFrom(input);
-                printMsg(p2, "Stato della macchina di " + p2.getName() + " è: " + controller.getStatus(p2.getCar().getLocation()));
+                printMsg(p2, "Stato della macchina di " + p2.getName() + " è: " + controller.getStatus(p2.getCar().getLocation(), controller.getTrack()));
                 break;
             case "7":
                 Player<TrackLocation2D> p3 = getPlayerFrom(input);

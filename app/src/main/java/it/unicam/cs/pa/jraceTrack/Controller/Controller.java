@@ -1,11 +1,6 @@
 package it.unicam.cs.pa.jraceTrack.Controller;
 
-import it.unicam.cs.pa.jraceTrack.Model.Location;
-import it.unicam.cs.pa.jraceTrack.Model.Race;
-import it.unicam.cs.pa.jraceTrack.Model.Player;
-import it.unicam.cs.pa.jraceTrack.Model.Track;
-import it.unicam.cs.pa.jraceTrack.Model.Car;
-import it.unicam.cs.pa.jraceTrack.Model.DefaultStateCar;
+import it.unicam.cs.pa.jraceTrack.Model.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -66,16 +61,18 @@ public interface Controller<L extends Location<L>> {
 
     /**
      * Metodo che ritorna lo stato di tutte le macchine che ci sono in gara.
+     * @param track tracciato dove si trova la macchina.
      * @return lo stato di tutte le macchine.
      */
-    List<DefaultStateCar> getStatusCars();
+    List<DefaultStateCar> getStatusCars(Track<L> track);
 
     /**
      * Metodo che ritorna lo stato di una macchina ad una certa posizione.
      * @param loc posizione da controllare.
+     * @param track tracciato dove si trova la macchina.
      * @return stato della macchina.
      */
-    DefaultStateCar getStatus(L loc);
+    DefaultStateCar getStatus(L loc, Track<TrackLocation2D> track);
 
     /**
      * Metodo che permette di muovere la macchina.
@@ -86,10 +83,11 @@ public interface Controller<L extends Location<L>> {
 
     /**
      * Metodo che restituisce le prossime locazioni dove poter andare.
-     * @param loc la poszione corrente della macchina.
+     * @param loc la posizione corrente della macchina.
+     * @param track tracciato dove si trova la macchina.
      * @return un set di locazioni dove può andare la macchina.
      */
-    Set<L> getNextLocs(L loc);
+    Set<L> getNextLocs(L loc, Track<TrackLocation2D> track);
 
     /**
      * Metodo che restituisce il turno del giocatore.
