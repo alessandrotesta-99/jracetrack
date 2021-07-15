@@ -3,19 +3,33 @@
  */
 package it.unicam.cs.pa.jraceTrack;
 
-import it.unicam.cs.pa.jraceTrack.Model.TrackLocation2D;
-import it.unicam.cs.pa.jraceTrack.View.ConsoleView;
+import it.unicam.cs.pa.jraceTrack.Controller.Controller;
+import it.unicam.cs.pa.jraceTrack.Model.Location;
+import it.unicam.cs.pa.jraceTrack.View.JavaFXManager;
 import it.unicam.cs.pa.jraceTrack.View.View;
+import javafx.application.Application;
 
 import java.io.IOException;
 
-public class App {
+public class App<L extends Location<L>> {
 
+    private final View<L> view;
+    private final Controller<L> controller;
 
+    public App(View <L> view, Controller<L> controller) {
+        this.view = view;
+        this.controller = controller;
+    }
 
     public static void main(String[] args) throws IOException {
-        View<TrackLocation2D> view = new ConsoleView();
+            launchGui();
+       /* View<TrackLocation2D> view = new ConsoleView();
         view.open();
-        view.close();
+        view.close();*/
     }
+
+    private static void launchGui() {
+        Application.launch(JavaFXManager.class);
+    }
+
 }

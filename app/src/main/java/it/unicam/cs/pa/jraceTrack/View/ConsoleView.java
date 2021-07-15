@@ -3,19 +3,17 @@ package it.unicam.cs.pa.jraceTrack.View;
 import it.unicam.cs.pa.jraceTrack.Controller.Controller;
 import it.unicam.cs.pa.jraceTrack.Controller.DefaultController;
 import it.unicam.cs.pa.jraceTrack.Model.*;
+import it.unicam.cs.pa.jraceTrack.MyFactoryControllerManager;
 
 import java.io.*;
 import java.util.Scanner;
 
 public class ConsoleView implements View<TrackLocation2D> {
 
-    private final static String FILE_TRACK = "track.txt";
-    private final static String FILE_PLAYERS = "players.txt";
-    private final BufferedReader in;
-    private final PrintStream out;
-    private final PrintStream err;
-    private final Controller<TrackLocation2D> controller = new DefaultController(new DefaultRace<>(), FILE_TRACK, FILE_PLAYERS);
-
+   private final BufferedReader in;
+   private final PrintStream out;
+   private final PrintStream err;
+   private final Controller<TrackLocation2D> controller = MyFactoryControllerManager.getInstance().createController();
 
     public ConsoleView(InputStream is, OutputStream os) {
         this(new BufferedReader(new InputStreamReader(is)),new PrintStream(os));
