@@ -8,7 +8,6 @@ import it.unicam.cs.pa.jraceTrack.Model.TrackLocation2D;
 public class MyFactoryControllerManager implements ControllerManager<TrackLocation2D> {
 
     private static MyFactoryControllerManager instance;
-    //todo da vedere se lasciare static.
     private final static String FILE_TRACK = "track.txt";
     private final static String FILE_PLAYERS = "players.txt";
 
@@ -23,7 +22,7 @@ public class MyFactoryControllerManager implements ControllerManager<TrackLocati
     }
 
     @Override
-    public Controller<TrackLocation2D> createController() {
-        return new DefaultController(new DefaultRace<>(), FILE_TRACK, FILE_PLAYERS);
+    public Controller<TrackLocation2D> createController(String... namesFilesLoaded) {
+        return new DefaultController(new DefaultRace<>(), namesFilesLoaded[0], namesFilesLoaded[1]);
     }
 }

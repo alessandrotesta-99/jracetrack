@@ -20,7 +20,7 @@ public class JavaFXView  implements View<TrackLocation2D> {
     @Override
     public void open() throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/test.fxml")));
-        primaryStage.setTitle("Formula 1");
+        primaryStage.setTitle("RaceTrack");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }

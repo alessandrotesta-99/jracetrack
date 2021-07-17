@@ -74,7 +74,7 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
         Car<TrackLocation2D> c = new DefaultCar<>(this);
         c.setLocation(initLocationCar());
         c.getPath().add(c.getLocation());
-        c.setColor(new Color(new Random().nextFloat(), new Random().nextFloat(),new Random().nextFloat()));
+        c.setColor(new Color(new Random().nextFloat(), new Random().nextFloat(), new Random().nextFloat()));
         return c;
     }
 
@@ -102,11 +102,6 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
     @Override
     public List<TrackLocation2D> getWalls() {
         return walls;
-    }
-
-    @Override
-    public void addWall(TrackLocation2D position) {
-        walls.add(position);
     }
 
     @Override
@@ -158,8 +153,8 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
      */
     private boolean isValidHorizontal(List<TrackLocation2D> list) {
         int temp = this.width;
-        if (list.get(0).getY() == list.get(1).getY()) {
-            this.width = Math.abs(list.get(1).getX() - list.get(0).getX());
+        if (list.get(0).getY() == list.get(list.size() - 1).getY()) {
+            this.width = Math.abs(list.get(list.size() - 1).getX() - list.get(0).getX());
             if(temp == 0)
                 temp = width;
             return temp == width;
@@ -173,8 +168,8 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
      */
     private boolean isValidVertical(List<TrackLocation2D> list) {
         int temp = this.width;
-        if (list.get(0).getX() == list.get(1).getX()){
-            this.width = Math.abs(list.get(1).getY() - list.get(0).getY());
+        if (list.get(0).getX() == list.get(list.size() - 1).getX()){
+            this.width = Math.abs(list.get(list.size() - 1).getY() - list.get(0).getY());
             if(temp == 0)
                 temp = width;
             return temp == width;

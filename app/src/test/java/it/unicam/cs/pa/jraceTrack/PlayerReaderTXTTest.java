@@ -18,14 +18,14 @@ public class PlayerReaderTXTTest {
     @Test
     public void read() throws IOException {
         Race<TrackLocation2D> r = new DefaultRace<>();
-        ObjectReader<TrackLocation2D> trackReaderTXT = new TrackReaderTXT(r, "track.txt");
-        ObjectReader<TrackLocation2D> playerReader = new PlayerReaderTXT(r, "players.txt");
+        ObjectReader<TrackLocation2D> trackReaderTXT = new TrackReaderTXT(r, "testFiles\\track.txt");
+        ObjectReader<TrackLocation2D> playerReader = new PlayerReaderTXT(r, "testFiles\\players.txt");
         trackReaderTXT.read();
         playerReader.read();
         assertEquals(2, r.getPlayers().size());
-        assertEquals("Bot1", r.getPlayers().get(0).getName());
+        assertEquals("piero", r.getPlayers().get(0).getName());
         assertNotNull(r.getPlayers().get(0).getCar());
-        assertEquals("bot2", r.getPlayers().get(1).getName());
+        assertEquals("luca", r.getPlayers().get(1).getName());
         assertNotNull(r.getPlayers().get(1).getCar());
     }
 }

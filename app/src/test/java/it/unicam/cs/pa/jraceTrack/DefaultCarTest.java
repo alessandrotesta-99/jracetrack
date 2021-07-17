@@ -139,42 +139,128 @@ public class DefaultCarTest{
     }
 
     private Car<TrackLocation2D> getCarWithDefaultTrack() {
-        TrackLocation2D w1 = new TrackLocation2D(1, 1);
-        TrackLocation2D w2 = new TrackLocation2D(1, 16);
-        TrackLocation2D w3 = new TrackLocation2D(20, 1);
-        TrackLocation2D w4 = new TrackLocation2D(20, 16);
-
-        TrackLocation2D w5 = new TrackLocation2D(5, 5);
-        TrackLocation2D w6 = new TrackLocation2D(5, 12);
-        TrackLocation2D w7 = new TrackLocation2D(16, 5);
-        TrackLocation2D w8 = new TrackLocation2D(16, 12);
-
         List<TrackLocation2D> walls = new ArrayList<>();
-        walls.add(w1);
-        walls.add(w2);
-        walls.add(w3);
-        walls.add(w4);
-        walls.add(w5);
-        walls.add(w6);
-        walls.add(w7);
-        walls.add(w8);
-
-        TrackLocation2D p1 = new TrackLocation2D(1, 9);
-        TrackLocation2D p2 = new TrackLocation2D(5, 9);
-
-        TrackLocation2D p5 = new TrackLocation2D(1, 9);
-        TrackLocation2D p6 = new TrackLocation2D(5, 9);
+        walls.add(new TrackLocation2D(1,1));
+        walls.add(new TrackLocation2D(1,2));
+        walls.add(new TrackLocation2D(6,5));
+        walls.add(new TrackLocation2D(1,3));
+        walls.add(new TrackLocation2D(1,4));
+        walls.add(new TrackLocation2D(1,5));
+        walls.add(new TrackLocation2D(1,6));
+        walls.add(new TrackLocation2D(1,7));
+        walls.add(new TrackLocation2D(1,8));
+        walls.add(new TrackLocation2D(1,9));
+        walls.add(new TrackLocation2D(1,10));
+        walls.add(new TrackLocation2D(1,11));
+        walls.add(new TrackLocation2D(1,12));
+        walls.add(new TrackLocation2D(1,13));
+        walls.add(new TrackLocation2D(1,14));
+        walls.add(new TrackLocation2D(1,15));
+        walls.add(new TrackLocation2D(1,16));
+        walls.add(new TrackLocation2D(2,16));
+        walls.add(new TrackLocation2D(3,16));
+        walls.add(new TrackLocation2D(4,16));
+        walls.add(new TrackLocation2D(5,16));
+        walls.add(new TrackLocation2D(6,16));
+        walls.add(new TrackLocation2D(7,16));
+        walls.add(new TrackLocation2D(8,16));
+        walls.add(new TrackLocation2D(9,16));
+        walls.add(new TrackLocation2D(10,16));
+        walls.add(new TrackLocation2D(11,16));
+        walls.add(new TrackLocation2D(12,16));
+        walls.add(new TrackLocation2D(13,16));
+        walls.add(new TrackLocation2D(14,16));
+        walls.add(new TrackLocation2D(15,16));
+        walls.add(new TrackLocation2D(16,16));
+        walls.add(new TrackLocation2D(17,16));
+        walls.add(new TrackLocation2D(18,16));
+        walls.add(new TrackLocation2D(19,16));
+        walls.add(new TrackLocation2D(20,16));
+        walls.add(new TrackLocation2D(20,15));
+        walls.add(new TrackLocation2D(20,14));
+        walls.add(new TrackLocation2D(20,13));
+        walls.add(new TrackLocation2D(20,12));
+        walls.add(new TrackLocation2D(20,11));
+        walls.add(new TrackLocation2D(20,10));
+        walls.add(new TrackLocation2D(20,9));
+        walls.add(new TrackLocation2D(20,8));
+        walls.add(new TrackLocation2D(20,7));
+        walls.add(new TrackLocation2D(20,6));
+        walls.add(new TrackLocation2D(20,5));
+        walls.add(new TrackLocation2D(20,4));
+        walls.add(new TrackLocation2D(20,3));
+        walls.add(new TrackLocation2D(20,2));
+        walls.add(new TrackLocation2D(20,1));
+        walls.add(new TrackLocation2D(19,1));
+        walls.add(new TrackLocation2D(18,1));
+        walls.add(new TrackLocation2D(17,1));
+        walls.add(new TrackLocation2D(16,1));
+        walls.add(new TrackLocation2D(15,1));
+        walls.add(new TrackLocation2D(14,1));
+        walls.add(new TrackLocation2D(13,1));
+        walls.add(new TrackLocation2D(12,1));
+        walls.add(new TrackLocation2D(11,1));
+        walls.add(new TrackLocation2D(10,1));
+        walls.add(new TrackLocation2D(9,1));
+        walls.add(new TrackLocation2D(8,1));
+        walls.add(new TrackLocation2D(7,1));
+        walls.add(new TrackLocation2D(6,1));
+        walls.add(new TrackLocation2D(5,1));
+        walls.add(new TrackLocation2D(4,1));
+        walls.add(new TrackLocation2D(3,1));
+        walls.add(new TrackLocation2D(2,1));
+        walls.add(new TrackLocation2D(5,5));
+        walls.add(new TrackLocation2D(5,6));
+        walls.add(new TrackLocation2D(5,7));
+        walls.add(new TrackLocation2D(5,8));
+        walls.add(new TrackLocation2D(5,9));
+        walls.add(new TrackLocation2D(5,10));
+        walls.add(new TrackLocation2D(5,11));
+        walls.add(new TrackLocation2D(5,12));
+        walls.add(new TrackLocation2D(6,12));
+        walls.add(new TrackLocation2D(7,12));
+        walls.add(new TrackLocation2D(8,12));
+        walls.add(new TrackLocation2D(9,12));
+        walls.add(new TrackLocation2D(10,12));
+        walls.add(new TrackLocation2D(11,12));
+        walls.add(new TrackLocation2D(12,12));
+        walls.add(new TrackLocation2D(13,12));
+        walls.add(new TrackLocation2D(14,12));
+        walls.add(new TrackLocation2D(15,12));
+        walls.add(new TrackLocation2D(16,11));
+        walls.add(new TrackLocation2D(16,10));
+        walls.add(new TrackLocation2D(16,9));
+        walls.add(new TrackLocation2D(16,8));
+        walls.add(new TrackLocation2D(16,7));
+        walls.add(new TrackLocation2D(16,6));
+        walls.add(new TrackLocation2D(16,5));
+        walls.add(new TrackLocation2D(15,5));
+        walls.add(new TrackLocation2D(14,5));
+        walls.add(new TrackLocation2D(13,5));
+        walls.add(new TrackLocation2D(12,5));
+        walls.add(new TrackLocation2D(11,5));
+        walls.add(new TrackLocation2D(10,5));
+        walls.add(new TrackLocation2D(9,5));
+        walls.add(new TrackLocation2D(8,5));
+        walls.add(new TrackLocation2D(7,5));
 
         List<TrackLocation2D> start = new ArrayList<>();
-        start.add(p1);
-        start.add(p2);
+        start.add(new TrackLocation2D(1, 9));
+        start.add(new TrackLocation2D(2, 9));
+        start.add(new TrackLocation2D(3, 9));
+        start.add(new TrackLocation2D(4, 9));
+        start.add(new TrackLocation2D(5, 9));
 
         List<TrackLocation2D> finish = new ArrayList<>();
-        finish.add(p5);
-        finish.add(p6);
+        finish.add(new TrackLocation2D(1, 8));
+        finish.add(new TrackLocation2D(2, 8));
+        finish.add(new TrackLocation2D(3, 8));
+        finish.add(new TrackLocation2D(4, 8));
+        finish.add(new TrackLocation2D(5, 8));
 
-        Track<TrackLocation2D> tr = new DefaultTrack2D<>(start, finish, walls);
-        Race<TrackLocation2D> r = new DefaultRace<>(tr, 1, TypePlayer.INTERACTIVE);
+        Race<TrackLocation2D> r = new DefaultRace<>();
+        r.createTrack(start, finish, walls);
+        r.createPlayer(TypePlayer.BOT);
         r.getPlayers().get(0).getCar().setLocation(new TrackLocation2D(1,9)); //solo per test.
         return r.getPlayers().get(0).getCar();
     }
@@ -196,7 +282,6 @@ public class DefaultCarTest{
         //muro
         TrackLocation2D next5 = new TrackLocation2D(8,16);
         car.moveUp(next5);
-        //todo non porta al momento perche bisognerebbe aggiungere i punti al circuito.
         assertTrue(car.hitsWall());
     }
 }

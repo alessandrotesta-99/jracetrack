@@ -15,17 +15,20 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.Stack;
 
 public class DefaultController implements Controller<TrackLocation2D> {
 
     private final Race<TrackLocation2D> race;
     private final ObjectReader<TrackLocation2D> readerTrack;
     private final ObjectReader<TrackLocation2D> readerPlayers;
+    private final Stack<Player<TrackLocation2D>> playersStack;
 
     public DefaultController(Race<TrackLocation2D> race, ObjectReader<TrackLocation2D> readerTrack, ObjectReader<TrackLocation2D> readerPlayers){
         this.race = race;
         this.readerTrack = readerTrack;
         this.readerPlayers = readerPlayers;
+        this.playersStack = new Stack<>();
     }
 
     public DefaultController(Race<TrackLocation2D> race, String nameFileTrack, String nameFilePlayers){
@@ -50,6 +53,7 @@ public class DefaultController implements Controller<TrackLocation2D> {
 
     @Override
     public List<Player<TrackLocation2D>> getPlayers() {
+        race.getPlayers().stream().filter(p -> !p.isMyTurn()).forEach(playersStack::add);
         return race.getPlayers();
     }
 
@@ -90,6 +94,7 @@ public class DefaultController implements Controller<TrackLocation2D> {
         else if(player.getType().equals(TypePlayer.INTERACTIVE))
             player.moveUp(loc);
         player.setTurn(false);
+        playersStack.pop().setTurn(true);
     }
 
     @Override

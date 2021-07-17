@@ -63,13 +63,10 @@ public class DefaultTrack2DTest{
 
     @Test
     public void testAddCar() {
-         Track<TrackLocation2D> tr = getDefaultTrack();
-         //crea gara
-         Race<TrackLocation2D> race = new DefaultRace<>(tr,2, TypePlayer.BOT);
-
-         assertSame(2, tr.getCars().size());
-         assertSame(2, race.getPlayers().size());
-         assertTrue(race.getPlayers().stream().allMatch(p -> p.getType().equals(TypePlayer.BOT)));
+        Track<TrackLocation2D> tr = getDefaultTrack();
+        tr.addCar(tr.createCar());
+        tr.addCar(tr.createCar());
+        assertSame(2, tr.getCars().size());
     }
 
     private Track<TrackLocation2D> getDefaultTrack() {

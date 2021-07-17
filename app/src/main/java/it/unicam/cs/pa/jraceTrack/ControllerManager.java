@@ -13,7 +13,8 @@ public interface ControllerManager<L extends Location<L>> {
 
     /**
      * Metodo che crea un controller.
+     * @param namesFilesLoaded nomi dei file che verranno caricati per la creazione del controller.
      * @return il controller creato.
      */
-    Controller<L> createController();
+    Controller<L> createController(String...namesFilesLoaded);
 }

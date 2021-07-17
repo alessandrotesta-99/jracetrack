@@ -1,5 +1,6 @@
 package it.unicam.cs.pa.jraceTrack.Model.Reader;
 
+import it.unicam.cs.pa.jraceTrack.Model.DefaultRace;
 import it.unicam.cs.pa.jraceTrack.Model.MyFactoryLocation;
 import it.unicam.cs.pa.jraceTrack.Model.Race;
 import it.unicam.cs.pa.jraceTrack.Model.TrackLocation2D;

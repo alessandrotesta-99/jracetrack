@@ -63,12 +63,6 @@ public interface Track<L extends Location<? extends L>> {
 	List<L> getWalls();
 
 	/**
-	 * Metodo che aggiunge un muro alla pista.
-	 * @param position la posizione dove aggiungere il muro.
-	 */
-	void addWall(L position);
-
-	/**
 	 * Metodo che restituise lo stato di una macchina ad una certa posizione.
 	 * @return lo stato di una macchina.
 	 */

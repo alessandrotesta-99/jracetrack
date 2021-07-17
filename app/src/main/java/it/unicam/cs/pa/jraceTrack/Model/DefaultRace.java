@@ -10,24 +10,6 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
     private boolean state;
 
     /**
-     * Costruttore che permette di costruire una gara con le configurazioni iniziali settate manualmente senza
-     * l'uso di un file di configurazione iniziale.
-     *
-     * @param track il tracciato di gara.
-     * @param numberOfPlayers il numero di giocatori.
-     * @param typePlayer il tipo dei giocatori.
-     */
-    public DefaultRace(Track<TrackLocation2D> track, int numberOfPlayers, TypePlayer typePlayer) {
-        //todo aggiungere eccezione: il numero dei giocatori deve essere minore o uguale della larghezza. {controller}
-        this.players = new ArrayList<>(numberOfPlayers);
-         this.track = track;
-        for(int i = 0; i < numberOfPlayers; i++)
-            createPlayer(typePlayer);
-        setInit(players);
-        this.start();
-    }
-
-    /**
      * Costruttore che permette di costruire una gara senza settare niente manualmente.
      * Il tracciato e i giocatori vengono settati tramite un file di configurazione iniziale.
      */
@@ -115,8 +97,10 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
     public void setWinnerPlayer(List<Player<TrackLocation2D>> players) {
         players
                 .stream()
+                .sequential()
                 .filter(p -> p.getCar().getPath()
                         .stream()
+                        .sequential()
                         .anyMatch(point -> this.getTrack().getFinish().contains(point))).findFirst().ifPresent(pl -> pl.setWinner(true));
     }
 }

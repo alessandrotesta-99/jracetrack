@@ -5,6 +5,8 @@ package it.unicam.cs.pa.jraceTrack;
 
 import it.unicam.cs.pa.jraceTrack.Controller.Controller;
 import it.unicam.cs.pa.jraceTrack.Model.Location;
+import it.unicam.cs.pa.jraceTrack.Model.TrackLocation2D;
+import it.unicam.cs.pa.jraceTrack.View.ConsoleView;
 import it.unicam.cs.pa.jraceTrack.View.JavaFXManager;
 import it.unicam.cs.pa.jraceTrack.View.View;
 import javafx.application.Application;
@@ -22,10 +24,10 @@ public class App<L extends Location<L>> {
     }
 
     public static void main(String[] args) throws IOException {
-            launchGui();
-       /* View<TrackLocation2D> view = new ConsoleView();
+        //    launchGui();
+        View<TrackLocation2D> view = new ConsoleView();
         view.open();
-        view.close();*/
+        view.close();
     }
 
     private static void launchGui() {
