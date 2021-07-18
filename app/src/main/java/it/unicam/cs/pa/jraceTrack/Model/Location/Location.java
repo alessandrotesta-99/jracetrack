@@ -1,12 +1,12 @@
-package it.unicam.cs.pa.jraceTrack.Model;
+package it.unicam.cs.pa.jraceTrack.Model.Location;
+
+import it.unicam.cs.pa.jraceTrack.Model.Car;
 
 import java.util.Set;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 /**
  * Interfaccia funzionale che specifica un metodo per la creazione delle prossime locazioni della macchina.
- * Le classi che implementeranno questa interfaccia hanno la responsabilità di rappresentare la locazione
+ * Le classi che implementeranno questa interfaccia hanno la responsabilit&agrave; di rappresentare la locazione
  * nel campo.
  * @param <L> tipo parametrico per la locazione nel campo.
  */
@@ -20,7 +20,4 @@ public interface Location<L extends Location<? extends L>> {
      */
     Set<L> getNextLocations(Car<L> c);
 
-    default Set<L> getNextLocations(Car<L> c, Predicate<? super L> pred) {
-        return getNextLocations(c).stream().filter(pred).collect(Collectors.toSet());
-    }
 }

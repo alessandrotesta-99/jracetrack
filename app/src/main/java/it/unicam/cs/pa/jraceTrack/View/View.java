@@ -1,6 +1,6 @@
 package it.unicam.cs.pa.jraceTrack.View;
 
-import it.unicam.cs.pa.jraceTrack.Model.Location;
+import it.unicam.cs.pa.jraceTrack.Model.Location.Location;
 
 import java.io.IOException;
 

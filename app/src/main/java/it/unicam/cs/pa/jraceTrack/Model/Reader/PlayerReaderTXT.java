@@ -1,7 +1,7 @@
 package it.unicam.cs.pa.jraceTrack.Model.Reader;
 
 import it.unicam.cs.pa.jraceTrack.Model.Race;
-import it.unicam.cs.pa.jraceTrack.Model.TrackLocation2D;
+import it.unicam.cs.pa.jraceTrack.Model.Location.DefaultLocation;
 import it.unicam.cs.pa.jraceTrack.Model.TypePlayer;
 
 import java.io.BufferedReader;
@@ -22,14 +22,14 @@ import java.io.File;
  * Il primo campo indica il tipo del giocatore, mentre il secondo campo indica il nome del giocatore.
  * &Egrave; possibile inserire sia giocatori Bot che giocatori Interattivi, ma non entrambi nella stessa gara.
  */
-public class PlayerReaderTXT implements ObjectReader<TrackLocation2D> {
+public class PlayerReaderTXT implements ObjectReader {
 
-    private final Race<TrackLocation2D> race;
+    private final Race<DefaultLocation> race;
     private TypePlayer typePlayer;
     private final File file;
 
 
-    public PlayerReaderTXT(Race<TrackLocation2D> race, String name) {
+    public PlayerReaderTXT(Race<DefaultLocation> race, String name) {
         this.race = race;
         this.file = new File(name);
     }

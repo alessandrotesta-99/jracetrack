@@ -1,7 +1,5 @@
 package it.unicam.cs.pa.jraceTrack.Model.Reader;
 
-import it.unicam.cs.pa.jraceTrack.Model.Location;
-
 import java.io.IOException;
 
 /**
@@ -9,7 +7,7 @@ import java.io.IOException;
  * Le classi che implementeranno questa interfaccia avranno la responsabilit&agrave; di implementare una
  * soluzione per la lettura di un oggetto da file e di specificare il tipo di file.
  * */
-public interface ObjectReader<L extends Location<? extends L>> {
+public interface ObjectReader {
 
     /**
      * Metodo che permette di leggere un file di configurazione.

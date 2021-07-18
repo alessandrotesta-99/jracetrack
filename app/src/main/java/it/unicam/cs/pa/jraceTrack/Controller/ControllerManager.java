@@ -1,7 +1,6 @@
-package it.unicam.cs.pa.jraceTrack;
+package it.unicam.cs.pa.jraceTrack.Controller;
 
-import it.unicam.cs.pa.jraceTrack.Controller.Controller;
-import it.unicam.cs.pa.jraceTrack.Model.Location;
+import it.unicam.cs.pa.jraceTrack.Model.Location.Location;
 
 /**
  * Interfaccia che ha la responsabilit&agrave; di creare un controller.
@@ -13,8 +12,7 @@ public interface ControllerManager<L extends Location<L>> {
 
     /**
      * Metodo che crea un controller.
-     * @param namesFilesLoaded nomi dei file che verranno caricati per la creazione del controller.
      * @return il controller creato.
      */
-    Controller<L> createController(String...namesFilesLoaded);
+    Controller<L> createController();
 }

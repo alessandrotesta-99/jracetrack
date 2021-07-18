@@ -1,6 +1,7 @@
 package it.unicam.cs.pa.jraceTrack;
 
 import it.unicam.cs.pa.jraceTrack.Model.*;
+import it.unicam.cs.pa.jraceTrack.Model.Location.DefaultLocation;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -13,72 +14,72 @@ public class DefaultTrack2DTest{
     @Test
     public void testGetCarAt() {
         //crea tracciato
-        Track<TrackLocation2D> tr = getDefaultTrack();
+        Track<DefaultLocation> tr = getDefaultTrack();
 
-        Car<TrackLocation2D> c = tr.createCar();
-        c.setLocation(new TrackLocation2D(5,8)); //solo per test.
+        Car<DefaultLocation> c = tr.createCar();
+        c.setLocation(new DefaultLocation(5,8)); //solo per test.
         tr.addCar(c);
-        Car<TrackLocation2D> c1 = tr.createCar();
-        c1.setLocation(new TrackLocation2D(5,6)); //solo per test.
+        Car<DefaultLocation> c1 = tr.createCar();
+        c1.setLocation(new DefaultLocation(5,6)); //solo per test.
         tr.addCar(c1);
 
-        c.moveUp(new TrackLocation2D(4,9));
-        c1.moveUp(new TrackLocation2D(4,7));
+        c.moveUp(new DefaultLocation(4,9));
+        c1.moveUp(new DefaultLocation(4,7));
 
-        assertNotSame(tr.getCarAt(new TrackLocation2D(5, 6)), c1);
-        assertSame(tr.getCarAt(new TrackLocation2D(4, 7)), c1);
-        assertNotSame(tr.getCarAt(new TrackLocation2D(5, 8)), c);
-        assertSame(tr.getCarAt(new TrackLocation2D(4, 9)), c);
+        assertNotSame(tr.getCarAt(new DefaultLocation(5, 6)), c1);
+        assertSame(tr.getCarAt(new DefaultLocation(4, 7)), c1);
+        assertNotSame(tr.getCarAt(new DefaultLocation(5, 8)), c);
+        assertSame(tr.getCarAt(new DefaultLocation(4, 9)), c);
     }
 
     @Test
     public void testGetNextLocs() {
-        Track<TrackLocation2D> tr = getDefaultTrack();
-        Car<TrackLocation2D> c = tr.createCar();
+        Track<DefaultLocation> tr = getDefaultTrack();
+        Car<DefaultLocation> c = tr.createCar();
         tr.addCar(c);
         System.out.println(tr.getNextLocs(c.getLocation()));
-        Set<TrackLocation2D> nextPoints1 = Set.of(new TrackLocation2D(4,6),
-                new TrackLocation2D(4,5),
-                new TrackLocation2D(4,7),
-                new TrackLocation2D(5,5),
-                new TrackLocation2D(5,6),
-                new TrackLocation2D(5,7),
-                new TrackLocation2D(6,5),
-                new TrackLocation2D(6,6),
-                new TrackLocation2D(6,7));
-        Set<TrackLocation2D> nextPoints2 = Set.of(new TrackLocation2D(4,7),
-                new TrackLocation2D(4,8),
-                new TrackLocation2D(4,9),
-                new TrackLocation2D(5,7),
-                new TrackLocation2D(5,8),
-                new TrackLocation2D(5,9),
-                new TrackLocation2D(6,7),
-                new TrackLocation2D(6,8),
-                new TrackLocation2D(6,9));
-        if(c.getLocation().equals(new TrackLocation2D(5, 6)))
+        Set<DefaultLocation> nextPoints1 = Set.of(new DefaultLocation(4,6),
+                new DefaultLocation(4,5),
+                new DefaultLocation(4,7),
+                new DefaultLocation(5,5),
+                new DefaultLocation(5,6),
+                new DefaultLocation(5,7),
+                new DefaultLocation(6,5),
+                new DefaultLocation(6,6),
+                new DefaultLocation(6,7));
+        Set<DefaultLocation> nextPoints2 = Set.of(new DefaultLocation(4,7),
+                new DefaultLocation(4,8),
+                new DefaultLocation(4,9),
+                new DefaultLocation(5,7),
+                new DefaultLocation(5,8),
+                new DefaultLocation(5,9),
+                new DefaultLocation(6,7),
+                new DefaultLocation(6,8),
+                new DefaultLocation(6,9));
+        if(c.getLocation().equals(new DefaultLocation(5, 6)))
             assertTrue(tr.getNextLocs(c.getLocation()).containsAll(nextPoints1));
-        else if(c.getLocation().equals(new TrackLocation2D(5,8)))
+        else if(c.getLocation().equals(new DefaultLocation(5,8)))
             assertTrue(tr.getNextLocs(c.getLocation()).containsAll(nextPoints2));
     }
 
     @Test
     public void testAddCar() {
-        Track<TrackLocation2D> tr = getDefaultTrack();
+        Track<DefaultLocation> tr = getDefaultTrack();
         tr.addCar(tr.createCar());
         tr.addCar(tr.createCar());
         assertSame(2, tr.getCars().size());
     }
 
-    private Track<TrackLocation2D> getDefaultTrack() {
-        TrackLocation2D w1 = new TrackLocation2D(1,1);
-        TrackLocation2D w2 = new TrackLocation2D(1,8);
-        TrackLocation2D w3 = new TrackLocation2D(10,1);
-        TrackLocation2D w4 = new TrackLocation2D(10,8);
-        TrackLocation2D w5 = new TrackLocation2D(3,3);
-        TrackLocation2D w6 = new TrackLocation2D(3,6);
-        TrackLocation2D w7 = new TrackLocation2D(8,3);
-        TrackLocation2D w8 = new TrackLocation2D(8,6);
-        List<TrackLocation2D> walls = new ArrayList<>();
+    private Track<DefaultLocation> getDefaultTrack() {
+        DefaultLocation w1 = new DefaultLocation(1,1);
+        DefaultLocation w2 = new DefaultLocation(1,8);
+        DefaultLocation w3 = new DefaultLocation(10,1);
+        DefaultLocation w4 = new DefaultLocation(10,8);
+        DefaultLocation w5 = new DefaultLocation(3,3);
+        DefaultLocation w6 = new DefaultLocation(3,6);
+        DefaultLocation w7 = new DefaultLocation(8,3);
+        DefaultLocation w8 = new DefaultLocation(8,6);
+        List<DefaultLocation> walls = new ArrayList<>();
         walls.add(w1);
         walls.add(w2);
         walls.add(w3);
@@ -88,37 +89,37 @@ public class DefaultTrack2DTest{
         walls.add(w7);
         walls.add(w8);
 
-        TrackLocation2D p1 = new TrackLocation2D(5,6);
-        TrackLocation2D p2 = new TrackLocation2D(5,8);
-        TrackLocation2D p3 = new TrackLocation2D(5,6);
-        TrackLocation2D p4 = new TrackLocation2D(5,8);
+        DefaultLocation p1 = new DefaultLocation(5,6);
+        DefaultLocation p2 = new DefaultLocation(5,8);
+        DefaultLocation p3 = new DefaultLocation(5,6);
+        DefaultLocation p4 = new DefaultLocation(5,8);
 
-        List<TrackLocation2D> start = new ArrayList<>();
+        List<DefaultLocation> start = new ArrayList<>();
         start.add(p1);
         start.add(p2);
-        List<TrackLocation2D> finish = new ArrayList<>();
+        List<DefaultLocation> finish = new ArrayList<>();
         finish.add(p3);
         finish.add(p4);
         //crea tracciato
-        return new DefaultTrack2D<>(start,finish,walls);
+        return new DefaultTrack(start,finish,walls);
     }
 
     @Test
     public void testGetStatusAt() {
-        Track<TrackLocation2D> tr = getDefaultTrack();
-        Car<TrackLocation2D> c = tr.createCar();
+        Track<DefaultLocation> tr = getDefaultTrack();
+        Car<DefaultLocation> c = tr.createCar();
         tr.addCar(c);
         assertSame(tr.getStatusAt(c.getLocation()), DefaultStateCar.IN_RACE);
     }
 
     @Test
     public void createCar() {
-        Track<TrackLocation2D> tr = getDefaultTrack();
-        Car<TrackLocation2D> c = tr.createCar();
+        Track<DefaultLocation> tr = getDefaultTrack();
+        Car<DefaultLocation> c = tr.createCar();
         tr.addCar(c);
         assertEquals(1, tr.getCars().size());
         assertTrue(tr.getStart().contains(c.getLocation()));
-        Car<TrackLocation2D> c1 = tr.createCar();
+        Car<DefaultLocation> c1 = tr.createCar();
         tr.addCar(c1);
         assertEquals(2, tr.getCars().size());
         assertNotSame(c.getLocation(), c1.getLocation());

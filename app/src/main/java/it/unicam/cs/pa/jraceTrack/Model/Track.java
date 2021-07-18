@@ -1,12 +1,14 @@
 package it.unicam.cs.pa.jraceTrack.Model;
 
+import it.unicam.cs.pa.jraceTrack.Model.Location.Location;
+
 import java.util.List;
 import java.util.Set;
 
 /**
- * Interfaccia che definisce un circuito composto da macchine.
+ * Interfaccia che definisce un circuito.
  * Le classi che implementano questa interfaccia hanno la responsabilit&agrave; di
- * fornire un implementazione per un certo tipo di circuito.
+ * fornire un implementazione per un certo tipo di circuito e di gestire le macchine.
  * @param <L> tipo per la locazione.
  */
 public interface Track<L extends Location<? extends L>> {

@@ -1,6 +1,9 @@
 package it.unicam.cs.pa.jraceTrack.Model;
 
-import java.awt.*;
+import it.unicam.cs.pa.jraceTrack.Model.Location.DefaultLocation;
+import it.unicam.cs.pa.jraceTrack.Model.Location.MyFactoryLocation;
+
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,15 +11,17 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-public class DefaultTrack2D<L extends Location<? extends L>> implements Track<TrackLocation2D> {
+public class DefaultTrack implements Track<DefaultLocation> {
 
-    private final Map<Car<TrackLocation2D>, TrackLocation2D> mapTrack;
-    private final List<TrackLocation2D> walls;
-    private final List<TrackLocation2D> start;
-    private final List<TrackLocation2D> finish;
+    private final Map<Car<DefaultLocation>, DefaultLocation> mapTrack;
+    private final List<DefaultLocation> walls;
+    private final List<DefaultLocation> start;
+    private final List<DefaultLocation> finish;
     private int width;
+    private static final Logger logger = Logger.getGlobal();
 
     /**
      * Costruttore che crea un circuito con punti per indicare la linea di partenza, di arrivo e i muri.
@@ -24,21 +29,22 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
      * @param finish punti che indicano la linea di arrivo.
      * @param walls punti che indicano i muri del circuito.
      */
-    public DefaultTrack2D(List<TrackLocation2D> start, List<TrackLocation2D> finish, List<TrackLocation2D> walls) {
+    public DefaultTrack(List<DefaultLocation> start, List<DefaultLocation> finish, List<DefaultLocation> walls) {
         this.mapTrack = new HashMap<>();
         this.start = start;
         this.finish = finish;
         this.walls = walls;
         this.isValidStartFinish();
         this.isValidTrack();
+        logger.finest("circuito creato correttamente.");
     }
 
     @Override
-    public List<Car<TrackLocation2D>> getCars(){
+    public List<Car<DefaultLocation>> getCars(){
         return new ArrayList<>(mapTrack.keySet());
     }
 
-    public Car<TrackLocation2D> getCarAt(TrackLocation2D location){
+    public Car<DefaultLocation> getCarAt(DefaultLocation location){
         Objects.requireNonNull(location);
         return this.mapTrack.keySet()
                 .stream()
@@ -49,16 +55,16 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
     }
 
     @Override
-    public List<TrackLocation2D> getStart() {
+    public List<DefaultLocation> getStart() {
         return start;
     }
 
     @Override
-    public List<TrackLocation2D> getFinish() {
+    public List<DefaultLocation> getFinish() {
         return finish;
     }
 
-    public void addCar(Car<TrackLocation2D> c){
+    public void addCar(Car<DefaultLocation> c){
         if(this.getCars().contains(c))
             this.mapTrack.entrySet()
                 .stream()
@@ -67,25 +73,26 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
                 .forEach(ca -> ca.setValue(c.getLocation()));
         else
             this.mapTrack.putIfAbsent(c, c.getLocation());
+        logger.finest("macchina aggiunta al circuito.");
     }
 
     @Override
-    public Car<TrackLocation2D> createCar() {
-        Car<TrackLocation2D> c = new DefaultCar<>(this);
+    public Car<DefaultLocation> createCar() {
+        Car<DefaultLocation> c = new DefaultCar(this);
         c.setLocation(initLocationCar());
         c.getPath().add(c.getLocation());
         c.setColor(new Color(new Random().nextFloat(), new Random().nextFloat(), new Random().nextFloat()));
         return c;
     }
 
-    private TrackLocation2D initLocationCar() {
-        TrackLocation2D pos = getTrackLocation2D();
+    private DefaultLocation initLocationCar() {
+        DefaultLocation pos = getTrackLocation2D();
         while (getCarAt(pos) != null)
             pos = getTrackLocation2D();
         return pos;
     }
 
-    private TrackLocation2D getTrackLocation2D() {
+    private DefaultLocation getTrackLocation2D() {
         return MyFactoryLocation.getInstance().createLocation(this.getStart().get(generateRandomLocation()).getX(), this.getStart().get(generateRandomLocation()).getY());
     }
 
@@ -94,18 +101,18 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
     }
 
     @Override
-    public Set<TrackLocation2D> getNextLocs(TrackLocation2D loc) {
+    public Set<DefaultLocation> getNextLocs(DefaultLocation loc) {
         Objects.requireNonNull(loc);
         return loc.getNextLocations(getCarAt(loc));
     }
 
     @Override
-    public List<TrackLocation2D> getWalls() {
+    public List<DefaultLocation> getWalls() {
         return walls;
     }
 
     @Override
-    public DefaultStateCar getStatusAt(TrackLocation2D loc){
+    public DefaultStateCar getStatusAt(DefaultLocation loc){
         Objects.requireNonNull(loc);
         return this.mapTrack.keySet()
                 .stream()
@@ -151,7 +158,7 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
      * Metodo che restituisce true se la linea di partenza o di arrivo è orizzontale e setta la larghezza.
      * @return true se la linea di partenza o arrivo è orizzontale, false altrimenti.
      */
-    private boolean isValidHorizontal(List<TrackLocation2D> list) {
+    private boolean isValidHorizontal(List<DefaultLocation> list) {
         int temp = this.width;
         if (list.get(0).getY() == list.get(list.size() - 1).getY()) {
             this.width = Math.abs(list.get(list.size() - 1).getX() - list.get(0).getX());
@@ -166,7 +173,7 @@ public class DefaultTrack2D<L extends Location<? extends L>> implements Track<Tr
      * Metodo che restituisce true se la linea di partenza o di arrivo è verticale e setta la larghezza.
      * @return true se la linea di partenza o di arrivo è verticale, false altrimenti.
      */
-    private boolean isValidVertical(List<TrackLocation2D> list) {
+    private boolean isValidVertical(List<DefaultLocation> list) {
         int temp = this.width;
         if (list.get(0).getX() == list.get(list.size() - 1).getX()){
             this.width = Math.abs(list.get(list.size() - 1).getY() - list.get(0).getY());

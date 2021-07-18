@@ -1,5 +1,10 @@
 package it.unicam.cs.pa.jraceTrack.Model;
 
+import it.unicam.cs.pa.jraceTrack.Model.Location.DefaultLocation;
+
+/**
+ * Implementazione di un giocatore interattivo.
+ */
 public class PlayerInteractive extends DefaultBasePlayer{
 
     public PlayerInteractive() {
@@ -12,7 +17,7 @@ public class PlayerInteractive extends DefaultBasePlayer{
     }
 
     @Override
-    public void moveUp(TrackLocation2D p) {
+    public void moveUp(DefaultLocation p) {
         this.getCar().moveUp(p);
     }
 }

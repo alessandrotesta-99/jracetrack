@@ -1,9 +1,8 @@
 package it.unicam.cs.pa.jraceTrack.Model.Reader;
 
-import it.unicam.cs.pa.jraceTrack.Model.DefaultRace;
-import it.unicam.cs.pa.jraceTrack.Model.MyFactoryLocation;
+import it.unicam.cs.pa.jraceTrack.Model.Location.MyFactoryLocation;
 import it.unicam.cs.pa.jraceTrack.Model.Race;
-import it.unicam.cs.pa.jraceTrack.Model.TrackLocation2D;
+import it.unicam.cs.pa.jraceTrack.Model.Location.DefaultLocation;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -29,15 +28,15 @@ import java.util.List;
  * e infine dopo l'ultimo ";" vengono specificate le coordinate che rappresentano i punti che formano
  * la linea di arrivo.
  */
-public class TrackReaderTXT implements ObjectReader<TrackLocation2D> {
+public class TrackReaderTXT implements ObjectReader {
 
-    private final Race<TrackLocation2D> race;
-    private final List<TrackLocation2D> start;
-    private final List<TrackLocation2D> finish;
-    private final List<TrackLocation2D> walls;
+    private final Race<DefaultLocation> race;
+    private final List<DefaultLocation> start;
+    private final List<DefaultLocation> finish;
+    private final List<DefaultLocation> walls;
     private final File file;
 
-    public TrackReaderTXT(Race<TrackLocation2D> race, String name) {
+    public TrackReaderTXT(Race<DefaultLocation> race, String name) {
         this.start = new ArrayList<>();
         this.finish = new ArrayList<>();
         this.walls = new ArrayList<>();
@@ -68,7 +67,7 @@ public class TrackReaderTXT implements ObjectReader<TrackLocation2D> {
         createObjectFromFile();
     }
 
-    private TrackLocation2D getLocation(String[] xy) {
+    private DefaultLocation getLocation(String[] xy) {
         return MyFactoryLocation.getInstance().createLocation(Integer.parseInt(String.valueOf(xy[0])), Integer.parseInt(String.valueOf(xy[1])));
     }
 

@@ -1,13 +1,18 @@
 package it.unicam.cs.pa.jraceTrack.Controller;
 
-import it.unicam.cs.pa.jraceTrack.Model.*;
+import it.unicam.cs.pa.jraceTrack.Model.Location.DefaultLocation;
+import it.unicam.cs.pa.jraceTrack.Model.Player;
+import it.unicam.cs.pa.jraceTrack.Model.Track;
+import it.unicam.cs.pa.jraceTrack.Model.Car;
+import it.unicam.cs.pa.jraceTrack.Model.DefaultStateCar;
+import it.unicam.cs.pa.jraceTrack.Model.Location.Location;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
 /**
- * Interfaccia che rappresenta il Controller del patter MVC.
+ * Interfaccia che rappresenta il Controller del gioco Formula 1.
  */
 public interface Controller<L extends Location<L>> {
 
@@ -23,8 +28,8 @@ public interface Controller<L extends Location<L>> {
 
 
     /**
-     * Metodo che verifica se la gara è finita o no.
-     * @return true se la gara non è finita, false altrimenti.
+     * Metodo che verifica se la gara &egrave; finita o no.
+     * @return true se la gara non &egrave; finita, false altrimenti.
      */
     boolean isStart();
 
@@ -72,7 +77,7 @@ public interface Controller<L extends Location<L>> {
      * @param track tracciato dove si trova la macchina.
      * @return stato della macchina.
      */
-    DefaultStateCar getStatus(L loc, Track<TrackLocation2D> track);
+    DefaultStateCar getStatus(L loc, Track<DefaultLocation> track);
 
     /**
      * Metodo che permette di muovere la macchina.
@@ -87,7 +92,7 @@ public interface Controller<L extends Location<L>> {
      * @param track tracciato dove si trova la macchina.
      * @return un set di locazioni dove può andare la macchina.
      */
-    Set<L> getNextLocs(L loc, Track<TrackLocation2D> track);
+    Set<L> getNextLocs(L loc, Track<DefaultLocation> track);
 
     /**
      * Metodo che restituisce il turno del giocatore.
@@ -105,12 +110,6 @@ public interface Controller<L extends Location<L>> {
      * Metodo che permette di aggiungere un set di giocatori da file.
      */
     void loadPlayers() throws IOException;
-
-    /**
-     * Metodo che restituisce la gara.
-     * @return la gara.
-     */
-    Race<L> getRace();
 
     /**
      * Metodo che restituisce tutto il percorso di una macchina.

@@ -1,9 +1,10 @@
 package it.unicam.cs.pa.jraceTrack.Model;
 
+import it.unicam.cs.pa.jraceTrack.Model.Location.Location;
+
 /**
  * Interfaccia che specifica un qualsiasi tipo di giocatore che vuole giocare al gioco.
  * La responsabilita primaria di questa interfaccia &egrave; quella di caratterizzare un giocatore.
- * Parametrizzata in base al tipo di giocatore e allo stato in cui si trova.
  * Le classi che implementano questa interfaccia devono fornire una implementazione per un tipo di giocatore
  * che potrebbe essere bot o interattivo.
  * @param <L> tipo per la locazione.
@@ -23,7 +24,8 @@ public interface Player<L extends Location<? extends L>> {
 	void setName(String name);
 
 	/**
-	 * da vedere. eliminare le dipendenze circolari, quindi o usare qui o nell'interfaccia Car.
+	 * Metodo che restituisce la macchina del giocatore.
+	 * @return la macchina del giocatore.
 	 */
 	Car<L> getCar();
 
@@ -41,7 +43,7 @@ public interface Player<L extends Location<? extends L>> {
 
 
 	/**
-	 * Metodo che permette al giocatore di spostare la macchina.
+	 * Metodo che permette al giocatore di far avanzare la macchina.
 	 * @param pos posizione prossima della macchina.
 	 */
 	void moveUp(L pos);

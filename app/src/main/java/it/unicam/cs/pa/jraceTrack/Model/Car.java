@@ -1,6 +1,8 @@
 package it.unicam.cs.pa.jraceTrack.Model;
 
-import java.awt.*;
+import it.unicam.cs.pa.jraceTrack.Model.Location.Location;
+
+import java.awt.Color;
 import java.util.List;
 
 /**
@@ -50,8 +52,8 @@ public interface Car<L extends Location<? extends L>> {
 	void setLocation(L loc);
 
 	/**
-	 * Metodo che restituisce la velocità della macchina.
-	 * @return la velocità della macchina.
+	 * Metodo che restituisce la velocit&agrave; della macchina.
+	 * @return la velocit&agrave; della macchina.
 	 */
 	int getCurrentVelocity();
 

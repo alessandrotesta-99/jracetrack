@@ -1,6 +1,6 @@
 package it.unicam.cs.pa.jraceTrack.Controller;
 
-import it.unicam.cs.pa.jraceTrack.Model.TrackLocation2D;
+import it.unicam.cs.pa.jraceTrack.Model.Location.DefaultLocation;
 import it.unicam.cs.pa.jraceTrack.Model.Race;
 import it.unicam.cs.pa.jraceTrack.Model.Player;
 import it.unicam.cs.pa.jraceTrack.Model.Track;
@@ -16,34 +16,38 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
+import java.util.logging.Logger;
 
-public class DefaultController implements Controller<TrackLocation2D> {
+public class DefaultController implements Controller<DefaultLocation> {
 
-    private final Race<TrackLocation2D> race;
-    private final ObjectReader<TrackLocation2D> readerTrack;
-    private final ObjectReader<TrackLocation2D> readerPlayers;
-    private final Stack<Player<TrackLocation2D>> playersStack;
+    private final Race<DefaultLocation> race;
+    private final ObjectReader readerTrack;
+    private final ObjectReader readerPlayers;
+    private final Stack<Player<DefaultLocation>> playersStack;
+    private static final Logger logger = Logger.getGlobal();
 
-    public DefaultController(Race<TrackLocation2D> race, ObjectReader<TrackLocation2D> readerTrack, ObjectReader<TrackLocation2D> readerPlayers){
+    public DefaultController(Race<DefaultLocation> race, ObjectReader readerTrack, ObjectReader readerPlayers){
         this.race = race;
         this.readerTrack = readerTrack;
         this.readerPlayers = readerPlayers;
         this.playersStack = new Stack<>();
+        logger.finest("Controller creato.");
     }
 
-    public DefaultController(Race<TrackLocation2D> race, String nameFileTrack, String nameFilePlayers){
+    public DefaultController(Race<DefaultLocation> race, String nameFileTrack, String nameFilePlayers){
         this(race, new TrackReaderTXT(race,nameFileTrack), new PlayerReaderTXT(race, nameFilePlayers));
     }
 
     @Override
     public void newGame() {
-        this.race.getPlayers().get(new Random().nextInt(getPlayers().size())).setTurn(true);
         race.start();
+        logger.finest("gara iniziata.");
     }
 
     @Override
     public void finish() {
         race.finish();
+        logger.finest("gara finita.");
     }
 
     @Override
@@ -52,43 +56,43 @@ public class DefaultController implements Controller<TrackLocation2D> {
     }
 
     @Override
-    public List<Player<TrackLocation2D>> getPlayers() {
+    public List<Player<DefaultLocation>> getPlayers() {
         race.getPlayers().stream().filter(p -> !p.isMyTurn()).forEach(playersStack::add);
         return race.getPlayers();
     }
 
     @Override
-    public Track<TrackLocation2D> getTrack() {
+    public Track<DefaultLocation> getTrack() {
         return race.getTrack();
     }
 
     @Override
-    public List<Car<TrackLocation2D>> getCars(Track<TrackLocation2D> track) {
+    public List<Car<DefaultLocation>> getCars(Track<DefaultLocation> track) {
         return track.getCars();
     }
 
     @Override
-    public void setWinnerPlayer(List<Player<TrackLocation2D>> players) {
+    public void setWinnerPlayer(List<Player<DefaultLocation>> players) {
         race.setWinnerPlayer(players);
     }
 
     @Override
-    public Player<TrackLocation2D> getWinner() {
+    public Player<DefaultLocation> getWinner() {
         return race.getWinner();
     }
 
     @Override
-    public List<DefaultStateCar> getStatusCars(Track<TrackLocation2D> track) {
+    public List<DefaultStateCar> getStatusCars(Track<DefaultLocation> track) {
         return track.getStatusCars();
     }
 
     @Override
-    public DefaultStateCar getStatus(TrackLocation2D loc, Track<TrackLocation2D> track) {
+    public DefaultStateCar getStatus(DefaultLocation loc, Track<DefaultLocation> track) {
         return track.getStatusAt(loc);
     }
 
     @Override
-    public void moveUp(TrackLocation2D loc, Player<TrackLocation2D> player) {
+    public void moveUp(DefaultLocation loc, Player<DefaultLocation> player) {
         if(player.getType().equals(TypePlayer.BOT))
             player.moveUp(null);
         else if(player.getType().equals(TypePlayer.INTERACTIVE))
@@ -98,33 +102,30 @@ public class DefaultController implements Controller<TrackLocation2D> {
     }
 
     @Override
-    public Set<TrackLocation2D> getNextLocs(TrackLocation2D loc, Track<TrackLocation2D> track) {
+    public Set<DefaultLocation> getNextLocs(DefaultLocation loc, Track<DefaultLocation> track) {
         return track.getNextLocs(loc);
     }
 
     @Override
-    public int getTurnPlayer(Player<TrackLocation2D> player) {
+    public int getTurnPlayer(Player<DefaultLocation> player) {
         return player.getTurn();
     }
 
     @Override
     public void loadTrack() throws IOException {
         readerTrack.read();
+        logger.finest("file tracciato caricato.");
     }
 
     @Override
     public void loadPlayers() throws IOException {
         readerPlayers.read();
-    }
-
-
-    @Override
-    public Race<TrackLocation2D> getRace() {
-        return race;
+        this.race.getPlayers().get(new Random().nextInt(getPlayers().size())).setTurn(true);
+        logger.finest("file giocatori caricato.");
     }
 
     @Override
-    public List<TrackLocation2D> getCarPath(Car<TrackLocation2D> car) {
+    public List<DefaultLocation> getCarPath(Car<DefaultLocation> car) {
         return car.getPath();
     }
 }

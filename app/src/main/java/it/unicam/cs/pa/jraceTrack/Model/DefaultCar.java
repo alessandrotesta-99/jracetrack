@@ -1,26 +1,29 @@
 package it.unicam.cs.pa.jraceTrack.Model;
 
+import it.unicam.cs.pa.jraceTrack.Model.Location.DefaultLocation;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.awt.Color;
 /**
  * Implementazione di default di una macchina.
- * @param <L> locazione della macchina.
  */
-public class DefaultCar<L extends TrackLocation2D> implements Car<TrackLocation2D>{
+public class DefaultCar implements Car<DefaultLocation>{
 
-    private final Track<TrackLocation2D> track;
-    private TrackLocation2D location;
+    private final Track<DefaultLocation> track;
+    private DefaultLocation location;
     private Color color;
     private DefaultStateCar status;
     private int currentVelocity;
-    private final List<TrackLocation2D> path;
+    private final List<DefaultLocation> path;
     private static int lastID = 0;
     private final int id;
+    private static final Logger logger = Logger.getGlobal();
 
-    public DefaultCar(Track<TrackLocation2D> track) {
+    public DefaultCar(Track<DefaultLocation> track) {
         Objects.requireNonNull(track);
         this.track = track;
         this.status = DefaultStateCar.IN_RACE;
@@ -28,6 +31,7 @@ public class DefaultCar<L extends TrackLocation2D> implements Car<TrackLocation2
         this.path = new LinkedList<>();
         lastID++;
         this.id = lastID;
+        logger.finest("macchina creata correttamente.");
     }
 
     @Override
@@ -36,12 +40,12 @@ public class DefaultCar<L extends TrackLocation2D> implements Car<TrackLocation2
     }
 
     @Override
-    public Track<TrackLocation2D> getTrack() {
+    public Track<DefaultLocation> getTrack() {
         return this.track;
     }
 
     @Override
-    public void moveUp(TrackLocation2D nextDestination) {
+    public void moveUp(DefaultLocation nextDestination) {
         Objects.requireNonNull(nextDestination);
         if(this.track.getNextLocs(this.getLocation()).contains(nextDestination) && this.track.getCarAt(nextDestination) == null)
             this.setLocation(nextDestination);
@@ -72,7 +76,7 @@ public class DefaultCar<L extends TrackLocation2D> implements Car<TrackLocation2
     }
 
     @Override
-    public TrackLocation2D getLastCheckPoint() {
+    public DefaultLocation getLastCheckPoint() {
         if(path.size() == 1)
             return path.get(0);
         else
@@ -80,12 +84,12 @@ public class DefaultCar<L extends TrackLocation2D> implements Car<TrackLocation2
     }
 
     @Override
-    public TrackLocation2D getLocation() {
+    public DefaultLocation getLocation() {
         return this.location;
     }
 
     @Override
-    public void setLocation(TrackLocation2D l) {
+    public void setLocation(DefaultLocation l) {
         this.location = l;
     }
 
@@ -95,7 +99,7 @@ public class DefaultCar<L extends TrackLocation2D> implements Car<TrackLocation2
     }
 
     @Override
-    public List<TrackLocation2D> getPath() {
+    public List<DefaultLocation> getPath() {
         return this.path;
     }
 
@@ -106,6 +110,7 @@ public class DefaultCar<L extends TrackLocation2D> implements Car<TrackLocation2
 
     @Override
     public void setStatus() {
+        logger.finest("La macchina è andata a muro.");
         this.status = DefaultStateCar.CRASHED;
     }
 
@@ -133,8 +138,8 @@ public class DefaultCar<L extends TrackLocation2D> implements Car<TrackLocation2
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        DefaultCar<?> that = (DefaultCar<?>) o;
-        return id == that.id;
+        DefaultCar that = (DefaultCar) o;
+        return getId() == that.getId();
     }
 
     @Override

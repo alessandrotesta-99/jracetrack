@@ -1,12 +1,14 @@
 package it.unicam.cs.pa.jraceTrack.Model;
 
-import it.unicam.cs.pa.jraceTrack.MyFactoryControllerManager;
+import it.unicam.cs.pa.jraceTrack.Model.Location.DefaultLocation;
 
 import java.util.Random;
 import java.util.Set;
 
+/**
+ * Implementazione per un giocatore bot.
+ */
 public class PlayerBot extends DefaultBasePlayer{
-
 
     public PlayerBot() {
         super();
@@ -18,12 +20,12 @@ public class PlayerBot extends DefaultBasePlayer{
     }
 
     @Override
-    public void moveUp(TrackLocation2D p) {
-        Set<TrackLocation2D> nextLocs = this.getCar().getTrack().getNextLocs(this.getCar().getLocation());
+    public void moveUp(DefaultLocation p) {
+        Set<DefaultLocation> nextLocs = this.getCar().getTrack().getNextLocs(this.getCar().getLocation());
         int intLocs = nextLocs.size();
         int randomElement = new Random().nextInt(intLocs);
         int count = 0;
-        for (TrackLocation2D t : nextLocs) {
+        for (DefaultLocation t : nextLocs) {
             if (count == randomElement)
                 this.getCar().moveUp(t);
             count++;

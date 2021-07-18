@@ -1,18 +1,25 @@
 package it.unicam.cs.pa.jraceTrack.View;
 
 import it.unicam.cs.pa.jraceTrack.Controller.Controller;
-import it.unicam.cs.pa.jraceTrack.Model.*;
-import it.unicam.cs.pa.jraceTrack.MyFactoryControllerManager;
+import it.unicam.cs.pa.jraceTrack.Model.Car;
+import it.unicam.cs.pa.jraceTrack.Model.Player;
+import it.unicam.cs.pa.jraceTrack.Model.TypePlayer;
+import it.unicam.cs.pa.jraceTrack.Controller.MyFactoryControllerManager;
+import it.unicam.cs.pa.jraceTrack.Model.Location.DefaultLocation;
+import it.unicam.cs.pa.jraceTrack.Model.Location.MyFactoryLocation;
 
-import java.io.*;
+import java.io.IOException;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
-public class ConsoleView implements View<TrackLocation2D> {
+public class ConsoleView implements View<DefaultLocation> {
 
-    private final Controller<TrackLocation2D> controller = MyFactoryControllerManager.getInstance().createController("track.txt", "players.txt");
+    private final Controller<DefaultLocation> controller = MyFactoryControllerManager.getInstance().createController();
+    private final static Logger logger = Logger.getGlobal();
 
     @Override
     public void open() throws IOException {
+        logger.finest("console view aperta.");
         printHello();
         while(controller.isStart()){
             printCommand();
@@ -38,6 +45,7 @@ public class ConsoleView implements View<TrackLocation2D> {
         System.out.println("8 - mostra il turno di un giocatore");
         System.out.println("9 - mostra tutto il percorso di un giocatore");
         System.out.println("10 - mostra il vincitore");
+        System.out.println("11 - mostra il colore della macchina");
         System.out.println("999 - esci dal gioco");
     }
 
@@ -51,12 +59,12 @@ public class ConsoleView implements View<TrackLocation2D> {
                 System.out.println(controller.getPlayers().toString());
                 break;
             case "2":
-                Player<TrackLocation2D> p = getPlayerFrom(input);
-                printMsg(p,"La posizione del giocatore è: " + p.getCar().getLocation());
+                Player<DefaultLocation> pCase2 = getPlayerFrom(input);
+                printMsg(pCase2,"La posizione del giocatore è: " + pCase2.getCar().getLocation());
                 break;
             case "3":
-                Player<TrackLocation2D> p1 = getPlayerFrom(input);
-                printMsg(p1, "Le prossime posizioni del giocatore sono: " + controller.getNextLocs(p1.getCar().getLocation(), controller.getTrack()));
+                Player<DefaultLocation> pCase3 = getPlayerFrom(input);
+                printMsg(pCase3, "Le prossime posizioni del giocatore sono: " + controller.getNextLocs(pCase3.getCar().getLocation(), controller.getTrack()));
                 break;
             case "4":
                 System.out.println(controller.getCars(controller.getTrack()).toString());
@@ -65,25 +73,28 @@ public class ConsoleView implements View<TrackLocation2D> {
                 System.out.println(controller.getStatusCars(controller.getTrack()).toString());
                 break;
             case "6":
-                Player<TrackLocation2D> p2 = getPlayerFrom(input);
-                printMsg(p2, "Stato della macchina di " + p2.getName() + " è: " + controller.getStatus(p2.getCar().getLocation(), controller.getTrack()));
+                Player<DefaultLocation> pCase6 = getPlayerFrom(input);
+                printMsg(pCase6, "Stato della macchina di " + pCase6.getName() + " è: " + controller.getStatus(pCase6.getCar().getLocation(), controller.getTrack()));
                 break;
             case "7":
-                Player<TrackLocation2D> p3 = getPlayerFrom(input);
-                if(p3.isMyTurn()){
-                    if(p3.getType() == TypePlayer.BOT)
-                        controller.moveUp(null,p3);
-                    System.out.println("La nuova posizione è: " + p3.getCar().getLocation());
+                Player<DefaultLocation> pCase7 = getPlayerFrom(input);
+                if(pCase7.isMyTurn()){
+                    if(pCase7.getType() == TypePlayer.BOT)
+                        controller.moveUp(null,pCase7);
+                    else if (pCase7.getType() == TypePlayer.INTERACTIVE){
+                        typePlayerInteractive(input, pCase7);
+                    }
+                    System.out.println("La nuova posizione è: " + pCase7.getCar().getLocation());
                 }else
-                    System.err.println("Non è il turno di " + p3.getName() + "!");
+                    System.err.println("Non è il turno di " + pCase7.getName() + "!");
                 break;
             case "8":
-                Player<TrackLocation2D> p4 = getPlayerFrom(input);
-                printMsg(p4, "Il turno del giocatore " + p4.getName() + " è: " + controller.getTurnPlayer(p4));
+                Player<DefaultLocation> pCase8 = getPlayerFrom(input);
+                printMsg(pCase8, "Il turno del giocatore " + pCase8.getName() + " è: " + controller.getTurnPlayer(pCase8));
                 break;
             case "9":
-                Player<TrackLocation2D> p5 = getPlayerFrom(input);
-                printMsg(p5, "Percorso totale di " + p5.getName() + " : " + controller.getCarPath(p5.getCar()));
+                Player<DefaultLocation> pCase9 = getPlayerFrom(input);
+                printMsg(pCase9, "Percorso totale di " + pCase9.getName() + " : " + controller.getCarPath(pCase9.getCar()));
                 break;
             case "10":
                 controller.setWinnerPlayer(controller.getPlayers());
@@ -92,27 +103,38 @@ public class ConsoleView implements View<TrackLocation2D> {
                 else
                     System.out.println("Non ci sono vincitori!");
                 break;
+            case "11":
+                Player<DefaultLocation> pCase11 = getPlayerFrom(input);
+                printMsg(pCase11,"Il colore della macchina di " + pCase11.getName() + " è: " + pCase11.getCar().getColor());
+                break;
             case "999":
                 this.close();
                 break;
         }
     }
 
-    private void printMsg(Player<TrackLocation2D> p, String message) {
+    private void typePlayerInteractive(Scanner input, Player<DefaultLocation> pCase7) {
+        System.out.println("Inserisci la coordinata x della prossima posizione: ");
+        int x = Integer.parseInt(input.next());
+        System.out.println("Inserisci la coordinata y della prossima posizione: ");
+        int y = Integer.parseInt(input.next());
+        controller.moveUp(MyFactoryLocation.getInstance().createLocation(x,y), pCase7);
+    }
+
+    private void printMsg(Player<DefaultLocation> p, String message) {
         if(p != null && controller.getPlayers().contains(p))
             System.out.println(message);
     }
 
-    private Player<TrackLocation2D> getPlayerFrom(Scanner input) {
+    private Player<DefaultLocation> getPlayerFrom(Scanner input) {
         System.out.println("Inserisci il nome del giocatore: ");
         String name = input.next();
         return controller.getPlayers().stream().filter(pl -> pl.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
     }
 
     private void addFiles() throws IOException {
-        loadFile();
         controller.newGame();
-        System.out.println("File caricato!");
+        loadFile();
     }
 
     private void loadFile() throws IOException {
@@ -132,5 +154,6 @@ public class ConsoleView implements View<TrackLocation2D> {
     @Override
     public void close(){
         controller.finish();
+        logger.finest("console view chiusa.");
     }
 }

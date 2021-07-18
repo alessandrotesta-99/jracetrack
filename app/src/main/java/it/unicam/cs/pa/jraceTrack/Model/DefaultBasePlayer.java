@@ -1,16 +1,20 @@
 package it.unicam.cs.pa.jraceTrack.Model;
 
-import java.util.Objects;
+import it.unicam.cs.pa.jraceTrack.Model.Location.DefaultLocation;
 
-public abstract class DefaultBasePlayer implements Player<TrackLocation2D>{
+import java.util.Objects;
+import java.util.logging.Logger;
+
+public abstract class DefaultBasePlayer implements Player<DefaultLocation>{
 
     private String name;
     private int turn;
-    private Car<TrackLocation2D> car;
+    private Car<DefaultLocation> car;
     private boolean yourTurn;
     private boolean winner;
     private final int id;
     private static int lastID = 0;
+    private static final Logger logger = Logger.getGlobal();
 
     public DefaultBasePlayer() {
         this.turn = 0;
@@ -18,6 +22,7 @@ public abstract class DefaultBasePlayer implements Player<TrackLocation2D>{
         this.winner = false;
         lastID++;
         this.id = lastID;
+        logger.finest("giocatore creato correttamente.");
     }
 
     @Override
@@ -31,12 +36,12 @@ public abstract class DefaultBasePlayer implements Player<TrackLocation2D>{
     }
 
     @Override
-    public Car<TrackLocation2D> getCar() {
+    public Car<DefaultLocation> getCar() {
         return this.car;
     }
 
     @Override
-    public void setCar(Car<TrackLocation2D> car){
+    public void setCar(Car<DefaultLocation> car){
         Objects.requireNonNull(car);
         this.car = car;
     }
@@ -45,7 +50,7 @@ public abstract class DefaultBasePlayer implements Player<TrackLocation2D>{
     public abstract TypePlayer getType();
 
     @Override
-    public abstract void moveUp(TrackLocation2D p);
+    public abstract void moveUp(DefaultLocation p);
 
     @Override
     public int getTurn() {

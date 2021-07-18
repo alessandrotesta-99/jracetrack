@@ -1,13 +1,17 @@
 package it.unicam.cs.pa.jraceTrack.Model;
 
+import it.unicam.cs.pa.jraceTrack.Model.Location.DefaultLocation;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
-public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocation2D>{
+public class DefaultRace implements Race<DefaultLocation>{
 
-    private final List<Player<TrackLocation2D>> players;
-    private Track<TrackLocation2D> track;
+    private final List<Player<DefaultLocation>> players;
+    private Track<DefaultLocation> track;
     private boolean state;
+    private static final Logger logger = Logger.getGlobal();
 
     /**
      * Costruttore che permette di costruire una gara senza settare niente manualmente.
@@ -16,12 +20,13 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
     public DefaultRace() {
         this.players = new ArrayList<>();
         this.start();
+        logger.finest("gara creata correttamente.");
     }
 
-    private void setInit(List<Player<TrackLocation2D>> players) {
+    private void setInit(List<Player<DefaultLocation>> players) {
         for (int i = 0; i< players.size(); i++){
             if(this.players.get(i).getCar() == null){
-                Car<TrackLocation2D> car = this.getTrack().createCar();
+                Car<DefaultLocation> car = this.getTrack().createCar();
                 this.addCar(car);
                 this.players.get(i).setCar(car);
             }
@@ -29,12 +34,12 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
     }
 
     @Override
-    public List<Player<TrackLocation2D>> getPlayers() {
+    public List<Player<DefaultLocation>> getPlayers() {
         return this.players;
     }
 
     @Override
-    public Track<TrackLocation2D> getTrack() {
+    public Track<DefaultLocation> getTrack() {
         return this.track;
     }
 
@@ -54,8 +59,8 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
     }
 
     @Override
-    public void createTrack(List<TrackLocation2D> start, List<TrackLocation2D> finish, List<TrackLocation2D> walls) {
-        this.track = new DefaultTrack2D<>(start, finish, walls);
+    public void createTrack(List<DefaultLocation> start, List<DefaultLocation> finish, List<DefaultLocation> walls) {
+        this.track = new DefaultTrack(start, finish, walls);
     }
 
     @Override
@@ -68,24 +73,26 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
     }
 
     @Override
-    public void addPlayer(Player<TrackLocation2D> p) {
+    public void addPlayer(Player<DefaultLocation> p) {
         if(p.getType() == TypePlayer.BOT && this.players.stream().allMatch(pl -> pl.getType().equals(TypePlayer.BOT))
            || p.getType() == TypePlayer.INTERACTIVE && this.players.stream().allMatch(pl -> pl.getType().equals(TypePlayer.INTERACTIVE))
-                || players.stream().noneMatch(player -> player.getName().equals(p.getName())))
+                || players.stream().noneMatch(player -> player.getName().equals(p.getName()))){
             this.players.add(p);
+            logger.finest("giocatore aggiunto alla gara correttamente.");
+        }
        else
            throw new IllegalArgumentException("ERROR: impossible to add players with different types or same name.");
     }
 
     @Override
-    public void addCar(Car<TrackLocation2D> c) {
+    public void addCar(Car<DefaultLocation> c) {
         if(!this.getTrack().getStart().contains(c.getLocation()) || getTrack().getCarAt(c.getLocation()) != null)
             throw new IllegalArgumentException("ERROR: this location is not valid.");
         track.addCar(c);
     }
 
     @Override
-    public Player<TrackLocation2D> getWinner() {
+    public Player<DefaultLocation> getWinner() {
         return this.players
                 .stream()
                 .sequential()
@@ -94,7 +101,7 @@ public class DefaultRace<L extends TrackLocation2D> implements Race<TrackLocatio
     }
 
     @Override
-    public void setWinnerPlayer(List<Player<TrackLocation2D>> players) {
+    public void setWinnerPlayer(List<Player<DefaultLocation>> players) {
         players
                 .stream()
                 .sequential()

@@ -1,4 +1,4 @@
-package it.unicam.cs.pa.jraceTrack.Model;
+package it.unicam.cs.pa.jraceTrack.Model.Location;
 
 /**
  * Interfaccia che permette di creare una locazione.

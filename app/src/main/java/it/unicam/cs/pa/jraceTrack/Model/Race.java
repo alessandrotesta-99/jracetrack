@@ -1,12 +1,13 @@
 package it.unicam.cs.pa.jraceTrack.Model;
 
+import it.unicam.cs.pa.jraceTrack.Model.Location.Location;
+
 import java.util.List;
 
 /**
- * Interfaccia che si occupa di specificare una gara. La responsabilita &egrave; quella di gestire tutte le
- * componenti che compongono una gara.
- * Parametrizzata secondo uno stato per avere piu implementazioni di stato diverse.
- * Le classi che implementeranno questa interfaccia avranno la responsabilita di fornire un implementazione
+ * Interfaccia che si occupa di specificare una gara. La responsabilita &egrave; quella di gestire i giocatori e le varie
+ * componenti di una gara.
+ * Le classi che implementeranno questa interfaccia avranno la responsabilit&agrave; di fornire un implementazione
  * di una gara.
  * @param <L> tipo per la locazione.
  */
