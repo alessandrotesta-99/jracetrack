@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
-public class ConsoleView implements View<DefaultLocation> {
+public class ConsoleView implements View {
 
     private final Controller<DefaultLocation> controller = MyFactoryControllerManager.getInstance().createController();
     private final static Logger logger = Logger.getGlobal();
